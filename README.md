@@ -86,19 +86,18 @@ The service will be available at `http://localhost:8080`.
 Example `.env` snippet for real services:
 
 ```env
-MPT_PRODUCT_ID=PRD-1111-1111,PRD-2222-2222
-MPT_PORTAL_BASE_URL=https://portal.s1.show
-MPT_API_BASE_URL=Lhttps://api.s1.show/public
-MPT_API_TOKEN=<c0fdafd7-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-MPT_ORDERS_API_POLLING_INTERVAL_SECS=120
 EXT_WEBHOOKS_SECRETS={"PRD-1111-1111": "<webhook-secret-for-product>", "PRD-2222-2222": "<webhook-secret-for-product>"}
+MPT_API_BASE_URL=https://api.s1.show
+MPT_API_TOKEN=c0fdafd7-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 MPT_INITIALIZER="swo_playground.initializer.initialize"
 MPT_KEY_VAULT_NAME=""
-MPT_NOTIFY_CATEGORIES={"ORDERS": "NTC-0000-0006"}
+MPT_ORDERS_API_POLLING_INTERVAL_SECS=120
+MPT_PORTAL_BASE_URL=https://portal.s1.show
+MPT_PRODUCTS_IDS=PRD-1111-1111,PRD-2222-2222
 ```
 
 `MPT_PRODUCTS_IDS` is a comma-separated list of SWO Marketplace Product identifiers.
-For each product ID in the `MPT_PRODUCTS_IDS` list, define the corresponding entry in the `WEBHOOKS_SECRETS` JSON using the product ID as the key.
+For each product ID in the `MPT_PRODUCTS_IDS` list, define the corresponding entry in the `EXT_WEBHOOKS_SECRETS` JSON using the product ID as the key.
 
 
 ## Developer utilities
@@ -121,19 +120,29 @@ The following environment variables are typically set in `.env`. Docker Compose 
 
 ## Application
 
-| Environment Variable            | Default                 | Example                               | Description                                                                                |
-|---------------------------------|-------------------------|---------------------------------------|--------------------------------------------------------------------------------------------|
-| `EXT_WEBHOOKS_SECRETS`          | -                       | {"PRD-1111-1111": "123qweasd3432234"} | Webhook secret of the Draft validation Webhook in SoftwareONE Marketplace for the product  |
-| `MPT_PRODUCTS_IDS`              | PRD-1111-1111           | PRD-1234-1234,PRD-4321-4321           | Comma-separated list of SoftwareONE Marketplace Product ID                                 |
-| `MPT_API_BASE_URL`              | `http://localhost:8000` | `https://portal.softwareone.com`      | SoftwareONE Marketplace API URL                                                            |
-| `MPT_API_TOKEN`                 | -                       | eyJhbGciOiJSUzI1N...                  | SoftwareONE Marketplace API Token                                                          |
-| `MPT_INITIALIZER`               | -                       | swo_playground.initializer.initialize | Initializer function                                                                       |
-| `MPT_NOTIFY_CATEGORIES`         | -                       | {"ORDERS": "NTC-0000-0006"}           | Notify categories for the orders                                                           |
-| `MPT_KEY_VAULT_NAME`            | -                       | swo-playground-kv                     | Key Vault name                                                                             |
-| `MPT_PORTAL_BASE_URL`           | `http://localhost:8000` | `https://portal.softwareone.com`      | SoftwareONE Marketplace Portal URL                                                         |
+| Environment Variable                   | Default                 | Example                                   | Description                                                                               |
+|----------------------------------------|-------------------------|-------------------------------------------|-------------------------------------------------------------------------------------------|
+| `EXT_WEBHOOKS_SECRETS`                 | -                       | {"PRD-1111-1111": "123qweasd3432234"}     | Webhook secret of the Draft validation Webhook in SoftwareONE Marketplace for the product |
+| `MPT_API_BASE_URL`                     | `http://localhost:8000` | `https://api.platform.softwareone.com`    | SoftwareONE Marketplace API URL                                                           |
+| `MPT_API_TOKEN`                        | -                       | eyJhbGciOiJSUzI1N...                      | SoftwareONE Marketplace API Token                                                         |
+| `MPT_INITIALIZER`                      | -                       | swo_playground.initializer.initialize     | Initializer function                                                                      |
+| `MPT_KEY_VAULT_NAME`                   | mpt-key-vault           | swo-playground-kv                         | Key Vault name                                                                            |
+| `MPT_PRODUCTS_IDS`                     | PRD-1111-1111           | PRD-1234-1234,PRD-4321-4321               | Comma-separated list of SoftwareONE Marketplace Product ID                                |
+| `MPT_PORTAL_BASE_URL`                  | `http://localhost:8000` | `https://portal.softwareone.com`          | SoftwareONE Marketplace Portal URL                                                        |
+| `MPT_TOOL_STORAGE_TYPE`                | `local`                 | `airtable`                                | Storage type for MPT tools (local or airtable)                                            |
+| `MPT_TOOL_STORAGE_AIRTABLE_API_KEY`    | -                       | patXXXXXXXXXXXXXX                         | Airtable API key for MPT tool storage (required when storage type is airtable)            |
+| `MPT_TOOL_STORAGE_AIRTABLE_BASE_ID`    | -                       | appXXXXXXXXXXXXXX                         | Airtable base ID for MPT tool storage (required when storage type is airtable)            |
+| `MPT_TOOL_STORAGE_AIRTABLE_TABLE_NAME` | -                       | MigrationTracking                         | Airtable table name for MPT tool storage (required when storage type is airtable)         |
 
 
-## Other
+### Azure AppInsights
+
+| Environment Variable                    | Default                            | Example                                                                                                                                                                                               | Description                                                                                                   |
+|-----------------------------------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| `APPLICATIONINSIGHTS_CONNECTION_STRING` | -                                  | `InstrumentationKey=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx;IngestionEndpoint=https://westeurope-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/` | Azure Application Insights connection string                                                                  |
+| `OTEL_SERVICE_NAME`                     | -                                  | Swo.Extensions.Playground                                                                                                                                                                             | Service name that is visible in the AppInsights logs                                                          |
+
+### Other
 
 | Environment Variable                   | Default | Example | Description                                                          |
 |----------------------------------------|---------|---------|----------------------------------------------------------------------|

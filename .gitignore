@@ -166,3 +166,7 @@ cython_debug/
 .DS_Store
 .ruff_cache
 .idea
+
+
+# mpt-tool
+.migrations-state.json
