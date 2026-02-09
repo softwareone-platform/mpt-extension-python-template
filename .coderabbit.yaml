@@ -52,7 +52,7 @@ reviews:
     ignore_title_keywords: []
     labels: []
     drafts: false
-    ignore_usernames: []
+    ignore_usernames: ["dependabot[bot]"]
     base_branches:
       - main
       - release/.*
