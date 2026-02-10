@@ -14,8 +14,6 @@ Playground Extension with the SoftwareONE Marketplace
 
 - Docker and Docker Compose plugin (`docker compose` CLI)
 - `make`
-- Valid `.env` file
-- Adobe credentials and authorizations JSON files in the project root
 - [CodeRabbit CLI](https://www.coderabbit.ai/cli) (optional. Used for running review check locally)
 
 
@@ -38,45 +36,61 @@ The project uses a modular Makefile structure that organizes commands into logic
 You can extend the Makefile with your own custom commands creating a `local.mk` file inside make folder. This file is
 automatically ignored by git, so your personal commands won't affect other developers or appear in version control.
 
-## Running tests
 
-Tests run inside Docker using the dev configuration.
+### Setup
 
-Run the full test suite:
+Follow these steps to set up the development environment:
 
-```bash
-make test
-```
-
-Pass additional arguments to pytest using the `args` variable:
+#### 1. Clone the repository
 
 ```bash
-make test args="-k test_playground -vv"
-make test args="tests/test_steps.py"
+git clone <repository-url>
+```
+```bash
+cd swo-extension-playground
 ```
 
-## Running the service
+#### 2. Create environment configuration
 
-### 1. Configuration files
-
-In the project root, create and configure the following files.
-
-#### Environment files
-
-Start from the sample file:
+Copy the sample environment file and update it with your values:
 
 ```bash
 cp .env.sample .env
 ```
 
-Update `.env` with your values. This file is used by all Docker Compose configurations and the `make run` target.
+Edit the `.env` file with your actual configuration values. See the [Configuration](#configuration) section for details on available variables.
 
-### 2. Running
+#### 3. Build the Docker images
 
-Run the service against real SoftwareONE Marketplace APIs. It uses `compose.yaml` and reads environment from `.env`.
+Build the development environment:
 
-Ensure:
-- `.env` is populated with real endpoints and tokens.
+```bash
+make build
+```
+
+This will create the Docker images with all required dependencies and the virtualenv.
+
+> **Note on local development without Docker:**
+> Docker is the primary development environment, the default setup and Makefile commands are designed to work only with Docker.
+> `.venv` is used as the default virtualenv, and the project folder is mounted as a volume in docker-compose.
+> If you want to run the project locally (without Docker), use a different virtualenv name to avoid confusion
+> (e.g., `.venv_local`, `env/`, `venv`, `ENV/` - it will be ignored from docker and gitignore)
+> You can also set the `UV_PROJECT_ENVIRONMENT` in your .env file to point `uv` to your local environment.
+
+#### 4. Verify the setup
+
+Run the test suite to ensure everything is configured correctly:
+
+```bash
+make test
+```
+
+You're now ready to start developing! See [Running the service](#running-the-service) for next steps.
+
+
+## Running the service
+
+Before running, ensure your `.env` file is populated with real endpoints and tokens.
 
 Start the app:
 
