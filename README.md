@@ -21,19 +21,22 @@ Playground Extension with the SoftwareONE Marketplace
 
 ### Make targets overview
 
-Common development workflows are wrapped in the `makefile`:
+Common development workflows are wrapped in the `Makefile`. Run `make help` to see the list of available commands.
 
-- `make help` – list available commands
-- `make bash` – start the app container and open a bash shell
-- `make build` – build the application image for development
-- `make check` – run code quality checks (ruff, flake8, lockfile check)
-- `make check-all` – run checks and tests
-- `make format` – apply formatting and import fixes
-- `make down` – stop and remove containers
-- `make review` –  check the code in the cli by running CodeRabbit
-- `make run` – run the service
-- `make shell` – open a Django shell inside the running app container
-- `make test` – run the test suite with pytest
+### How the Makefile works
+
+The project uses a modular Makefile structure that organizes commands into logical groups:
+
+- **Main Makefile** (`Makefile`): Entry point that automatically includes all `.mk` files from the `make/` directory
+- **Modular includes** (`make/*.mk`): Commands are organized by category:
+  - `common.mk` - Core development commands (build, test, format, etc.)
+  - `repo.mk` - Repository management and dependency commands
+  - `migrations.mk` - Database migration commands (Only available in extension repositories)
+  - `external_tools.mk` - Integration with external tools
+
+
+You can extend the Makefile with your own custom commands creating a `local.mk` file inside make folder. This file is
+automatically ignored by git, so your personal commands won't affect other developers or appear in version control.
 
 ## Running tests
 
@@ -111,6 +114,19 @@ make check-all # run checks and tests
 make format    # auto-format code and imports
 make review    # check the code in the cli by running CodeRabbit
 make shell     # open a Django shell in the app container
+```
+
+### Migration commands
+
+The mpt-tool provides commands for managing database migrations:
+
+```bash
+make migrate-check                           # check migration status
+make migrate-data                            # run data migrations
+make migrate-schema                          # run schema migrations
+make migrate-list                            # list available migrations
+make migrate-new-data name=migration_id      # create a new data migration
+make migrate-new-schema name=migration_id    # create a new schema migration
 ```
 
 
