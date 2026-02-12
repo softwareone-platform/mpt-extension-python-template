@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.12, <4"
 
 [[package]]
@@ -840,16 +840,16 @@ wheels = [
 
 [[package]]
 name = "mpt-tool"
-version = "5.2.0"
+version = "5.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "mpt-api-client" },
     { name = "pyairtable" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2c/20/453e818a577062c7b640debed33c1535a715631498badcbe214dd6aee1b1/mpt_tool-5.2.0.tar.gz", hash = "sha256:5d13fbd43f7f18a4f6297b55b38c98102a4ee1cdaa9fa6972d1896add8afc655", size = 23391, upload-time = "2026-02-09T09:23:06.87Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2c/12/a1c0a405b2e0fc8e7556a62d62edf2167e7f9338e6d44ebcf36333f68928/mpt_tool-5.3.0.tar.gz", hash = "sha256:90df72a0d3f1b0ddd110b5d02b9fd41b181827e038e3d25b55f1ed765a0be644", size = 23375, upload-time = "2026-02-12T09:50:24.891Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/35/55/46ccc7f2c372a583c01e2a5cf621cbf3652ab1c209b7d0615e25b2890430/mpt_tool-5.2.0-py3-none-any.whl", hash = "sha256:d78a14a18d6a7f41172bb14e8bdd5e3e45176743a1a9793b9995a5708d3c5640", size = 35209, upload-time = "2026-02-09T09:23:06.124Z" },
+    { url = "https://files.pythonhosted.org/packages/84/85/65734c1ec8b9c410b2bf16878f49c78fb4c9065395ce3191de658268e2a9/mpt_tool-5.3.0-py3-none-any.whl", hash = "sha256:4f44af7fb8493d6a747b3ec00aafeedb1cdf743205b414a7e3571e3f4f253849", size = 35210, upload-time = "2026-02-12T09:50:23.654Z" },
 ]
 
 [[package]]
@@ -1658,7 +1658,6 @@ dev = [
     { name = "freezegun" },
     { name = "ipdb" },
     { name = "ipython" },
-    { name = "mpt-tool" },
     { name = "mypy" },
     { name = "pre-commit" },
     { name = "pytest" },
@@ -1676,7 +1675,7 @@ dev = [
 requires-dist = [
     { name = "django", specifier = "==4.2.*" },
     { name = "mpt-extension-sdk", specifier = "==5.18.*" },
-    { name = "mpt-tool", specifier = "==5.2.*" },
+    { name = "mpt-tool", specifier = "==5.3.*" },
 ]
 
 [package.metadata.requires-dev]
@@ -1687,7 +1686,6 @@ dev = [
     { name = "freezegun", specifier = "==1.5.*" },
     { name = "ipdb", specifier = "==0.13.*" },
     { name = "ipython", specifier = "==9.*" },
-    { name = "mpt-tool", specifier = "==5.2.*" },
     { name = "mypy", specifier = "==1.19.*" },
     { name = "pre-commit", specifier = "==4.5.*" },
     { name = "pytest", specifier = "==9.0.*" },
