@@ -10,7 +10,7 @@ license = {text = "Apache-2.0 license"}
 dependencies = [
     "django==4.2.*",
     "mpt-extension-sdk==5.18.*",
-    "mpt-tool==5.2.*",
+    "mpt-tool==5.3.*",
 ]
 
 [project.entry-points."swo.mpt.ext"]
@@ -24,7 +24,6 @@ dev = [
   "freezegun==1.5.*",
   "ipdb==0.13.*",
   "ipython==9.*",
-  "mpt-tool==5.2.*",
   "mypy==1.19.*",
   "pre-commit==4.5.*",
   "pytest==9.0.*",
@@ -85,6 +84,7 @@ select = ["AAA", "E999", "WPS"]
 show-source = true
 statistics = false
 per-file-ignores = [
+  "migrations/*.py:WPS102",
   "tests/django/settings.py: WPS407",
   "settings.py: WPS407",
 ]
@@ -214,3 +214,7 @@ ignore_missing_imports = true
 local_partial_types = true
 strict = true
 warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = "migrations.*"
+disallow_subclassing_any = false
