@@ -1,2 +1,2 @@
-review:  ## Check the code in the cli by running CodeRabbit
-	coderabbit review --prompt-only
+review:  ## Run CodeRabbit code review in interactive mode. Pass args=<options> to override or include more options
+	coderabbit review $(args)
