@@ -3,10 +3,5 @@ services:
     build:
       context: .
       target: dev
-    command: swoext run --no-color
     volumes:
-      - .:/extension
-    env_file:
-      - .env
-    ports:
-      - "8080:8080"
+      - ./backend:/extension
