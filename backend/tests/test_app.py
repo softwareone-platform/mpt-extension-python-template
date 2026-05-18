@@ -1,7 +1,9 @@
+from mpt_extension_sdk.routing import EventRouteDefinition
+
 from swo_playground.app import ext_app
 
 
-def test_app_has_no_routes():
+def test_app_registers_event_routes():
     result = ext_app.routes
 
-    assert result == []
+    assert any(isinstance(route, EventRouteDefinition) for route in result)
