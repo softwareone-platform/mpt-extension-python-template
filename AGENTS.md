@@ -21,17 +21,16 @@ When applicable, read the repository in this order:
 
 Then inspect the code paths relevant to the task:
 
-- [`swo_playground/apps.py`](swo_playground/apps.py): Django app registration and extension entry point
-- [`swo_playground/api.py`](swo_playground/api.py): HTTP API and validation flow
-- [`swo_playground/events.py`](swo_playground/events.py): event listeners
-- [`swo_playground/steps.py`](swo_playground/steps.py): fulfillment pipeline steps
-- [`tests/`](tests/): test coverage examples and fixtures
-- [`make/`](make/): canonical commands used by the repository
+- [`backend/pyproject.toml`](backend/pyproject.toml): backend dependencies, lint, test, and type-check configuration
+- [`backend/migrations/`](backend/migrations/): migration files managed by `mpt-tool`
+- [`make/`](make): canonical commands used by the repository
+- [`Dockerfile`](Dockerfile) and [`compose.yaml`](compose.yaml): backend tooling container and local stack
+- [`.github/workflows/pr-build-merge.yml`](.github/workflows/pr-build-merge.yml): CI checks
 
 Operational guidance:
 
 - Prefer the documented `make` targets over ad hoc Docker commands.
 - Treat Docker as the default local execution model for this repository.
-- Keep documentation modular. Update the specific file in `docs/` instead of expanding `README.md` into a full manual.
-- Do not invent undocumented migration behavior. If the codebase has no concrete migration examples, document the current constraint and keep changes aligned with `mpt-service-cli migrate`.
+- Keep `README.md` short and navigational. Put topic-specific behavior under `docs/`.
+- The repository is currently in a transition state with no runtime code.
 - For shared meaning of common `make` targets and validation flow, prefer the shared knowledge documents instead of inferring local semantics from target names alone.

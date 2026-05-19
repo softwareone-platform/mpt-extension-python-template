@@ -9,10 +9,10 @@ build:  ## Build images
 	$(DC) build
 	$(RUN) uv sync
 
-check:  ## Check code quality with ruff
-	$(RUN) bash -c "ruff format --check . && ruff check . && flake8 . && uv lock --check"
+check:  ## Check code quality and uv lock
+	$(RUN) bash -c "ruff format --check . && ruff check . && flake8 . && mypy . && uv lock --check"
 
-check-all:  check test ## Run checks and tests
+check-all: check test ## Run checks and tests
 
 down:  ## Stop and remove containers
 	$(DC) down
@@ -22,9 +22,6 @@ format:  ## Format code
 
 run:  ## Run service
 	$(DC) up
-
-shell:  ## Open Django shell
-	$(RUN_IT) bash -c "swoext shell"
 
 test:  ## Run test
 	$(RUN) pytest $(if $(args),$(args),.)

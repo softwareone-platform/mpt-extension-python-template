@@ -43,7 +43,6 @@ Document the repository-specific test settings from [`pyproject.toml`](../pyproj
 
 - tests run from `tests/`
 - coverage is collected for the main application package
-- `DJANGO_SETTINGS_MODULE` is set to `mpt_extension_sdk.runtime.djapp.conf.default`
 - `pythonpath` includes the repository root
 
 ## Writing Tests
@@ -51,7 +50,6 @@ Document the repository-specific test settings from [`pyproject.toml`](../pyproj
 Repository-specific guidance:
 
 - Use fixtures from [`tests/conftest.py`](../tests/conftest.py) where possible.
-- Register the extension app through shared fixtures instead of redefining Django settings in each test.
 - Mock external Marketplace SDK calls rather than calling real services.
 - Keep tests focused on the behavior of the extension layer, not on internals of `mpt-extension-sdk` itself.
 - Follow the shared unit-test standard for AAA structure, parametrization, mocking rules, deterministic behavior, and coverage expectations.

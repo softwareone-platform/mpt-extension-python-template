@@ -17,9 +17,6 @@ updates:
       prefix: "deps"
       include: "scope"
     open-pull-requests-limit: 5
-    ignore:
-      - dependency-name: "django"
-        versions: [ "*" ]
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
