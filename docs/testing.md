@@ -11,15 +11,7 @@ This file documents only repository-specific testing behavior.
 
 ## Test Scope
 
-Document the areas that the repository tests currently cover. Typical examples:
-
-- extension app registration
-- HTTP validation behavior
-- event handling
-- fulfillment pipeline steps
-- management command behavior
-
-Document representative test locations here when the repository has stable test coverage patterns.
+The current test scope is limited to verifying that the app starts with no registered routes.
 
 ## Commands
 
@@ -34,16 +26,19 @@ make check-all
 Repository command mapping:
 
 - `make test` runs `pytest`
-- `make check` runs formatting, linting, and lockfile validation
+- `make check` runs `ruff format --check`, `ruff check`, `flake8`, and `uv lock --check`
 - `make check-all` runs both checks and tests
+
+The CI workflow in [`.github/workflows/pr-build-merge.yml`](../.github/workflows/pr-build-merge.yml) uses the same `make build` and `make check-all` flow.
 
 ## Pytest Configuration
 
-Document the repository-specific test settings from [`pyproject.toml`](../pyproject.toml), for example:
+Repository-specific test settings come from [`pyproject.toml`](../pyproject.toml):
 
-- tests run from `tests/`
-- coverage is collected for the main application package
+- tests are discovered under `tests`
 - `pythonpath` includes the repository root
+- coverage is collected for `swo_playground`
+- tests run with `--import-mode=importlib`
 
 ## Writing Tests
 
@@ -54,9 +49,7 @@ Repository-specific guidance:
 - Keep tests focused on the behavior of the extension layer, not on internals of `mpt-extension-sdk` itself.
 - Follow the shared unit-test standard for AAA structure, parametrization, mocking rules, deterministic behavior, and coverage expectations.
 
-Remove or replace any example paths in this file once the repository has its own stable test layout.
-
-## When to Add Tests
+## When Tests Are Required
 
 Add or update tests when a change modifies:
 

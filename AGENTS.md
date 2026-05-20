@@ -21,10 +21,12 @@ When applicable, read the repository in this order:
 
 Then inspect the code paths relevant to the task:
 
+- [`backend/swo_playground/app.py`](backend/swo_playground/app.py): Extension SDK application entry point
 - [`backend/pyproject.toml`](backend/pyproject.toml): backend dependencies, lint, test, and type-check configuration
 - [`backend/migrations/`](backend/migrations/): migration files managed by `mpt-tool`
+- [`backend/tests/`](backend/tests/): backend test suite
 - [`make/`](make): canonical commands used by the repository
-- [`Dockerfile`](Dockerfile) and [`compose.yaml`](compose.yaml): backend tooling container and local stack
+- [`Dockerfile`](Dockerfile) and [`compose.yaml`](compose.yaml): backend container and local stack
 - [`.github/workflows/pr-build-merge.yml`](.github/workflows/pr-build-merge.yml): CI checks
 
 Operational guidance:
@@ -32,5 +34,4 @@ Operational guidance:
 - Prefer the documented `make` targets over ad hoc Docker commands.
 - Treat Docker as the default local execution model for this repository.
 - Keep `README.md` short and navigational. Put topic-specific behavior under `docs/`.
-- The repository is currently in a transition state with no runtime code.
 - For shared meaning of common `make` targets and validation flow, prefer the shared knowledge documents instead of inferring local semantics from target names alone.

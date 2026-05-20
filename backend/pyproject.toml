@@ -4,11 +4,14 @@ version = "6.0.0"
 description = "Playground repository for SoftwareOne Marketplace extensions."
 authors = [{ name = "SoftwareOne AG" }]
 requires-python = ">=3.12,<4"
-readme = "README.md"
 license = { text = "Apache-2.0 license" }
 dependencies = [
+    "mpt-extension-sdk==6.1.*",
     "mpt-tool==6.0.*",
 ]
+
+[tool.uv]
+override-dependencies = ["typer>=0.25.0", "mpt-api-client>=6.1.0"]
 
 [dependency-groups]
 dev = [
@@ -26,6 +29,12 @@ dev = [
   "wemake-python-styleguide==1.6.*",   # also update pre-commit config
 ]
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["swo_playground"]
 
 [tool.pytest.ini_options]
 testpaths = "tests"
@@ -42,7 +51,6 @@ branch = true
 omit = [
   "**/__init__.py"
 ]
-
 
 [tool.flake8]
 allowed-domain-names = ["result"]
@@ -158,8 +166,11 @@ max-complexity = 6
 convention = "google"
 ignore-decorators = ["property"]
 
+[tool.ruff.lint.isort]
+known-third-party = ["mpt_extension_sdk"]
+
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = [
+"**/tests/**/*.py" = [
   "D101", # missing docstring in public class
   "D102", # missing docstring in public method
   "D103", # missing docstring in public function
