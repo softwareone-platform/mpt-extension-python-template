@@ -26,14 +26,14 @@ make check-all
 Repository command mapping:
 
 - `make test` runs `pytest`
-- `make check` runs `ruff format --check`, `ruff check`, `flake8`, and `uv lock --check`
+- `make check` runs `ruff format --check`, `ruff check`, `flake8`, `mypy`, and `uv lock --check`
 - `make check-all` runs both checks and tests
 
 The CI workflow in [`.github/workflows/pr-build-merge.yml`](../.github/workflows/pr-build-merge.yml) uses the same `make build` and `make check-all` flow.
 
 ## Pytest Configuration
 
-Repository-specific test settings come from [`pyproject.toml`](../pyproject.toml):
+Repository-specific test settings come from [`backend/pyproject.toml`](../backend/pyproject.toml):
 
 - tests are discovered under `tests`
 - `pythonpath` includes the repository root

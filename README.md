@@ -6,8 +6,8 @@ It is primarily a playground repository: it shows the baseline extension shape, 
 
 ## Repository Layout
 
-- `swo_playground/` contains the extension package.
-- `tests/` contains the pytest suite.
+- `backend/swo_playground/` contains the extension package.
+- `backend/tests/` contains the pytest suite.
 - `make/*.mk` contains the repository make targets.
 - `compose.yaml` defines the local Docker-based development environment.
 
