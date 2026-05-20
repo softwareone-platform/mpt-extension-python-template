@@ -1,7 +1,14 @@
 services:
-  app:
+  backend:
     build:
       context: .
       target: dev
+    command: "uv run mpt-ext run"
     volumes:
       - ./backend:/extension
+      - ./static:/extension/static
+    env_file:
+      - path: backend/.env
+        required: false
+    ports:
+      - "8080:8080"

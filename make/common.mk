@@ -1,6 +1,6 @@
 DC = docker compose -f compose.yaml
-RUN = $(DC) run --rm app
-RUN_IT = $(DC) run --rm -it app
+RUN = $(DC) run --rm backend
+RUN_IT = $(DC) run --rm -it backend
 
 bash:  ## Open a bash shell
 	$(RUN_IT) bash
