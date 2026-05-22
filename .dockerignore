@@ -101,7 +101,7 @@ ipython_config.py
 .python-version
 
 # Environments
-.env
+backend/.env
 .venv
 env/
 venv/
@@ -125,3 +125,8 @@ cython_debug/
 .git
 .gitignore
 LICENSE
+backend/tests/
+backend/**/__pycache__/
+frontend/node_modules/
+backend/meta.yaml
+backend/meta.generated.yaml

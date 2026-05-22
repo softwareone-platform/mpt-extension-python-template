@@ -50,4 +50,9 @@ static/*
 
 # Runtime identity and meta
 *_identity.json
-meta.yaml
+backend/meta.yaml
+backend/meta.generated.yaml
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
