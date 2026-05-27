@@ -1,9 +1,6 @@
 services:
   backend:
     command: "uv run mpt-ext run --local"
-    depends_on:
-      jaeger:
-        condition: service_started
     env_file:
       - path: backend/.env
         required: false
@@ -11,11 +8,3 @@ services:
         required: true
     ports:
       - "8080:8080"
-
-  jaeger:
-    image: jaegertracing/jaeger:2.17.0
-    environment:
-      COLLECTOR_OTLP_ENABLED: "true"
-    ports:
-      - "16686:16686"
-      - "4318:4318"

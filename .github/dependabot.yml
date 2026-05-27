@@ -17,6 +17,23 @@ updates:
       prefix: "deps"
       include: "scope"
     open-pull-requests-limit: 5
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "UTC"
+    versioning-strategy: "auto"
+    groups:
+      frontend-production:
+        dependency-type: "production"
+      frontend-development:
+        dependency-type: "development"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    open-pull-requests-limit: 5
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
