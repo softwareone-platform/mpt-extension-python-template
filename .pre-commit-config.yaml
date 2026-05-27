@@ -49,4 +49,4 @@ repos:
         args: ["--config-file=backend/pyproject.toml", "backend/swo_playground"]
         pass_filenames: false
         additional_dependencies:
-          - mpt-extension-sdk==6.1.*
+          - mpt-extension-sdk==6.3.*
