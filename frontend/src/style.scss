@@ -1,35 +1,44 @@
 @use '@softwareone-platform/sdk-react-ui-v0/design-tokens' as *;
 @use '@softwareone-platform/sdk-react-ui-v0/design-tokens/style';
+@use 'fixes/global-styling';
+@use 'fixes/modal-layout';
+@use 'fixes/wizard';
+
+// Base typography on every element. The `%regular2` placeholder comes from the
+// SDK design tokens and provides the line-height / font-size / font-family the
+// platform host applies globally. We apply it here (top-level) because dart-sass
+// loadPaths can't resolve the package `exports` map from a nested @use.
+* {
+  @extend %regular2;
+}
+
+// The wizard expects to live inside a full-screen modal that provides its
+// height. Inside an extension iframe the platform modal already gives us the
+// outer box but the wizard still needs a sized container so its internal
+// step-content area can scroll instead of growing unbounded.
+.wizard-container {
+  display: flex;
+  flex-direction: column;
+  height: 760px;
+  min-height: 0;
+  width: min(1440px, calc(100vw - var(--spacing-4)));
+}
+
+.wizard-container > * {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.wizard-container [class*='wizard__step-content'] {
+  min-height: 0;
+  overflow: hidden;
+}
 
 .playground {
   display: grid;
   gap: var(--spacing-5);
-  grid-template-columns: minmax(180px, 220px) 1fr;
+  grid-template-columns: 250px minmax(0, 1fr);
   padding: var(--spacing-4) 0;
-}
-
-.playground__sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-2);
-}
-
-.playground__sidebar-heading {
-  margin: 0;
-  text-transform: none;
-}
-
-.playground__sidebar-item {
-  border-left: 2px solid transparent;
-  color: inherit;
-  display: block;
-  padding: var(--spacing-2) var(--spacing-3);
-  text-decoration: none;
-}
-
-.playground__sidebar-item--active {
-  border-left-color: var(--blue-6);
-  color: var(--blue-7);
 }
 
 .playground__content {
@@ -57,21 +66,5 @@
 }
 
 .playground__section-title {
-  margin: 0;
-}
-
-.playground__fields {
-  display: grid;
-  gap: var(--spacing-2) var(--spacing-4);
-  grid-template-columns: minmax(160px, max-content) 1fr;
-  margin: 0;
-}
-
-.playground__field {
-  display: contents;
-}
-
-.playground__field-label,
-.playground__field-value {
   margin: 0;
 }

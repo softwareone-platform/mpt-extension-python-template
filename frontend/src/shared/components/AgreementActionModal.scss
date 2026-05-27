@@ -1,0 +1,25 @@
+.agreement-action-modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  max-width: 100%;
+  min-width: min(480px, 100%);
+  padding: var(--spacing-4);
+}
+
+.agreement-action-modal__content {
+  min-width: 0;
+}
+
+.agreement-action-modal__content--wizard {
+  flex: 1 1 auto;
+  max-height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: var(--spacing-1);
+}
+
+.agreement-action-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -1,0 +1,15 @@
+// Wizard step circle relies on inherited line-height for vertical centering of
+// its number/check icon, which breaks in the extension iframe where the global
+// platform typography is absent. Use explicit size + flex centering instead.
+[class*='wizard__step__index'] {
+  align-items: center;
+  display: flex;
+  height: 32px;
+  justify-content: center;
+  line-height: 1;
+  width: 32px;
+}
+
+[class*='wizard__step__index'] > * {
+  line-height: 1;
+}

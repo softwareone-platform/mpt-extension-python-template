@@ -8,7 +8,7 @@ from swo_playground.flows.pipelines.purchase import PurchasePipeline
 
 logger = logging.getLogger(__name__)
 
-orders_router = EventRouter(prefix="/events/orders")
+orders_router = EventRouter(prefix="/events/v2/orders")
 
 
 @orders_router.task(
