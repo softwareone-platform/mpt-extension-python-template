@@ -23,8 +23,8 @@ coverage.xml
 htmlcov/
 
 # Environments
-.env
-.venv
+**/.env
+**/.venv
 
 # mypy / ruff
 .mypy_cache/
@@ -50,4 +50,9 @@ static/*
 
 # Runtime identity and meta
 *_identity.json
-meta.yaml
+**/meta.yaml
+**/meta.generated.yaml
+
+# Frontend
+**/node_modules/
+**/dist/

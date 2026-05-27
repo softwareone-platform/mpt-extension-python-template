@@ -1,41 +1,22 @@
 DC = docker compose -f compose.yaml
-RUN = $(DC) run --rm backend
-RUN_IT = $(DC) run --rm -it backend
 
-bash:  ## Open a bash shell
-	$(RUN_IT) bash
-
-build:  ## Build images
-	$(DC) build
-	$(RUN) uv sync
-
-check:  ## Check code quality and uv lock
-	$(RUN) bash -c "ruff format --check . && ruff check . && flake8 . && mypy . && uv lock --check"
-
-check-all: check test ## Run checks and tests
 
 down:  ## Stop and remove containers
 	$(DC) down
 
-format:  ## Format code
-	$(RUN) bash -c "ruff check --select I --fix . && ruff format ."
-
-run:  ## Run service
-	$(DC) up
-
-test:  ## Run test
-	$(RUN) pytest $(if $(args),$(args),.)
+format:  ## Format backend code
+	$(RUN) bash -c "uv run ruff check --select I --fix . && uv run ruff format ."
 
 uv-add: ## Add a production dependency (pkg=<package_name>)
 	$(call require,pkg)
 	$(RUN) bash -c "uv add $(pkg)"
-	$(MAKE) build
+	$(MAKE) build scope=backend
 
 uv-add-dev: ## Add a dev dependency (pkg=<package_name>)
 	$(call require,pkg)
 	$(RUN) bash -c "uv add --dev $(pkg)"
-	$(MAKE) build
+	$(MAKE) build scope=backend
 
 uv-upgrade: ## Upgrade all packages or a specific package (use pkg="package_name" to target one)
 	$(RUN) bash -c "uv lock $(if $(pkg),--upgrade-package $(pkg),--upgrade) && uv sync"
-	$(MAKE) build
+	$(MAKE) build scope=backend

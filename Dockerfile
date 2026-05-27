@@ -16,10 +16,9 @@ ENV PATH=/opt/venv/bin:$PATH
 
 FROM base AS build
 
-COPY backend/. .
-COPY README.md .
-
+COPY backend/ .
 RUN mkdir -p static
+COPY static/ ./static/
 
 RUN uv sync --frozen --no-cache --no-dev
 

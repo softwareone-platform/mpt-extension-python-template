@@ -101,13 +101,13 @@ ipython_config.py
 .python-version
 
 # Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+**/.env
+**/.venv
+**/env/
+**/venv/
+**/ENV/
+**/env.bak/
+**/venv.bak/
 
 # mkdocs documentation
 /site
@@ -125,3 +125,8 @@ cython_debug/
 .git
 .gitignore
 LICENSE
+backend/tests/
+**/__pycache__/
+**/node_modules/
+**/meta.yaml
+**/meta.generated.yaml
