@@ -8,6 +8,7 @@
     "build:types": "tsc -p tsconfig.build.json",
     "build": "npm run build:code && npm run build:types",
     "check": "tsc -p tsconfig.json --noEmit && eslint src --max-warnings=0",
+    "format": "eslint src --fix",
     "watch:types": "tsc -p tsconfig.json --watch",
     "watch:code": "node esbuild.config.js --watch",
     "start": "npm-run-all --parallel watch:types watch:code",
