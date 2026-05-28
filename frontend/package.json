@@ -11,7 +11,7 @@
     "watch:types": "tsc -p tsconfig.json --watch",
     "watch:code": "node esbuild.config.js --watch",
     "start": "npm-run-all --parallel watch:types watch:code",
-    "test": "jest --runInBand --passWithNoTests"
+    "test": "jest --runInBand"
   },
   "files": [
     "../static"
