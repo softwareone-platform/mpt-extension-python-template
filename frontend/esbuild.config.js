@@ -10,21 +10,22 @@ const env = JSON.stringify(process.env.NODE_ENV ?? 'production');
 const outdir = path.resolve(__dirname, '../static');
 const modulesdir = path.resolve(__dirname, './src/modules');
 
+const entryPoints = readdirSync(modulesdir, { withFileTypes: true })
+  .filter((dirent) => dirent.isDirectory())
+  .map((dirent) => path.join(modulesdir, dirent.name, 'index.tsx'))
+  .filter((filePath) => existsSync(filePath))
+  .sort();
+
+if (entryPoints.length === 0) {
+  console.log('No frontend module entrypoints found.');
+  process.exit(0);
+}
+
 mkdirSync(outdir, { recursive: true });
 if (!watch) {
   for (const entry of readdirSync(outdir)) {
     rmSync(path.join(outdir, entry), { recursive: true, force: true });
   }
-}
-
-const entryPoints = readdirSync(modulesdir, { withFileTypes: true })
-  .filter((dirent) => dirent.isDirectory())
-  .map((dirent) => path.join(modulesdir, dirent.name, 'index.tsx'))
-  .filter((filePath) => existsSync(filePath));
-
-if (entryPoints.length === 0) {
-  console.log('No frontend module entrypoints found.');
-  process.exit(0);
 }
 
 const ctx = await context({
