@@ -14,6 +14,12 @@ def test_app_registers_event_routes():
     assert any(isinstance(route, PlugRouteDefinition) for route in result.values())
 
 
+def test_app_registers_agreement_event_route():
+    result = {route.path: route for route in ext_app.routes}
+
+    assert isinstance(result["/events/v2/agreements/complete"], EventRouteDefinition)
+
+
 def test_app_registers_sync_route():
     result = {route.path: route for route in ext_app.routes}
 
@@ -24,6 +30,12 @@ def test_app_registers_get_route():
     result = {route.path: route for route in ext_app.routes}
 
     assert isinstance(result["/api/v2/agreements/{agreement_id}"], APIRouteDefinition)
+
+
+def test_app_registers_list_route():
+    result = {route.path: route for route in ext_app.routes}
+
+    assert isinstance(result["/api/v2/agreements"], APIRouteDefinition)
 
 
 def test_app_generates_agreement_plug_metadata():

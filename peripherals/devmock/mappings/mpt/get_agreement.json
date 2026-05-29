@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathTemplate": "/public/v1/commerce/agreements/{agreement_id}"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "mpt/agreement.json",
+    "transformers": ["response-template"],
+    "headers": { "Content-Type": "application/json" }
+  },
+  "priority": 5
+}

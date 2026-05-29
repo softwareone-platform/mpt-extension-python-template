@@ -1,0 +1,24 @@
+{
+  "$meta": {
+    "pagination": {
+      "offset": "{{request.query.offset}}",
+      "limit": "{{request.query.limit}}",
+      "total": 25
+    }
+  },
+  "data": [{{#each (range 1 request.query.limit)}}{{#unless @first}},{{/unless}}
+    {
+      "id": "AGR-1111-1111-111{{math @index '+' 1}}",
+      "name": "Playground Agreement #{{math @index '+' 1}}",
+      "status": "Active",
+      "product": { "id": "PRD-1111-1111", "name": "Playground Product" },
+      "client": { "id": "ACC-1111-1111", "name": "Playground Client" },
+      "licensee": { "id": "LCE-1111-1111", "name": "Playground Licensee", "status": "Active" },
+      "lines": [],
+      "subscriptions": [],
+      "assets": [],
+      "parameters": {},
+      "externalIds": {}
+    }{{/each}}
+  ]
+}

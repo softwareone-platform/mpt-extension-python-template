@@ -4,7 +4,8 @@ from mpt_extension_sdk.api.models.events import Event
 from mpt_extension_sdk.pipeline import OrderContext
 from mpt_extension_sdk.routing import EventRouter
 
-from swo_playground.flows.pipelines.purchase import PurchasePipeline
+from swo_playground.flows.pipelines.orders.purchase import PurchasePipeline
+from swo_playground.settings import get_extension_settings
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ orders_router = EventRouter(prefix="/events/v2/orders")
     path="/purchase",
     name="orders-purchase",
     event="platform.commerce.order.status_changed",
-    condition="eq(product.id,PRD-5516-5707)",
+    condition=f"in(product.id,{get_extension_settings().product_ids})",
 )
 async def process_order_purchase(event: Event, context: OrderContext) -> None:
     """Process order purchase events."""
