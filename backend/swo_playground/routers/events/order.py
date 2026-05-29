@@ -14,7 +14,7 @@ orders_router = EventRouter(prefix="/events/v2/orders")
 @orders_router.task(
     path="/purchase",
     name="orders-purchase",
-    event="platform.commerce.order.status_change",
+    event="platform.commerce.order.status_changed",
     condition="eq(product.id,PRD-5516-5707)",
 )
 async def process_order_purchase(event: Event, context: OrderContext) -> None:
