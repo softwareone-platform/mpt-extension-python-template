@@ -1,0 +1,13 @@
+// Extensions run in an isolated iframe and miss the global `box-sizing:
+// border-box` reset the Marketplace host applies. Without it, SDK components
+// (Grid, List, Wizard…) overflow their containers by their border width.
+// The base typography reset (`%regular2` extended on `*`) lives in style.scss
+// because dart-sass loadPaths can't resolve the SDK design-tokens package
+// `exports` map from a nested @use.
+// Mirrors mpt-extension-example/frontend/src/fixes/global-styling.scss.
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
