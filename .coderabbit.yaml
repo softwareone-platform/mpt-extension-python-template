@@ -12,11 +12,12 @@ reviews:
     1. Extract the Jira issue key from the PR title (format: MPT-XXXX).
     2. If an issue key is found, start the summary with: "Closes [MPT-XXXX](https://softwareone.atlassian.net/browse/MPT-XXXX)" where MPT-XXXX is replaced with the actual issue key.
     3. Then generate concise release notes as a bullet-point list summarizing the changes.
-  high_level_summary_placeholder: '@coderabbitai summary'
+  high_level_summary_placeholder: "@coderabbitai summary"
   high_level_summary_in_walkthrough: false
-  auto_title_placeholder: '@coderabbitai'
-  auto_title_instructions: ''
+  auto_title_placeholder: "@coderabbitai"
+  auto_title_instructions: ""
   review_status: true
+  review_details: true
   commit_status: true
   fail_commit_status: false
   collapse_walkthrough: true
@@ -35,15 +36,35 @@ reviews:
   poem: false
   enable_prompt_for_ai_agents: true
   path_filters:
-      - "!.gitignore"
+    - "!.gitignore"
   path_instructions:
-      - path: "**/*"
-        instructions: |
-          For each subsequent commit in this PR, explicitly verify if previous review comments have been resolved
-      - path: "**/*.py"
-        instructions: |
-          Follow the linting rules defined in pyproject.toml under [tool.ruff] and [tool.flake8] sections.
-          For formatting, use Ruff instead of Black. Do not suggest Black formatting changes.
+    - path: "**/*"
+      instructions: |
+        For each subsequent commit in this PR, explicitly verify if previous review comments have been resolved
+    - path: "backend/**/*.py"
+      instructions: |
+        Follow the linting rules defined in `backend/pyproject.toml` under `[tool.ruff]` and `[tool.flake8]`.
+        For formatting, use Ruff instead of Black. Do not suggest Black formatting changes.
+    - path: "docs/**"
+      instructions: |
+        Review documentation changes against `docs/documentation.md` and the linked repository's `standards/documentation.md`.
+        Use those documents as the source of truth for structure, topic boundaries, navigation updates, and when to link shared rules instead of copying them.
+    - path: "make/**"
+      instructions: |
+        Review changes in `make/` against `docs/contributing.md` and the linked repository's `standards/makefiles.md`.
+        Use the shared standard as the source of truth for Makefile architecture, file layout, and command-group organization.
+    - path: "backend/migrations/**"
+      instructions: |
+        Review migration changes against `docs/migrations.md` and the linked repository's `knowledge/migrations.md`.
+        Verify that repository-specific migration constraints are followed and that undocumented migration behavior is not invented.
+    - path: "backend/**"
+      instructions: |
+        Review backend changes against `AGENTS.md`, `docs/architecture.md`, `docs/contributing.md`, and `docs/testing.md`.
+        Use relevant linked shared standards and operational guidance when those local documents reference them.
+    - path: "backend/tests/**"
+      instructions: |
+        Review backend test changes against `docs/testing.md` and the linked repository's `standards/unittests.md`.
+        Verify that repository-specific test behavior and shared unit-test rules are followed.
   abort_on_close: true
   disable_cache: false
   auto_review:
@@ -71,45 +92,23 @@ reviews:
     issue_assessment:
       mode: warning
     custom_checks:
-      - name: "Jira Issue Key in Title"
+      - name: "PR And Commit Formatting"
         mode: "error"
         instructions: |
-          Check if the PR title contains exactly one Jira issue key in the format MPT-XXXX.
-
-          If found:
-          - Post: ✅ Found Jira issue key in the title: [MPT-XXXX](https://softwareone.atlassian.net/browse/MPT-XXXX)
-          - Replace MPT-XXXX with the actual issue key found
-          - Mark the check as PASSED
-
-          If not found:
-          - Post: ⚠️ PR title must include exactly one Jira issue key in the format MPT-XXXX.
-          - Mark the check as FAILED
-      - name: "Test Coverage Required"
-        mode: "warning"
+          Validate these requirements derived from the shared PR and commit standards:
+          - The PR title uses `<JIRA-ID> <short summary>`.
+          - The PR description explains what changed.
+          - Each commit title follows Conventional Commits.
+          - Each commit has a body explaining what changed and why.
+          - Prefer one commit unless multiple commits are intentionally separated.
+          - Branch history is linear and does not contain merge commits.
+          Fail when a requirement does not comply.
+      - name: "AI Warning Line In PR Description"
+        mode: "error"
         instructions: |
-          Check if the PR modifies any code files but does not include changes in the tests/ folder.
-
-          If code files are modified but no test files are changed:
-          - Count the number of code files modified
-          - Post: This PR modifies code (X file(s)) but does not include any changes in the tests/ folder. Please consider adding or updating tests to cover your changes.
-          - Replace X with the actual number of files
-          - Mark the check as FAILED
-
-          If test files are included or no code files are modified:
-          - Mark the check as PASSED
-      - name: "Single Commit Required"
-        mode: "warning"
-        instructions: |
-          Check if the PR contains more than one commit.
-
-          If the PR has more than one commit:
-          - Count the number of commits
-          - Post: ⚠️ This PR contains X commits. Please squash them into a single commit to keep the git history clean and easy to follow. Multiple commits are acceptable only in the following cases: One commit is a technical refactoring, and another introduces business logic changes. You are doing a complex multi-step refactoring (although in this case we still recommend splitting it into separate PRs).
-          - Replace X with the actual number of commits
-          - Mark the check as FAILED
-
-          If the PR has exactly one commit:
-          - Mark the check as PASSED
+          Verify by using byte-level comparison that the PR description starts with this exact warning line:
+          `🤖 AI-generated PR — Please review carefully.`
+          Fail when the warning line is missing, changed, or not the first line.
   tools:
     ast-grep:
       rule_dirs: []
@@ -178,23 +177,33 @@ reviews:
       enabled: false
     semgrep:
       enabled: true
+    opengrep:
+      enabled: false
     circleci:
       enabled: false
     clippy:
       enabled: false
     sqlfluff:
       enabled: true
+    stylelint:
+      enabled: false
     prismaLint:
       enabled: true
     pylint:
       enabled: true
+    psscriptanalyzer:
+      enabled: false
     oxc:
       enabled: false
     shopifyThemeCheck:
       enabled: false
+    smartyLint:
+      enabled: false
     luacheck:
       enabled: false
     brakeman:
+      enabled: false
+    blinter:
       enabled: false
     dotenvLint:
       enabled: false
@@ -204,6 +213,18 @@ reviews:
       enabled: true
     osvScanner:
       enabled: true
+    zizmor:
+      enabled: false
+    presidio:
+      enabled: false
+    trufflehog:
+      enabled: false
+    tflint:
+      enabled: false
+    trivy:
+      enabled: false
+    emberTemplateLint:
+      enabled: false
 chat:
   art: false
   auto_reply: true
@@ -218,7 +239,9 @@ knowledge_base:
     enabled: true
   code_guidelines:
     enabled: true
-    filePatterns: []  # Uses defaults including .github/copilot-instructions.md
+    filePatterns:
+      - "AGENTS.md"
+      - "docs/**/*.md"
   learnings:
     scope: auto
   issues:
@@ -232,3 +255,10 @@ knowledge_base:
   mcp:
     usage: auto
     disabled_servers: []
+  linked_repositories:
+    - repository: "softwareone-platform/mpt-extension-skills"
+      instructions: |
+        Use standards/** as shared engineering standards.
+        Use knowledge/** as shared operational guidance.
+        Ignore unrelated files unless they are directly relevant to the review.
+        Repository-local documentation and rules take precedence when they conflict.
