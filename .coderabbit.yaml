@@ -1,3 +1,3 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 remote_config:
-  url: "https://raw.githubusercontent.com/softwareone-platform/mpt-extension-skills/refs/heads/main/coderabbit-shared.yaml"
+  url: "https://raw.githubusercontent.com/softwareone-platform/mpt-extension-skills/7b6256cafd72aca2026726561d54871f973c159f/coderabbit-shared.yaml"
