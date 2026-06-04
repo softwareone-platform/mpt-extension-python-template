@@ -1,4 +1,15 @@
+import os
+
 import pytest
+
+# Set required env vars before any test module is imported. Event routers
+# under `swo_playground.routers.events.*` interpolate
+# `get_extension_settings().product_ids` inside the decorator's `condition`
+# f-string, which Python evaluates at module import time. That call (cached
+# afterwards by `@lru_cache`) reads `MPT_PRODUCTS_IDS` from the environment,
+# so the variable must exist before collection — per-test fixtures run too
+# late.
+os.environ.setdefault("MPT_PRODUCTS_IDS", "PRD-1111-1111,PRD-1111-1112")
 
 
 @pytest.fixture

@@ -8,3 +8,17 @@ services:
         required: true
     ports:
       - "8080:8080"
+    depends_on:
+      jaeger:
+        condition: service_started
+      devmock:
+        condition: service_started
+
+  devmock:
+    image: wiremock/wiremock:3.13.2
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./peripherals/devmock/__files:/home/wiremock/__files
+      - ./peripherals/devmock/mappings:/home/wiremock/mappings
+    command: ["--port", "8000", "--global-response-templating", "--verbose"]

@@ -1,0 +1,25 @@
+{
+  "id": "{{request.pathSegments.[4]}}",
+  "type": "Purchase",
+  "status": "Processing",
+  "revision": 1,
+  "product": { "id": "PRD-1111-1111", "name": "Playground Product" },
+  "agreement": {
+    "id": "AGR-1111-1111-0001",
+    "name": "Playground Agreement #1",
+    "status": "Active",
+    "product": { "id": "PRD-1111-1111", "name": "Playground Product" },
+    "client": { "id": "ACC-1111-1111", "name": "Playground Client" },
+    "licensee": { "id": "LCE-1111-1111", "name": "Playground Licensee", "status": "Active" },
+    "lines": [],
+    "parameters": {},
+    "externalIds": {}
+  },
+  "authorization": { "id": "AUT-1111-1111", "name": "Playground Authorization", "currency": "USD" },
+  "seller": { "id": "ACC-2222-2222", "name": "Playground Seller" },
+  "lines": [],
+  "subscriptions": [],
+  "assets": [],
+  "parameters": {},
+  "externalIds": {}
+}

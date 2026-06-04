@@ -1,0 +1,25 @@
+{
+  "id": "{{request.path.agreement_id}}",
+  "name": "Playground Agreement {{request.path.agreement_id}}",
+  "status": "Active",
+  "revision": 1,
+  "product": { "id": "PRD-1111-1111", "name": "Playground Product" },
+  "client": { "id": "ACC-1111-1111", "name": "Playground Client" },
+  "seller": { "id": "ACC-2222-2222", "name": "Playground Seller" },
+  "buyer": { "id": "ACC-3333-3333", "name": "Playground Buyer" },
+  "licensee": {
+    "id": "LCE-1111-1111",
+    "name": "Playground Licensee",
+    "status": "Active"
+  },
+  "lines": [
+    { "id": "ALI-1111-0001", "quantity": 121, "unitPrice": 537, "currency": "USD", "item": {"id": "ITM-1111-0001", "name": "Playground Item"} },
+    { "id": "ALI-1111-0002", "quantity": 234, "unitPrice": 100, "currency": "USD", "item": { "id": "ITM-1111-0002", "name": "Playground Item"} }
+  ],
+  "subscriptions": [
+    { "id": "SUB-1111-0001", "name": "Playground Subscription" }
+  ],
+  "assets": [],
+  "parameters": {},
+  "externalIds": {}
+}

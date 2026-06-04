@@ -1,8 +1,19 @@
-from mpt_extension_sdk.api import APIResponse
+from mpt_extension_sdk.api import APIResponse, PaginatedResult
 from mpt_extension_sdk.api.context import APIContext
 from mpt_extension_sdk.routing import APIRouter
 
 agreements_router = APIRouter(prefix="/api/v2/agreements")
+
+
+@agreements_router.get("/", name="agreements-list")
+async def get_agreements(ctx: APIContext) -> APIResponse:
+    """Return paginated mock agreements."""
+    pagination = ctx.request.pagination
+    page = await ctx.mpt_api_service.agreements.get_all(
+        offset=pagination.offset, limit=pagination.limit
+    )
+    result = PaginatedResult.from_pagination(pagination, payload=page.resources, total=page.total)
+    return APIResponse.paginated(result)
 
 
 @agreements_router.get(path="/{agreement_id}", name="agreements-get")

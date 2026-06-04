@@ -1,4 +1,4 @@
-from swo_playground.flows.pipelines.purchase import PurchasePipeline
+from swo_playground.flows.pipelines.orders.purchase import PurchasePipeline
 from swo_playground.flows.steps.log_order import LogOrderStep
 
 

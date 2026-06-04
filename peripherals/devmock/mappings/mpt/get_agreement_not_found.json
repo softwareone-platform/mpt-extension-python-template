@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/public/v1/commerce/agreements/not-found"
+  },
+  "response": {
+    "status": 404,
+    "headers": { "Content-Type": "application/json" },
+    "jsonBody": {
+      "type": "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+      "status": 404,
+      "title": "Not Found",
+      "detail": "Entity for given id not-found not found",
+      "trace_id": "fake-playground-trace-id"
+    }
+  },
+  "priority": 1
+}
