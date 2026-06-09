@@ -2,14 +2,17 @@
 
 `swo-extension-playground` is a minimal SoftwareOne Marketplace extension built on top of `mpt-extension-sdk` and `mpt-tool`.
 
-It is primarily a playground repository: it shows the baseline extension shape, a simple validation API endpoint, an event listener, a small fulfillment pipeline, and the development workflow used by extension repositories in this ecosystem.
+It is primarily a playground repository: it shows the baseline extension shape, agreement API endpoints, order and agreement event listeners, small fulfillment pipelines, Marketplace Portal plugs, and the development workflow used by extension repositories in this ecosystem.
 
 ## Repository Layout
 
 - `backend/swo_playground/` contains the extension package.
 - `backend/tests/` contains the pytest suite.
+- `frontend/` contains the React plug source code.
+- `static/` contains generated plug assets served by the extension.
 - `make/*.mk` contains the repository make targets.
-- `compose.yaml` defines the local Docker-based development environment.
+- `compose.yaml` defines the Docker-based development environment.
+- `compose.local.yaml` adds local mock services for `mpt-ext run --local`.
 
 ## Quick Start
 
@@ -23,10 +26,12 @@ Recommended setup:
 ```bash
 make build
 make test
-make run
+make run-local
 ```
 
-The application runs on `http://localhost:8080`.
+Local mock mode exposes the application on `http://localhost:8080`.
+
+Most make targets accept `scope=backend`, `scope=frontend`, or `scope=all`. The default scope is `all`.
 
 ## Common Commands
 

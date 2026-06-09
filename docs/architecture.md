@@ -2,22 +2,42 @@
 
 Keep this document focused on actual architecture decisions for the repository.
 
-If the repository does not yet have stable architectural decisions, keep this file short and avoid speculative descriptions.
+This repository is a small Marketplace extension playground. It is intentionally minimal, but it now has stable backend and frontend examples that should stay documented here.
 
-## What To Document Here
+## Runtime Components
 
-When architecture details become relevant, document:
+- `backend/swo_playground/app.py` creates the `ExtensionApp` and registers all routers.
+- `backend/swo_playground/routers/api/` exposes extension API endpoints.
+- `backend/swo_playground/routers/events/` declares Marketplace event handlers.
+- `backend/swo_playground/flows/pipelines/` contains simple order and agreement pipelines.
+- `backend/swo_playground/flows/steps/` contains reusable pipeline steps.
+- `backend/swo_playground/routers/plugs/` declares Marketplace Portal plug metadata.
+- `frontend/src/modules/` contains the React plug entry points.
+- `static/` contains generated frontend bundles served by the backend.
 
-- the main runtime components
-- repository boundaries and responsibility split
-- extension entry points
-- data flow between API handlers, event listeners, pipelines, and external services
-- any persistence model and migration boundaries
-- important design decisions or tradeoffs
+## Entry Points
+
+The extension currently registers:
+
+- agreement API routes under `/api/v2/agreements`
+- order event route `/events/v2/orders/purchase`
+- agreement event route `/events/v2/agreements/complete`
+- agreement-related Marketplace Portal plugs that load bundles from `/static/`
+
+## Data Flow
+
+Agreement API handlers read Marketplace agreement data through the SDK API service and return SDK `APIResponse` objects.
+
+Event handlers receive Marketplace event payloads, log the event context, and execute a small pipeline. The pipelines are deliberately simple examples and should remain focused on extension-layer behavior rather than SDK internals.
+
+Portal plugs are declared by backend metadata. The frontend build writes JavaScript bundles into `static/`; those bundles are referenced by plug `href` values and mounted into the backend container.
+
+## Persistence And Migrations
+
+Migration examples live in `backend/migrations/` and are managed by `mpt-tool`; see [docs/migrations.md](migrations.md).
 
 ## Guidance
 
-- Keep this file minimal until there is real architecture to describe.
 - Avoid fictional or speculative architecture.
 - Put workflow details in the other topic-specific documents under `docs/`.
 - Update this file when the repository gains stable components or non-trivial design rules.
