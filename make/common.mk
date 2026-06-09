@@ -1,4 +1,5 @@
 DC ?= docker compose -f compose.yaml
+DC_LOCAL ?= docker compose -f compose.yaml -f compose.local.yaml
 RUN = $(DC) run --rm backend
 RUN_IT = $(DC) run --rm -it backend
 RUN_FRONTEND = $(DC) run --rm frontend
@@ -72,13 +73,13 @@ run:  ## Run service in platform integration mode
 
 run-local:  ## Run backend in --local mode with Jaeger and frontend watch static asset generation
 	@if [ "$(scope)" = "backend" ]; then \
-		$(DC) -f compose.local.yaml up backend; \
+		$(DC_LOCAL) up backend; \
 	fi
 	@if [ "$(scope)" = "frontend" ]; then \
-		$(DC) -f compose.local.yaml up frontend; \
+		$(DC_LOCAL) up frontend; \
 	fi
 	@if [ "$(scope)" = "all" ]; then \
-		$(DC) -f compose.local.yaml up -d; \
+		$(DC_LOCAL) up -d; \
 	fi
 
 test:  ## Run tests. Optional: scope=backend|frontend|all

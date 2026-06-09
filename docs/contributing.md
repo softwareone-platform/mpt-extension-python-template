@@ -22,7 +22,7 @@ Shared operational knowledge also lives there:
 The default development environment is Docker-based.
 
 - Use `make build` to build the image and sync dependencies with `uv`.
-- Use `make bash` or `make shell` when you need an interactive container session.
+- Use `make bash` when you need an interactive backend container session.
 
 If the repository supports a local-only workflow outside Docker, document it explicitly in [docs/local-development.md](local-development.md). Otherwise, treat Docker as the default path.
 
@@ -48,7 +48,7 @@ make check
 make test
 ```
 
-Use `make check-all` when the repository exposes it and you want the combined validation workflow.
+Use `make check-all` for the combined validation workflow. Most targets accept `scope=backend`, `scope=frontend`, or `scope=all`; the default is `all`.
 
 See [docs/testing.md](testing.md) for repository-specific testing expectations.
 
