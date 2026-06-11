@@ -52,6 +52,15 @@ Use `make check-all` for the combined validation workflow. Most targets accept `
 
 See [docs/testing.md](testing.md) for repository-specific testing expectations.
 
+## Releases
+
+Releases are cut by manually dispatching a GitHub Actions workflow with the target version (`X.Y.Z`, no `v` prefix). The branch selected at dispatch time decides the release type: `main` produces a pre-release, a `release/*` branch produces the latest release. Each workflow validates the version (semver, no existing published release, greater than the latest reachable tag) and is safe to re-run.
+
+This repository is the extension/library template and ships both release workflows:
+
+- [`.github/workflows/release-extension.yml`](../.github/workflows/release-extension.yml): for extension repositories. Creates the annotated tag and the GitHub release and runs Dependency-Track; the container image is built by a separate external system.
+- [`.github/workflows/release-library.yml`](../.github/workflows/release-library.yml): for Python library repositories. Additionally builds and publishes the package to PyPI via OIDC trusted publishing. The PyPI trusted publisher is bound to the workflow filename, so keep the filename stable when adopting it.
+
 ## Documentation Changes
 
 When changing repository docs:
