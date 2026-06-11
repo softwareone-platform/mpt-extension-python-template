@@ -11,7 +11,7 @@ Working protocol for any task in this repository:
 When applicable, read the repository in this order:
 
 1. [README.md](README.md) for the repository purpose, quick start, and documentation map.
-2. [docs/architecture.md](docs/architecture.md) for the template architecture placeholder and future design notes.
+2. [docs/architecture.md](docs/architecture.md) for the repository structure and runtime components.
 3. [docs/local-development.md](docs/local-development.md) for local setup and service startup.
 4. [docs/deployment.md](docs/deployment.md) for configuration and runtime parameters.
 5. [docs/contributing.md](docs/contributing.md) for the repository workflow and expected developer commands.
@@ -28,6 +28,8 @@ Then inspect the code paths relevant to the task:
 - [`make/`](make): canonical commands used by the repository
 - [`Dockerfile`](Dockerfile) and [`compose.yaml`](compose.yaml): backend container and local stack
 - [`.github/workflows/pr-build-merge.yml`](.github/workflows/pr-build-merge.yml): CI checks
+- [`.github/workflows/release-extension.yml`](.github/workflows/release-extension.yml): manual release workflow for extensions (validate version, annotated tag, GitHub release, Dependency-Track)
+- [`.github/workflows/release-library.yml`](.github/workflows/release-library.yml): manual release workflow for libraries (build and publish to PyPI, annotated tag, GitHub release, Dependency-Track)
 
 Operational guidance:
 
