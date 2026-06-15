@@ -50,6 +50,8 @@ make test
 
 Use `make check-all` for the combined validation workflow. Most targets accept `scope=backend`, `scope=frontend`, or `scope=all`; the default is `all`.
 
+`make review` runs a CodeRabbit review in interactive mode (configured by [`.coderabbit.yaml`](../.coderabbit.yaml)); pass `args=<options>` to override or extend it.
+
 See [docs/testing.md](testing.md) for repository-specific testing expectations.
 
 ## Releases

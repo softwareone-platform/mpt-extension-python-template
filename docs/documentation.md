@@ -19,6 +19,7 @@ This file documents repository-specific documentation rules only.
 - [`README.md`](../README.md): human entry point, overview, quick start, and documentation map
 - [`AGENTS.md`](../AGENTS.md): AI entry point and reading order
 - [`architecture.md`](architecture.md): stable runtime components, entry points, and data flow
+- [`examples.md`](examples.md): guided tour of the example API, events, pipelines, context, and plugs
 - [`local-development.md`](local-development.md): Docker, local mock mode, frontend watch, and environment file usage
 - [`deployment.md`](deployment.md): runtime configuration and deployment model
 - [`contributing.md`](contributing.md): repository-specific development workflow
