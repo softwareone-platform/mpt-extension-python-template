@@ -12,19 +12,24 @@ When applicable, read the repository in this order:
 
 1. [README.md](README.md) for the repository purpose, quick start, and documentation map.
 2. [docs/architecture.md](docs/architecture.md) for the repository structure and runtime components.
-3. [docs/local-development.md](docs/local-development.md) for local setup and service startup.
-4. [docs/deployment.md](docs/deployment.md) for configuration and runtime parameters.
-5. [docs/contributing.md](docs/contributing.md) for the repository workflow and expected developer commands.
-6. [docs/testing.md](docs/testing.md) before changing code or tests.
-7. [docs/migrations.md](docs/migrations.md) when a task mentions schema or data migrations.
-8. [docs/documentation.md](docs/documentation.md) when changing repository documentation.
+3. [docs/examples.md](docs/examples.md) for a tour of the example API, events, pipelines, context, and plugs.
+4. [docs/local-development.md](docs/local-development.md) for local setup and service startup.
+5. [docs/deployment.md](docs/deployment.md) for configuration and runtime parameters.
+6. [docs/contributing.md](docs/contributing.md) for the repository workflow and expected developer commands.
+7. [docs/testing.md](docs/testing.md) before changing code or tests.
+8. [docs/migrations.md](docs/migrations.md) when a task mentions schema or data migrations.
+9. [docs/documentation.md](docs/documentation.md) when changing repository documentation.
 
 Then inspect the code paths relevant to the task:
 
 - [`backend/swo_playground/app.py`](backend/swo_playground/app.py): Extension SDK application entry point
+- [`backend/swo_playground/settings.py`](backend/swo_playground/settings.py): extension settings and required environment variables
 - [`backend/pyproject.toml`](backend/pyproject.toml): backend dependencies, lint, test, and type-check configuration
 - [`backend/migrations/`](backend/migrations/): migration files managed by `mpt-tool`
 - [`backend/tests/`](backend/tests/): backend test suite
+- [`frontend/src/modules/`](frontend/src/modules/): React plug entry points (one bundle per module)
+- [`frontend/src/shared/`](frontend/src/shared/): shared frontend components, hooks, and model helpers
+- [`frontend/esbuild.config.js`](frontend/esbuild.config.js): frontend build that emits plug bundles into `static/`
 - [`make/`](make): canonical commands used by the repository
 - [`Dockerfile`](Dockerfile) and [`compose.yaml`](compose.yaml): backend container and local stack
 - [`.github/workflows/pr-build-merge.yml`](.github/workflows/pr-build-merge.yml): CI checks

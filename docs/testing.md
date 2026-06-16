@@ -40,7 +40,7 @@ Repository command mapping:
 - `make check scope=frontend` runs `tsc --noEmit` and `eslint`
 - `make check-all` runs checks, tests, frontend build, and metadata generation/validation for `scope=all`
 
-The CI workflow in [`.github/workflows/pr-build-merge.yml`](../.github/workflows/pr-build-merge.yml) uses the same `make build` and `make check-all` flow.
+The CI workflow in [`.github/workflows/pr-build-merge.yml`](../.github/workflows/pr-build-merge.yml) uses the same `make build` and `make check-all` flow, and additionally runs a SonarCloud/SonarQube scan (`SONAR_TOKEN`) as a quality gate that can block the pull request.
 
 ## Pytest Configuration
 
@@ -61,6 +61,19 @@ Repository-specific guidance:
 - Keep frontend tests close to the component, hook, or model module they cover.
 - Use generated devmock payloads only as stable examples; do not depend on live Marketplace services.
 - Follow the shared unit-test standard for AAA structure, parametrization, mocking rules, deterministic behavior, and coverage expectations.
+
+## Frontend Tests
+
+Frontend tests run with Jest + Testing Library (`make test scope=frontend`).
+Repository-specific patterns:
+
+- Co-locate tests with the module they cover (`App.test.tsx`, `*.test.ts` next to
+  the component, hook, or model under `frontend/src/`).
+- Mock the SDK HTTP client (`http` from `@mpt-extension/sdk`) instead of hitting a
+  backend; assert on rendered output and load/error states.
+- Reuse shared fixtures from [`frontend/src/shared/test-utils/`](../frontend/src/shared/test-utils/)
+  (for example `agreement-mocks.ts`) rather than redefining agreement payloads.
+- Render components with Testing Library and query by accessible roles/labels.
 
 ## When Tests Are Required
 
