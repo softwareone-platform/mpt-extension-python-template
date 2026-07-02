@@ -25,7 +25,9 @@ sync) — so you can exercise the playground without writing requests by hand.
 - `events_orders_router` — order event handling
 - `events_agreements_router` — agreement event handling
 - `api_agreements_router` — agreement API endpoints
-- `plug_agreements_router` — Marketplace Portal plugs
+- `plug_portal_router` — top-level portal plugs (examples app, guide, `add` showcase)
+- `plug_agreements_router` — agreement plugs (the real examples plus the agreements `add` showcase)
+- `plug_orders_router` / `plug_subscriptions_router` / `plug_assets_router` / `plug_accounts_router` — per-entity `add` showcase plugs
 
 Each router below is an independent example and can be read on its own.
 
@@ -108,6 +110,36 @@ Each module's `index.tsx` follows the same entry-point pattern: import the
 `useAgreementId`, `AgreementDetailsList`, `model.ts`) live under
 [`frontend/src/shared/`](../frontend/src/shared/); see
 [docs/architecture.md](architecture.md#frontend) for the frontend structure.
+
+## UI SDK Showcase Plugs
+
+These plugs demonstrate the UI SDK breadth rather than a specific business flow.
+Like the agreement plugs, they are organised **per entity** — one `PlugRouter`
+file each: [`portal.py`](../backend/swo_playground/routers/plugs/portal.py)
+(top-level: examples, guide, `add`), [`orders.py`](../backend/swo_playground/routers/plugs/orders.py),
+[`subscriptions.py`](../backend/swo_playground/routers/plugs/subscriptions.py),
+[`assets.py`](../backend/swo_playground/routers/plugs/assets.py),
+[`accounts.py`](../backend/swo_playground/routers/plugs/accounts.py), and the
+agreements `add` plug in [`agreements.py`](../backend/swo_playground/routers/plugs/agreements.py):
+
+| Plug id / socket | Frontend module | Demonstrates |
+| --- | --- | --- |
+| `examples` — `portal` | [`modules/examples/`](../frontend/src/modules/examples/) | A multi-tab React app (`react-router`) touring the UI SDK: Introduction, Basics, Context (`useMPTContext`), API calls (the `http` client feeding a server-driven `Grid` via `useGridWithRql` + RQL), and UI elements (buttons, inputs, selects, toggles, date pickers, grids, entity references) |
+| `guide` — `portal` | [`modules/guide/`](../frontend/src/modules/guide/) | Rendering bundled Markdown with `InlineMarkdown` (esbuild `.md` text loader) |
+| `add-<socket>` (one per socket) | [`modules/add-*/`](../frontend/src/modules/) | A "plug here" scaffold shown on every remaining Portal socket, so the full set of sockets is covered |
+
+The `add-*` plugs cover many near-identical sockets without duplicating logic:
+each is a thin module directory whose `index.tsx` mounts the shared
+[`AddPlugShowcase`](../frontend/src/shared/components/AddPlugShowcase.tsx)
+component with its socket passed as a prop. There is no build-time socket
+injection or shared socket manifest — one socket is one module directory plus
+one `add_plug(...)` line in the matching per-entity router (the helper lives in
+[`plugs/common.py`](../backend/swo_playground/routers/plugs/common.py); see
+[docs/architecture.md](architecture.md#frontend)).
+
+A socket-less modal round-trip demo (a dialog/wizard opened purely via
+`useMPTModal().open()`) is intentionally not included yet: the backend `Plug`
+requires a `socket`, so it awaits a dedicated modal plug type in the SDK.
 
 ## Migrations
 

@@ -1,0 +1,8 @@
+.show-code {
+  margin-top: var(--spacing-2);
+
+  &__toggle {
+    color: var(--brand-primary);
+    cursor: pointer;
+  }
+}

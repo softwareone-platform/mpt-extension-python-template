@@ -1,0 +1,26 @@
+.add-plug {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+
+  &__output {
+    position: relative;
+  }
+
+  &__context {
+    summary {
+      cursor: pointer;
+      user-select: none;
+      padding: var(--spacing-1) 0;
+    }
+
+    pre {
+      margin: var(--spacing-1) 0 0;
+      max-height: 240px;
+      overflow: auto;
+      font-size: 12px;
+    }
+  }
+}

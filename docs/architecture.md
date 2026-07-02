@@ -28,7 +28,7 @@ The extension currently registers:
 - agreement API routes under `/api/v2/agreements`
 - order event route `/events/v2/orders/purchase`
 - agreement event route `/events/v2/agreements/complete`
-- agreement-related Marketplace Portal plugs that load bundles from `/static/`
+- Marketplace Portal plugs that load bundles from `/static/`: the agreement plugs plus a UI SDK showcase (an examples app, a guide, and per-socket "add a plug" demos)
 
 ## Data Flow
 
@@ -47,9 +47,16 @@ The frontend follows a small set of conventions:
   discovers these entry points by convention and emits one IIFE bundle per module
   into `static/<name>/index.js`. The bundle filename must match the `href` in the
   plug metadata, or MPT cannot load the iframe.
+- **Many similar plugs**: when the same UI must cover many sockets (the
+  `add-<socket>` showcase), each socket keeps its own thin module directory that
+  mounts a shared component with the socket passed as a prop. This stays within
+  the one-module-per-plug convention — there is deliberately no build-time
+  fan-out from a single source and no separate socket manifest, so a socket is
+  added or removed as one module directory plus one plug registration.
 - **Shared layer**: `frontend/src/shared/` holds reusable building blocks —
-  `components/` (presentational UI), `hooks/` (for example `useAgreement`, which
-  fetches `/api/v2/agreements/{id}` through the SDK `http` client and exposes
+  `components/` (presentational UI, including `AddPlugShowcase` reused by the
+  `add-*` modules), `hooks/` (for example `useAgreement`, which fetches
+  `/api/v2/agreements/{id}` through the SDK `http` client and exposes
   load/error/ready states), and `model.ts` (response types and formatters).
 - **Build output**: the build emits bundles plus sourcemaps, and TypeScript
   declarations under `static/types/`.
