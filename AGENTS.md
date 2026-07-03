@@ -27,7 +27,7 @@ Then inspect the code paths relevant to the task:
 - [`backend/pyproject.toml`](backend/pyproject.toml): backend dependencies, lint, test, and type-check configuration
 - [`backend/migrations/`](backend/migrations/): migration files managed by `mpt-tool`
 - [`backend/tests/`](backend/tests/): backend test suite
-- [`frontend/src/modules/`](frontend/src/modules/): React plug entry points (one bundle per module)
+- [`frontend/src/modules/`](frontend/src/modules/): React plug entry points (one bundle per module). Frontend authoring rules live in the shared [frontend standard](https://github.com/softwareone-platform/mpt-extension-skills/blob/main/standards/extensions-ui-best-practices.md)
 - [`frontend/src/shared/`](frontend/src/shared/): shared frontend components, hooks, and model helpers
 - [`frontend/esbuild.config.js`](frontend/esbuild.config.js): frontend build that emits plug bundles into `static/`
 - [`make/`](make): canonical commands used by the repository
