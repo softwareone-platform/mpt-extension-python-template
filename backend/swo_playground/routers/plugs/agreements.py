@@ -1,6 +1,8 @@
 from mpt_extension_sdk.routing import PlugRouter
 from mpt_extension_sdk.routing.plugs import Plug
 
+from swo_playground.routers.plugs.common import add_plug
+
 agreements_router = PlugRouter()
 
 
@@ -29,4 +31,5 @@ def agreement_plugs() -> list[Plug]:
             socket="portal.commerce.agreements.agreement.actions",
             href="/static/agreements-agreement-actions/index.js",
         ),
+        add_plug("portal.commerce.agreements.actions"),
     ]

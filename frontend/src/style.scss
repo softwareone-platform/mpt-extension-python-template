@@ -4,6 +4,35 @@
 @use 'fixes/modal-layout';
 @use 'fixes/wizard';
 
+// Raw-HTML typography used by the showcase modules (examples, guide, dialog,
+// add). Existing product modules render text through BoldText/RegularText, so
+// these element-level rules only affect the ported showcase content.
+h1, .__h1 {
+  @extend %regular6;
+}
+
+h2, .__h2 {
+  @extend %regular5;
+}
+
+h3, .__h3 {
+  @extend %regular4;
+}
+
+code, .__code {
+  background-color: var(--gray-1);
+  padding: 2px 6px;
+  border-radius: var(--radius-s);
+  font-family: monospace;
+}
+
+pre, .__pre {
+  background-color: var(--gray-1);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-m);
+  overflow-x: auto;
+}
+
 // Base typography on every element. The `%regular2` placeholder comes from the
 // SDK design tokens and provides the line-height / font-size / font-family the
 // platform host applies globally. We apply it here (top-level) because dart-sass
