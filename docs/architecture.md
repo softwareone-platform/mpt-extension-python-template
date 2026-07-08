@@ -40,19 +40,15 @@ Portal plugs are declared by backend metadata. The frontend build writes JavaScr
 
 ## Frontend
 
-The frontend follows a small set of conventions:
+Frontend authoring rules — SDK usage, module structure, styling, and iframe
+compatibility shims — live in the shared
+[frontend standard](https://github.com/softwareone-platform/mpt-extension-skills/blob/main/standards/extensions-ui-best-practices.md).
+This section only covers what is specific to *this* repository:
 
-- **Plugs**: each directory under `frontend/src/modules/<name>/` is a plug with an
-  `index.tsx` entry point. The esbuild config ([`frontend/esbuild.config.js`](../frontend/esbuild.config.js))
-  discovers these entry points by convention and emits one IIFE bundle per module
-  into `static/<name>/index.js`. The bundle filename must match the `href` in the
-  plug metadata, or MPT cannot load the iframe.
-- **Many similar plugs**: when the same UI must cover many sockets (the
-  `add-<socket>` showcase), each socket keeps its own thin module directory that
-  mounts a shared component with the socket passed as a prop. This stays within
-  the one-module-per-plug convention — there is deliberately no build-time
-  fan-out from a single source and no separate socket manifest, so a socket is
-  added or removed as one module directory plus one plug registration.
+- **Module layout**: each directory under `frontend/src/modules/<name>/` is a plug
+  with an `index.tsx` entry point; the esbuild config
+  ([`frontend/esbuild.config.js`](../frontend/esbuild.config.js)) emits one IIFE
+  bundle per module into `static/<name>/index.js`.
 - **Shared layer**: `frontend/src/shared/` holds reusable building blocks —
   `components/` (presentational UI, including `AddPlugShowcase` reused by the
   `add-*` modules), `hooks/` (for example `useAgreement`, which fetches
@@ -64,9 +60,9 @@ The frontend follows a small set of conventions:
 The static-asset bridge is the contract between the layers: the frontend writes
 into `static/`, the backend serves it at `/static`, and the dev/prod image stages
 differ in whether `static/` is bind-mounted or baked in (see
-[docs/deployment.md](deployment.md)). For the iframe-specific styling shims under
-`frontend/src/fixes/`, see the code comments — they are expected to shrink as the
-UI SDK evolves and are intentionally not documented here yet.
+[docs/deployment.md](deployment.md)). The iframe styling shims under
+`frontend/src/fixes/` exist for the reasons described in the shared standard's
+iframe-compatibility section.
 
 ## Persistence And Migrations
 

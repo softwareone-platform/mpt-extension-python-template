@@ -131,11 +131,9 @@ agreements `add` plug in [`agreements.py`](../backend/swo_playground/routers/plu
 The `add-*` plugs cover many near-identical sockets without duplicating logic:
 each is a thin module directory whose `index.tsx` mounts the shared
 [`AddPlugShowcase`](../frontend/src/shared/components/AddPlugShowcase.tsx)
-component with its socket passed as a prop. There is no build-time socket
-injection or shared socket manifest — one socket is one module directory plus
-one `add_plug(...)` line in the matching per-entity router (the helper lives in
-[`plugs/common.py`](../backend/swo_playground/routers/plugs/common.py); see
-[docs/architecture.md](architecture.md#frontend)).
+component with its socket passed as a prop, and each maps to one `add_plug(...)`
+line in the matching per-entity router (the helper lives in
+[`plugs/common.py`](../backend/swo_playground/routers/plugs/common.py)).
 
 A socket-less modal round-trip demo (a dialog/wizard opened purely via
 `useMPTModal().open()`) is intentionally not included yet: the backend `Plug`
