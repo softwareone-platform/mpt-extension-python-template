@@ -25,7 +25,7 @@ sync) — so you can exercise the playground without writing requests by hand.
 - `events_orders_router` — order event handling
 - `events_agreements_router` — agreement event handling
 - `api_agreements_router` — agreement API endpoints
-- `plug_portal_router` — top-level portal plugs (examples app, guide, `add` showcase)
+- `plug_portal_router` — top-level portal plugs (the `learn-extensions` navigation group with the examples app and guide nested under it, plus the `add` showcase)
 - `plug_agreements_router` — agreement plugs (the real examples plus the agreements `add` showcase)
 - `plug_orders_router` / `plug_subscriptions_router` / `plug_assets_router` / `plug_accounts_router` — per-entity `add` showcase plugs
 
@@ -116,7 +116,8 @@ Each module's `index.tsx` follows the same entry-point pattern: import the
 These plugs demonstrate the UI SDK breadth rather than a specific business flow.
 Like the agreement plugs, they are organised **per entity** — one `PlugRouter`
 file each: [`portal.py`](../backend/swo_playground/routers/plugs/portal.py)
-(top-level: examples, guide, `add`), [`orders.py`](../backend/swo_playground/routers/plugs/orders.py),
+(top-level: the `learn-extensions` group with examples and guide, `add`),
+[`orders.py`](../backend/swo_playground/routers/plugs/orders.py),
 [`subscriptions.py`](../backend/swo_playground/routers/plugs/subscriptions.py),
 [`assets.py`](../backend/swo_playground/routers/plugs/assets.py),
 [`accounts.py`](../backend/swo_playground/routers/plugs/accounts.py), and the
@@ -124,8 +125,9 @@ agreements `add` plug in [`agreements.py`](../backend/swo_playground/routers/plu
 
 | Plug id / socket | Frontend module | Demonstrates |
 | --- | --- | --- |
-| `examples` — `portal` | [`modules/examples/`](../frontend/src/modules/examples/) | A multi-tab React app (`react-router`) touring the UI SDK: Introduction, Basics, Context (`useMPTContext`), API calls (the `http` client feeding a server-driven `Grid` via `useGridWithRql` + RQL), and UI elements (buttons, inputs, selects, toggles, date pickers, grids, entity references) |
-| `guide` — `portal` | [`modules/guide/`](../frontend/src/modules/guide/) | Rendering bundled Markdown with `InlineMarkdown` (esbuild `.md` text loader) |
+| `learn-extensions` — `portal` | — (no bundle) | A `NavigationPlug` container: a href-less navigation grouping node whose id derives the nested socket `portal.learn-extensions` for the two plugs below |
+| `examples` — `portal.learn-extensions` | [`modules/examples/`](../frontend/src/modules/examples/) | A multi-tab React app (`react-router`) touring the UI SDK: Introduction, Basics, Context (`useMPTContext`), API calls (the `http` client feeding a server-driven `Grid` via `useGridWithRql` + RQL), and UI elements (buttons, inputs, selects, toggles, date pickers, grids, entity references) |
+| `guide` — `portal.learn-extensions` | [`modules/guide/`](../frontend/src/modules/guide/) | Rendering bundled Markdown with `InlineMarkdown` (esbuild `.md` text loader) |
 | `add-<socket>` (one per socket) | [`modules/add-*/`](../frontend/src/modules/) | A "plug here" scaffold shown on every remaining Portal socket, so the full set of sockets is covered |
 
 The `add-*` plugs cover many near-identical sockets without duplicating logic:
