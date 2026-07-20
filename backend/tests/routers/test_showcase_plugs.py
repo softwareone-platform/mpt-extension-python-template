@@ -27,12 +27,19 @@ def _socket_href(plug) -> tuple[str, str]:
     return plug.socket, plug.href
 
 
+def test_learn_extensions_container_registered():
+    result = {plug.id: plug.model_dump() for plug in ext_app.to_meta_config().plugs}
+
+    assert result["learn-extensions"]["socket"] == "portal"
+    assert result["learn-extensions"]["href"] is None
+
+
 def test_portal_showcase_plugs_registered():
     result = {plug.id: plug.model_dump() for plug in ext_app.to_meta_config().plugs}
 
-    assert result["examples"]["socket"] == "portal"
+    assert result["examples"]["socket"] == "portal.learn-extensions"
     assert result["examples"]["href"] == "/static/examples/index.js"
-    assert result["guide"]["socket"] == "portal"
+    assert result["guide"]["socket"] == "portal.learn-extensions"
     assert result["guide"]["href"] == "/static/guide/index.js"
 
 

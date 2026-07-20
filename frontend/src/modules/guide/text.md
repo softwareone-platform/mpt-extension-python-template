@@ -46,6 +46,32 @@ def showcase_plugs() -> list[Plug]:
 
 The router is then mounted on the extension app with `ext_app.include_router(showcase_router)`.
 
+### Nested Navigation
+
+To group Plugs under a two-level navigation entry, declare a `NavigationPlug` — a pure navigation
+container that ships no bundle (no `href`). Its `id` derives a nested socket (`<socket>.<id>`),
+exposed as `nested_socket`, that child Plugs target:
+
+```python
+from mpt_extension_sdk.routing.plugs import NavigationPlug, Plug
+
+learn_extensions = NavigationPlug(
+    id="learn-extensions",
+    name="Learn extensions",
+    socket="portal",
+)
+guide = Plug(
+    id="guide",
+    name="Extension guide",
+    description="Read about the essential basics of extensions development.",
+    socket=learn_extensions.nested_socket,  # portal.learn-extensions
+    href="/static/guide/index.js",
+)
+```
+
+This very guide is registered that way: the playground nests `guide` and `examples` under the
+`learn-extensions` group in the portal navigation.
+
 ## Building the Frontend
 
 Each directory under `frontend/src/modules` is an entry point. `esbuild` bundles every

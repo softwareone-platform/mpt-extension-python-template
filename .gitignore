@@ -56,3 +56,6 @@ static/*
 # Frontend
 **/node_modules/
 **/dist/
+
+# Claude
+.claude
