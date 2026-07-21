@@ -1,26 +1,7 @@
-// Shared factories + fixture for `agreements-line-actions` and
-// `agreements-agreement-actions` App tests. Names are prefixed with `mock` so
+// Shared factories for the modal plug and Modals view tests (`dialog`,
+// `wizard`, examples `Modals`). Names are prefixed with `mock` so
 // babel-plugin-jest-hoist allows referencing them from `jest.mock(...)` calls
 // (which get hoisted above imports).
-
-export const agreementPayload = {
-  assets: 3,
-  buyer: { id: 'BUY-1', name: 'Acme Buyer' },
-  client: { id: 'ACC-1', name: 'Acme Client' },
-  currency: 'USD',
-  id: 'AGR-1234-5678-9012',
-  lines: 2,
-  name: 'Adobe VIP Marketplace',
-  order: { id: 'ORD-1234', name: 'Adobe VIP Order' },
-  product: { id: 'PRD-1', name: 'Adobe' },
-  seller: { id: 'SEL-1', name: 'SoftwareOne' },
-  status: 'Active',
-  subscriptions: 1,
-};
-
-export const mockMptSdkFactory = () => ({
-  http: { get: jest.fn() },
-});
 
 export const mockMptSdkReactFactory = () => ({
   useMPTContext: jest.fn(),

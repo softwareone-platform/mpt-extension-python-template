@@ -9,6 +9,7 @@ import { Basics } from './views/Basics';
 import { Context } from './views/Context';
 import { Elements } from './views/Elements';
 import { Intro } from './views/Intro';
+import { Modals } from './views/Modals';
 
 function View() {
   const { tab } = useParams();
@@ -58,6 +59,11 @@ function View() {
         <Tab id="api" title="API calls">
           <Tab.Content>
             <Api />
+          </Tab.Content>
+        </Tab>
+        <Tab id="modals" title="Modals">
+          <Tab.Content>
+            <Modals />
           </Tab.Content>
         </Tab>
       </Tabs>

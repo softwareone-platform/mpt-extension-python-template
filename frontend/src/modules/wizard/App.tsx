@@ -1,31 +1,27 @@
-import { useMPTModal } from '@mpt-extension/sdk-react';
+import { useMPTContext, useMPTModal } from '@mpt-extension/sdk-react';
 import { RegularText } from '@softwareone-platform/sdk-react-ui-v0/text';
 import { StepProps, Wizard, WizardContextProps } from '@softwareone-platform/sdk-react-ui-v0/wizard';
 
-import { useAgreement } from '../../shared/hooks/useAgreement';
-import { useAgreementId } from '../../shared/hooks/useAgreementId';
-import { AgreementDetailsList } from '../../shared/components/AgreementDetailsList';
-import '../../shared/components/AgreementActionModal.scss';
+import '../../shared/components/ActionModal.scss';
 
 const steps: StepProps[] = [
   { title: 'Intro', secondaryTitle: 'About this wizard' },
-  { title: 'Details', secondaryTitle: 'Current agreement' },
+  { title: 'Context', secondaryTitle: 'What the opener sent' },
 ];
 
 export default function App() {
-  const agreementId = useAgreementId();
-  const { agreement, status } = useAgreement(agreementId);
+  const context = useMPTContext();
   const { close } = useMPTModal();
 
   return (
     <div className="wizard-container">
       <Wizard
         stepsProps={steps}
-        onClose={() => close()}
-        onSave={() => close()}
+        onClose={() => close({ completed: false })}
+        onSave={() => close({ completed: true })}
         navigation={{ next: 'Next', back: 'Back', close: 'Close', finish: 'Done' }}
       >
-        <Wizard.Header isToShowCloseButton>Agreement extension example</Wizard.Header>
+        <Wizard.Header isToShowCloseButton>Extension example wizard</Wizard.Header>
         <Wizard.Content>
           <Wizard.Content.Steps />
           <Wizard.Content.StepContent>
@@ -37,14 +33,19 @@ export default function App() {
                       Intro
                     </RegularText>
                     <RegularText as="p" size={2}>
-                      This is an example wizard that only displays the current agreement
-                      information. No changes will be made.
+                      This wizard has no socket: it was opened by id with useMPTModal().open() and
+                      reports back to the opener when it finishes.
                     </RegularText>
                   </div>
                 )}
                 {activeStepIndex === 1 && (
-                  <div className="agreement-action-modal__content agreement-action-modal__content--wizard">
-                    <AgreementDetailsList agreement={agreement} status={status} />
+                  <div className="action-modal__content action-modal__content--wizard">
+                    <RegularText as="p" size={2}>
+                      Context received from the opener:
+                    </RegularText>
+                    <pre>
+                      <code>{JSON.stringify(context ?? {}, null, 2)}</code>
+                    </pre>
                   </div>
                 )}
               </>

@@ -72,6 +72,26 @@ guide = Plug(
 This very guide is registered that way: the template nests `guide` under the
 `learn-extensions` group in the portal navigation.
 
+### Modal Plugs (Opened By Id)
+
+Some Plugs are never mounted on a socket: confirmation dialogs, wizards, and other ad-hoc modals
+that are only opened programmatically. Declare those as a `ModalPlug` — it has **no** `socket` and
+is opened by id with `useMPTModal().open('<plug-id>')`. The opener can pass a `context` payload
+(read in the modal via `useMPTContext()`), and the modal reports a result back with `close(data)`:
+
+```python
+from mpt_extension_sdk.routing.plugs import ModalPlug
+
+dialog = ModalPlug(
+    id="dialog",
+    name="Extension example dialog",
+    href="/static/dialog/index.js",
+)
+```
+
+The examples app's **Modals** view demonstrates the full round-trip with the template's
+`dialog` and `wizard` plugs.
+
 ## Building the Frontend
 
 Each directory under `frontend/src/modules` is an entry point. `esbuild` bundles every

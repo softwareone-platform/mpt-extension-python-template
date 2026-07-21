@@ -52,21 +52,28 @@ def test_app_generates_agreement_plug_metadata():
         "condition": None,
         "href": "/static/agreements-agreement/index.js",
     }
-    assert plugs_by_id["agreements-line-actions"] == {
-        "id": "agreements-line-actions",
-        "name": "Extension example line",
-        "description": "Show the current agreement details in a modal.",
+
+
+def test_app_generates_modal_plug_metadata():
+    result = ext_app.to_meta_config()
+
+    assert result.plugs is not None
+    plugs_by_id = {plug.id: plug.model_dump() for plug in result.plugs}
+    assert plugs_by_id["dialog"] == {
+        "id": "dialog",
+        "name": "Extension example dialog",
+        "description": "A dialog opened by id that returns a result to the opener.",
         "icon": None,
-        "socket": "portal.commerce.agreements.line.actions",
+        "socket": None,
         "condition": None,
-        "href": "/static/agreements-line-actions/index.js",
+        "href": "/static/dialog/index.js",
     }
-    assert plugs_by_id["agreements-agreement-actions"] == {
-        "id": "agreements-agreement-actions",
+    assert plugs_by_id["wizard"] == {
+        "id": "wizard",
         "name": "Extension example wizard",
-        "description": "Review the current agreement details in an extension example wizard.",
+        "description": "A multi-step wizard opened by id that returns a result to the opener.",
         "icon": None,
-        "socket": "portal.commerce.agreements.agreement.actions",
+        "socket": None,
         "condition": None,
-        "href": "/static/agreements-agreement-actions/index.js",
+        "href": "/static/wizard/index.js",
     }
