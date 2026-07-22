@@ -37,16 +37,16 @@ export default function App() {
         timeFormat: 'HH:mm',
       }}
     >
-      <div className="playground">
+      <div className="template">
         <ExtensionNavigation
-          ariaLabel="Playground sections"
+          ariaLabel="Extension sections"
           heading="Manage account"
           items={[{ href: '#sync-account', isActive: true, label: 'Sync account' }]}
         />
 
-        <section className="playground__content" id="sync-account">
-          <header className="playground__content-header">
-            <BoldText as="h2" size={4} className="playground__content-title">
+        <section className="template__content" id="sync-account">
+          <header className="template__content-header">
+            <BoldText as="h2" size={4} className="template__content-title">
               Sync account
             </BoldText>
             <RegularText as="p" size={2} color="grey-5">
@@ -68,8 +68,8 @@ export default function App() {
             link={{ linkText: 'Create helpdesk case', linkAddress: '#' }}
           />
 
-          <section className="playground__section">
-            <BoldText as="h3" size={3} className="playground__section-title">
+          <section className="template__section">
+            <BoldText as="h3" size={3} className="template__section-title">
               Synchronisation status
             </BoldText>
             <InPageHighlight style="inline" mode="sparse" direction="vertical">
@@ -90,8 +90,8 @@ export default function App() {
 
           <Divider />
 
-          <section className="playground__section">
-            <BoldText as="h3" size={3} className="playground__section-title">
+          <section className="template__section">
+            <BoldText as="h3" size={3} className="template__section-title">
               Synchronise now
             </BoldText>
             <RegularText as="p" size={2} color="grey-5">
@@ -115,7 +115,7 @@ export default function App() {
           )}
           {status === 'success' && (
             <InlineNotification status="warning" isStandalone>
-              This is a demo playground. The agreement was not modified.
+              This is an example. The agreement was not modified.
             </InlineNotification>
           )}
         </section>

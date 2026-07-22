@@ -1,7 +1,7 @@
 from mpt_extension_sdk.routing import PlugRouter
 from mpt_extension_sdk.routing.plugs import Plug
 
-from swo_playground.routers.plugs.common import add_plug
+from mpt_extension_python_template.routers.plugs.common import add_plug
 
 agreements_router = PlugRouter()
 
@@ -12,22 +12,22 @@ def agreement_plugs() -> list[Plug]:
     return [
         Plug(
             id="agreements-agreement",
-            name="Extension playground",
-            description="Show an extension playground tab with some actions.",
+            name="Extension example",
+            description="Show an extension example tab with some actions.",
             socket="portal.commerce.agreements.agreement",
             href="/static/agreements-agreement/index.js",
         ),
         Plug(
             id="agreements-line-actions",
-            name="Extension playground line",
+            name="Extension example line",
             description="Show the current agreement details in a modal.",
             socket="portal.commerce.agreements.line.actions",
             href="/static/agreements-line-actions/index.js",
         ),
         Plug(
             id="agreements-agreement-actions",
-            name="Extension playground wizard",
-            description="Review the current agreement details in an extension playground wizard.",
+            name="Extension example wizard",
+            description="Review the current agreement details in an extension example wizard.",
             socket="portal.commerce.agreements.agreement.actions",
             href="/static/agreements-agreement-actions/index.js",
         ),

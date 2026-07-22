@@ -1,12 +1,12 @@
-# SWO Extension Playground
+# MPT Extension Python Template
 
-`swo-extension-playground` is a minimal SoftwareOne Marketplace extension built on top of `mpt-extension-sdk` and `mpt-tool`.
+`mpt-extension-python-template` is a minimal SoftwareOne Marketplace extension built on top of `mpt-extension-sdk` and `mpt-tool`.
 
-It is primarily a playground repository: it shows the baseline extension shape, agreement API endpoints, order and agreement event listeners, small fulfillment pipelines, Marketplace Portal plugs (including a UI SDK showcase — an examples app, a guide, and per-socket plug demos), and the development workflow used by extension repositories in this ecosystem.
+It is primarily a template repository: it shows the baseline extension shape, agreement API endpoints, order and agreement event listeners, small fulfillment pipelines, Marketplace Portal plugs (including a UI SDK showcase — an examples app, a guide, and per-socket plug demos), and the development workflow used by extension repositories in this ecosystem.
 
 ## Repository Layout
 
-- `backend/swo_playground/` contains the extension package.
+- `backend/mpt_extension_python_template/` contains the extension package.
 - `backend/tests/` contains the pytest suite.
 - `frontend/` contains the React plug source code.
 - `static/` contains generated plug assets served by the extension.

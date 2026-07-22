@@ -48,7 +48,7 @@ Repository-specific test settings come from [`backend/pyproject.toml`](../backen
 
 - tests are discovered under `tests`
 - `pythonpath` includes the repository root
-- coverage is collected for `swo_playground`
+- coverage is collected for `mpt_extension_python_template`
 - tests run with `--import-mode=importlib`
 
 ## Writing Tests

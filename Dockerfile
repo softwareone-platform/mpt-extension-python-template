@@ -43,7 +43,7 @@ CMD ["mpt-ext", "run"]
 FROM base AS prod
 
 COPY --from=build /opt/venv /opt/venv
-COPY --from=build /extension/swo_playground ./swo_playground
+COPY --from=build /extension/mpt_extension_python_template ./mpt_extension_python_template
 COPY --from=build /extension/migrations ./migrations
 COPY --from=frontend-build /static ./static
 

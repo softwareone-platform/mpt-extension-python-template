@@ -4,7 +4,7 @@ from mpt_extension_sdk.routing import (
     PlugRouteDefinition,
 )
 
-from swo_playground.app import ext_app
+from mpt_extension_python_template.app import ext_app
 
 
 def test_app_registers_event_routes():
@@ -45,8 +45,8 @@ def test_app_generates_agreement_plug_metadata():
     plugs_by_id = {plug.id: plug.model_dump() for plug in result.plugs}
     assert plugs_by_id["agreements-agreement"] == {
         "id": "agreements-agreement",
-        "name": "Extension playground",
-        "description": "Show an extension playground tab with some actions.",
+        "name": "Extension example",
+        "description": "Show an extension example tab with some actions.",
         "icon": None,
         "socket": "portal.commerce.agreements.agreement",
         "condition": None,
@@ -54,7 +54,7 @@ def test_app_generates_agreement_plug_metadata():
     }
     assert plugs_by_id["agreements-line-actions"] == {
         "id": "agreements-line-actions",
-        "name": "Extension playground line",
+        "name": "Extension example line",
         "description": "Show the current agreement details in a modal.",
         "icon": None,
         "socket": "portal.commerce.agreements.line.actions",
@@ -63,8 +63,8 @@ def test_app_generates_agreement_plug_metadata():
     }
     assert plugs_by_id["agreements-agreement-actions"] == {
         "id": "agreements-agreement-actions",
-        "name": "Extension playground wizard",
-        "description": "Review the current agreement details in an extension playground wizard.",
+        "name": "Extension example wizard",
+        "description": "Review the current agreement details in an extension example wizard.",
         "icon": None,
         "socket": "portal.commerce.agreements.agreement.actions",
         "condition": None,

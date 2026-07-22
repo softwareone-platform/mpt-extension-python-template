@@ -22,7 +22,7 @@ A typical extension has two parts:
 
 ## Declaring Plugs
 
-Unlike a `meta.yaml`-based extension, this playground declares its Plugs **in Python** using a
+Unlike a `meta.yaml`-based extension, this template declares its Plugs **in Python** using a
 `PlugRouter`. Each `Plug` maps a socket to the static bundle that fills it:
 
 ```python
@@ -69,7 +69,7 @@ guide = Plug(
 )
 ```
 
-This very guide is registered that way: the playground nests `guide` and `examples` under the
+This very guide is registered that way: the template nests `guide` under the
 `learn-extensions` group in the portal navigation.
 
 ## Building the Frontend

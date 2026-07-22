@@ -103,7 +103,7 @@ reference lives in [docs/deployment.md](deployment.md); do not duplicate it here
   including the `SDK_EXTENSION_*` values and `MPT_API_BASE_URL=http://devmock:8000`.
 - **`make run`**: `backend/.env` is optional for Compose to start the container,
   but the extension needs real Marketplace settings to integrate — at minimum
-  `MPT_PRODUCTS_IDS` (enforced by [`settings.py`](../backend/swo_playground/settings.py)),
+  `MPT_PRODUCTS_IDS` (enforced by [`settings.py`](../backend/mpt_extension_python_template/settings.py)),
   `MPT_API_BASE_URL`, and the `SDK_EXTENSION_API_KEY` / `SDK_EXTENSION_ID` /
   `SDK_EXTENSION_URL` values for the target Marketplace.
 

@@ -11,7 +11,7 @@
       "status": 404,
       "title": "Not Found",
       "detail": "Entity for given id not-found not found",
-      "trace_id": "fake-playground-trace-id"
+      "trace_id": "fake-sample-trace-id"
     }
   },
   "priority": 1

@@ -1,7 +1,7 @@
 from mpt_extension_sdk.routing import PlugRouter
 from mpt_extension_sdk.routing.plugs import Plug
 
-from swo_playground.routers.plugs.common import add_plug
+from mpt_extension_python_template.routers.plugs.common import add_plug
 
 assets_router = PlugRouter()
 

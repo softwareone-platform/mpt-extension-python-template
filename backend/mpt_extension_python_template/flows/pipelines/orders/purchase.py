@@ -2,11 +2,11 @@ from typing import override
 
 from mpt_extension_sdk.pipeline import BasePipeline, BaseStep
 
-from swo_playground.flows.steps.log_order import LogOrderStep
+from mpt_extension_python_template.flows.steps.log_order import LogOrderStep
 
 
 class PurchasePipeline(BasePipeline):
-    """Purchase pipeline used by the playground event route."""
+    """Purchase pipeline used by the example event route."""
 
     @override
     @property

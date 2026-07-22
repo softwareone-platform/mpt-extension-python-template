@@ -25,15 +25,15 @@ export default function App() {
         onSave={() => close()}
         navigation={{ next: 'Next', back: 'Back', close: 'Close', finish: 'Done' }}
       >
-        <Wizard.Header isToShowCloseButton>Agreement extension playground</Wizard.Header>
+        <Wizard.Header isToShowCloseButton>Agreement extension example</Wizard.Header>
         <Wizard.Content>
           <Wizard.Content.Steps />
           <Wizard.Content.StepContent>
             {({ activeStepIndex }: WizardContextProps) => (
               <>
                 {activeStepIndex === 0 && (
-                  <div className="playground__section">
-                    <RegularText as="h2" size={4} className="playground__section-title">
+                  <div className="template__section">
+                    <RegularText as="h2" size={4} className="template__section-title">
                       Intro
                     </RegularText>
                     <RegularText as="p" size={2}>
