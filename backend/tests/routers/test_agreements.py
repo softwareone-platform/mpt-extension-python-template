@@ -3,7 +3,7 @@ from mpt_api_client.resources.commerce.agreements import Agreement
 from mpt_extension_sdk.api.context import APIContext
 from mpt_extension_sdk.services.mpt_api_service.base import PaginatedCollection
 
-from swo_playground.routers.api.agreement import (
+from mpt_extension_python_template.routers.api.agreement import (
     get_agreement,
     get_agreements,
     sync_agreement,

@@ -1,6 +1,6 @@
 # Examples
 
-This repository is a playground: the code under `backend/swo_playground/` and
+This repository is a template: the code under `backend/mpt_extension_python_template/` and
 `frontend/src/` is a set of small, working examples of the extension building
 blocks. This document is a guided tour of those examples and where to find them.
 
@@ -15,11 +15,11 @@ is a ready-made Postman collection for a locally running backend (default
 is wired automatically through a collection-level pre-request script. It contains
 sample requests for the example routes below — `/health`, the order and agreement
 events, and the agreement API (including list pagination, get, not-found, and
-sync) — so you can exercise the playground without writing requests by hand.
+sync) — so you can exercise the template without writing requests by hand.
 
 ## Application Wiring
 
-[`backend/swo_playground/app.py`](../backend/swo_playground/app.py) creates the
+[`backend/mpt_extension_python_template/app.py`](../backend/mpt_extension_python_template/app.py) creates the
 `ExtensionApp` and registers every example router:
 
 - `events_orders_router` — order event handling
@@ -33,7 +33,7 @@ Each router below is an independent example and can be read on its own.
 
 ## API Endpoints
 
-[`backend/swo_playground/routers/api/agreement.py`](../backend/swo_playground/routers/api/agreement.py)
+[`backend/mpt_extension_python_template/routers/api/agreement.py`](../backend/mpt_extension_python_template/routers/api/agreement.py)
 exposes an `APIRouter` under `/api/v2/agreements`:
 
 | Route | Name | Demonstrates |
@@ -48,16 +48,16 @@ The `sync` route is the backend half of the frontend "Sync now" example (see
 
 ## Events
 
-The playground shows the two event styles supported by the SDK:
+The template shows the two event styles supported by the SDK:
 
 - **Task event** —
-  [`routers/events/order.py`](../backend/swo_playground/routers/events/order.py)
+  [`routers/events/order.py`](../backend/mpt_extension_python_template/routers/events/order.py)
   registers `@orders_router.task("/purchase")` for
   `platform.commerce.order.status_changed`, filtered by a `condition` on the
   configured `product.id`s. It receives a standard `OrderContext` and runs the
   `PurchasePipeline`.
 - **Non-task event with a custom context** —
-  [`routers/events/agreement.py`](../backend/swo_playground/routers/events/agreement.py)
+  [`routers/events/agreement.py`](../backend/mpt_extension_python_template/routers/events/agreement.py)
   registers `@agreements_router.event("/complete")` for
   `platform.commerce.agreement.status_changed`, with a richer condition
   (`...,eq(status,Active)`) and a `context_adapter_type=EventAgreementContext`. It
@@ -71,11 +71,11 @@ how event registration uses extension settings.
 Event handlers delegate to small pipelines, demonstrating the
 pipeline/step composition pattern:
 
-- [`flows/pipelines/orders/purchase.py`](../backend/swo_playground/flows/pipelines/orders/purchase.py)
-  (`PurchasePipeline`) → [`flows/steps/log_order.py`](../backend/swo_playground/flows/steps/log_order.py)
+- [`flows/pipelines/orders/purchase.py`](../backend/mpt_extension_python_template/flows/pipelines/orders/purchase.py)
+  (`PurchasePipeline`) → [`flows/steps/log_order.py`](../backend/mpt_extension_python_template/flows/steps/log_order.py)
   (`LogOrderStep`, logs the order id).
-- [`flows/pipelines/agreements/complete.py`](../backend/swo_playground/flows/pipelines/agreements/complete.py)
-  (`CompleteAgreementPipeline`) → [`flows/steps/log_agreement.py`](../backend/swo_playground/flows/steps/log_agreement.py)
+- [`flows/pipelines/agreements/complete.py`](../backend/mpt_extension_python_template/flows/pipelines/agreements/complete.py)
+  (`CompleteAgreementPipeline`) → [`flows/steps/log_agreement.py`](../backend/mpt_extension_python_template/flows/steps/log_agreement.py)
   (`LogAgreementStep`, logs the agreement id and the custom context field).
 
 A pipeline is a `BasePipeline` whose `steps` property returns an ordered list of
@@ -84,7 +84,7 @@ fulfillment logic would go.
 
 ## Custom Context
 
-[`backend/swo_playground/context/agreement.py`](../backend/swo_playground/context/agreement.py)
+[`backend/mpt_extension_python_template/context/agreement.py`](../backend/mpt_extension_python_template/context/agreement.py)
 defines `EventAgreementContext`, an example context adapter that extends the SDK
 `AgreementContext` with an extra `mock_field` and overrides `from_context`. It is
 wired into the agreement event (`context_adapter_type=...`) and consumed by
@@ -93,7 +93,7 @@ pipeline.
 
 ## Plugs
 
-[`backend/swo_playground/routers/plugs/agreements.py`](../backend/swo_playground/routers/plugs/agreements.py)
+[`backend/mpt_extension_python_template/routers/plugs/agreements.py`](../backend/mpt_extension_python_template/routers/plugs/agreements.py)
 declares three Marketplace Portal plugs through a `PlugRouter`. Each plug points
 at a frontend bundle via `href` and binds to a Portal `socket`. The frontend
 module names match the bundle paths one-to-one:
@@ -115,13 +115,13 @@ Each module's `index.tsx` follows the same entry-point pattern: import the
 
 These plugs demonstrate the UI SDK breadth rather than a specific business flow.
 Like the agreement plugs, they are organised **per entity** — one `PlugRouter`
-file each: [`portal.py`](../backend/swo_playground/routers/plugs/portal.py)
+file each: [`portal.py`](../backend/mpt_extension_python_template/routers/plugs/portal.py)
 (top-level: the `learn-extensions` group with examples and guide, `add`),
-[`orders.py`](../backend/swo_playground/routers/plugs/orders.py),
-[`subscriptions.py`](../backend/swo_playground/routers/plugs/subscriptions.py),
-[`assets.py`](../backend/swo_playground/routers/plugs/assets.py),
-[`accounts.py`](../backend/swo_playground/routers/plugs/accounts.py), and the
-agreements `add` plug in [`agreements.py`](../backend/swo_playground/routers/plugs/agreements.py):
+[`orders.py`](../backend/mpt_extension_python_template/routers/plugs/orders.py),
+[`subscriptions.py`](../backend/mpt_extension_python_template/routers/plugs/subscriptions.py),
+[`assets.py`](../backend/mpt_extension_python_template/routers/plugs/assets.py),
+[`accounts.py`](../backend/mpt_extension_python_template/routers/plugs/accounts.py), and the
+agreements `add` plug in [`agreements.py`](../backend/mpt_extension_python_template/routers/plugs/agreements.py):
 
 | Plug id / socket | Frontend module | Demonstrates |
 | --- | --- | --- |
@@ -135,7 +135,7 @@ each is a thin module directory whose `index.tsx` mounts the shared
 [`AddPlugShowcase`](../frontend/src/shared/components/AddPlugShowcase.tsx)
 component with its socket passed as a prop, and each maps to one `add_plug(...)`
 line in the matching per-entity router (the helper lives in
-[`plugs/common.py`](../backend/swo_playground/routers/plugs/common.py)).
+[`plugs/common.py`](../backend/mpt_extension_python_template/routers/plugs/common.py)).
 
 A socket-less modal round-trip demo (a dialog/wizard opened purely via
 `useMPTModal().open()`) is intentionally not included yet: the backend `Plug`

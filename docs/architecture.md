@@ -2,18 +2,18 @@
 
 Keep this document focused on actual architecture decisions for the repository.
 
-This repository is a small Marketplace extension playground. It is intentionally minimal, but it now has stable backend and frontend examples that should stay documented here.
+This repository is a small Marketplace extension template. It is intentionally minimal, but it now has stable backend and frontend examples that should stay documented here.
 
 ## Runtime Components
 
-- `backend/swo_playground/app.py` creates the `ExtensionApp` and registers all routers.
-- `backend/swo_playground/settings.py` defines `ExtensionSettings` and the required environment variables (for example `MPT_PRODUCTS_IDS`).
-- `backend/swo_playground/routers/api/` exposes extension API endpoints.
-- `backend/swo_playground/routers/events/` declares Marketplace event handlers.
-- `backend/swo_playground/flows/pipelines/` contains simple order and agreement pipelines.
-- `backend/swo_playground/flows/steps/` contains reusable pipeline steps.
-- `backend/swo_playground/context/` contains context adapters (for example `EventAgreementContext`) used by pipelines.
-- `backend/swo_playground/routers/plugs/` declares Marketplace Portal plug metadata.
+- `backend/mpt_extension_python_template/app.py` creates the `ExtensionApp` and registers all routers.
+- `backend/mpt_extension_python_template/settings.py` defines `ExtensionSettings` and the required environment variables (for example `MPT_PRODUCTS_IDS`).
+- `backend/mpt_extension_python_template/routers/api/` exposes extension API endpoints.
+- `backend/mpt_extension_python_template/routers/events/` declares Marketplace event handlers.
+- `backend/mpt_extension_python_template/flows/pipelines/` contains simple order and agreement pipelines.
+- `backend/mpt_extension_python_template/flows/steps/` contains reusable pipeline steps.
+- `backend/mpt_extension_python_template/context/` contains context adapters (for example `EventAgreementContext`) used by pipelines.
+- `backend/mpt_extension_python_template/routers/plugs/` declares Marketplace Portal plug metadata.
 - `frontend/src/modules/` contains the React plug entry points.
 - `static/` contains generated frontend bundles served by the backend.
 

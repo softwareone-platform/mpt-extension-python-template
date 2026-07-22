@@ -1,5 +1,5 @@
-from swo_playground.app import ext_app
-from swo_playground.routers.plugs.common import add_plug
+from mpt_extension_python_template.app import ext_app
+from mpt_extension_python_template.routers.plugs.common import add_plug
 
 # Sockets served by the per-socket `add` showcase, registered across the
 # per-entity plug routers (portal / orders / subscriptions / agreements /

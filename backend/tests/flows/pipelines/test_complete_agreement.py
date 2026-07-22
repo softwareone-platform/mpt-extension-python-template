@@ -1,5 +1,7 @@
-from swo_playground.flows.pipelines.agreements.complete import CompleteAgreementPipeline
-from swo_playground.flows.steps.log_agreement import LogAgreementStep
+from mpt_extension_python_template.flows.pipelines.agreements.complete import (
+    CompleteAgreementPipeline,
+)
+from mpt_extension_python_template.flows.steps.log_agreement import LogAgreementStep
 
 
 def test_complete_agreement_pipeline_steps():

@@ -5,7 +5,7 @@ export function Intro() {
 
       <p>
         Assuming you already created an Extension in the platform UI and you have its backend up and
-        running based on this playground application or a solution of your own, your next step would
+        running based on this template application or a solution of your own, your next step would
         be to create an actual UI for your extension.
       </p>
 

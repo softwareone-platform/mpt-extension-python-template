@@ -69,7 +69,7 @@ export function AddPlugShowcase({ socket }: { socket: string }) {
   const body = (
     <>
       <p>
-        Fill in the fields below to generate plug configuration. In this playground plugs are declared
+        Fill in the fields below to generate plug configuration. In this template plugs are declared
         in Python via a <code>PlugRouter</code> — but the same fields (<code>id</code>,{' '}
         <code>name</code>, <code>description</code>, <code>socket</code>, <code>href</code>,{' '}
         <code>condition</code>) map one-to-one, so you can use this as a scratchpad. Then build a JS
