@@ -26,7 +26,8 @@ sync) — so you can exercise the template without writing requests by hand.
 - `events_agreements_router` — agreement event handling
 - `api_agreements_router` — agreement API endpoints
 - `plug_portal_router` — top-level portal plugs (the `learn-extensions` navigation group with the examples app and guide nested under it, plus the `add` showcase)
-- `plug_agreements_router` — agreement plugs (the real examples plus the agreements `add` showcase)
+- `plug_modals_router` — socketless modal plugs (`dialog` and `wizard`) opened by id from the examples "Modals" view
+- `plug_agreements_router` — agreement plugs (the agreement tab example plus the agreements `add` showcase)
 - `plug_orders_router` / `plug_subscriptions_router` / `plug_assets_router` / `plug_accounts_router` — per-entity `add` showcase plugs
 
 Each router below is an independent example and can be read on its own.
@@ -94,20 +95,40 @@ pipeline.
 ## Plugs
 
 [`backend/mpt_extension_python_template/routers/plugs/agreements.py`](../backend/mpt_extension_python_template/routers/plugs/agreements.py)
-declares three Marketplace Portal plugs through a `PlugRouter`. Each plug points
+declares a Marketplace Portal plug through a `PlugRouter`. The plug points
 at a frontend bundle via `href` and binds to a Portal `socket`. The frontend
-module names match the bundle paths one-to-one:
+module name matches the bundle path one-to-one:
 
 | Plug id / socket | Frontend module | Demonstrates |
 | --- | --- | --- |
 | `agreements-agreement` — `portal.commerce.agreements.agreement` | [`modules/agreements-agreement/`](../frontend/src/modules/agreements-agreement/) | A full agreement tab: sync status, `useAgreementSync`, status chips, and a "Sync now" action calling the `sync` API |
-| `agreements-line-actions` — `portal.commerce.agreements.line.actions` | [`modules/agreements-line-actions/`](../frontend/src/modules/agreements-line-actions/) | A modal (`useMPTModal`) that renders agreement details with a Close action |
-| `agreements-agreement-actions` — `portal.commerce.agreements.agreement.actions` | [`modules/agreements-agreement-actions/`](../frontend/src/modules/agreements-agreement-actions/) | A multi-step `Wizard` that reviews agreement details (read-only) |
+
+## Modal Plugs (Opened By Id)
+
+[`backend/mpt_extension_python_template/routers/plugs/modals.py`](../backend/mpt_extension_python_template/routers/plugs/modals.py)
+declares two `ModalPlug`s. A modal plug has **no socket**: the platform never
+renders it as a page action, and it exists only to be opened programmatically
+by id via `useMPTModal().open('<plug-id>')`. The examples app "Modals" view
+([`modules/examples/views/Modals.tsx`](../frontend/src/modules/examples/views/Modals.tsx))
+opens both plugs by id, passes a `context` payload to them, and displays the
+result each modal reports back through `close(data)` (delivered to the opener's
+`onClose` callback):
+
+| Plug id | Frontend module | Demonstrates |
+| --- | --- | --- |
+| `dialog` | [`modules/dialog/`](../frontend/src/modules/dialog/) | A confirmation dialog that renders the opener's `question` from `useMPTContext()` and returns `{ confirmed: true/false }` |
+| `wizard` | [`modules/wizard/`](../frontend/src/modules/wizard/) | A multi-step `Wizard` that echoes the opener context and returns `{ completed: true/false }` |
+
+The result objects above are what these modals pass to `close(data)`. When a
+modal is dismissed without an explicit close — for example through the
+platform's modal chrome — `onClose` receives `undefined`, so openers must guard
+against an `undefined` result before reading fields like `confirmed` or
+`completed`.
 
 Each module's `index.tsx` follows the same entry-point pattern: import the
 `safe-storage` shim, call `setup()` from `@mpt-extension/sdk`, and mount the
-`App` with `createRoot`. The shared building blocks they reuse (`useAgreement`,
-`useAgreementId`, `AgreementDetailsList`, `model.ts`) live under
+`App` with `createRoot`. The shared building blocks the agreement tab reuses
+(`useAgreement`, `useAgreementId`, `AgreementDetailsList`, `model.ts`) live under
 [`frontend/src/shared/`](../frontend/src/shared/); see
 [docs/architecture.md](architecture.md#frontend) for the frontend structure.
 
@@ -126,7 +147,7 @@ agreements `add` plug in [`agreements.py`](../backend/mpt_extension_python_templ
 | Plug id / socket | Frontend module | Demonstrates |
 | --- | --- | --- |
 | `learn-extensions` — `portal` | — (no bundle) | A `NavigationPlug` container: a href-less navigation grouping node whose id derives the nested socket `portal.learn-extensions` for the two plugs below |
-| `examples` — `portal.learn-extensions` | [`modules/examples/`](../frontend/src/modules/examples/) | A multi-tab React app (`react-router`) touring the UI SDK: Introduction, Basics, Context (`useMPTContext`), API calls (the `http` client feeding a server-driven `Grid` via `useGridWithRql` + RQL), and UI elements (buttons, inputs, selects, toggles, date pickers, grids, entity references) |
+| `examples` — `portal.learn-extensions` | [`modules/examples/`](../frontend/src/modules/examples/) | A multi-tab React app (`react-router`) touring the UI SDK: Introduction, Basics, Context (`useMPTContext`), API calls (the `http` client feeding a server-driven `Grid` via `useGridWithRql` + RQL), UI elements (buttons, inputs, selects, toggles, date pickers, grids, entity references), and Modals (the socketless `dialog` / `wizard` round-trip via `useMPTModal().open()`) |
 | `guide` — `portal.learn-extensions` | [`modules/guide/`](../frontend/src/modules/guide/) | Rendering bundled Markdown with `InlineMarkdown` (esbuild `.md` text loader) |
 | `add-<socket>` (one per socket) | [`modules/add-*/`](../frontend/src/modules/) | A "plug here" scaffold shown on every remaining Portal socket, so the full set of sockets is covered |
 
@@ -136,10 +157,6 @@ each is a thin module directory whose `index.tsx` mounts the shared
 component with its socket passed as a prop, and each maps to one `add_plug(...)`
 line in the matching per-entity router (the helper lives in
 [`plugs/common.py`](../backend/mpt_extension_python_template/routers/plugs/common.py)).
-
-A socket-less modal round-trip demo (a dialog/wizard opened purely via
-`useMPTModal().open()`) is intentionally not included yet: the backend `Plug`
-requires a `socket`, so it awaits a dedicated modal plug type in the SDK.
 
 ## Migrations
 

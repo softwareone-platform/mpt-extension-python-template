@@ -28,7 +28,7 @@ The extension currently registers:
 - agreement API routes under `/api/v2/agreements`
 - order event route `/events/v2/orders/purchase`
 - agreement event route `/events/v2/agreements/complete`
-- Marketplace Portal plugs that load bundles from `/static/`: the agreement plugs plus a UI SDK showcase (an examples app, a guide, and per-socket "add a plug" demos)
+- Marketplace Portal plugs that load bundles from `/static/`: the agreement plug, socketless modal plugs opened by id, and a UI SDK showcase (an examples app, a guide, and per-socket "add a plug" demos)
 
 ## Data Flow
 

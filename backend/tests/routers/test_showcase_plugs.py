@@ -15,6 +15,8 @@ ADD_SOCKETS = (
     "portal.commerce.subscriptions.subscription",
     "portal.commerce.subscriptions.subscription.actions",
     "portal.commerce.agreements.actions",
+    "portal.commerce.agreements.line.actions",
+    "portal.commerce.agreements.agreement.actions",
     "portal.commerce.assets.actions",
     "portal.commerce.assets.line.actions",
     "portal.commerce.assets.asset",

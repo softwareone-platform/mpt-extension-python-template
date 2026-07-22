@@ -17,19 +17,7 @@ def agreement_plugs() -> list[Plug]:
             socket="portal.commerce.agreements.agreement",
             href="/static/agreements-agreement/index.js",
         ),
-        Plug(
-            id="agreements-line-actions",
-            name="Extension example line",
-            description="Show the current agreement details in a modal.",
-            socket="portal.commerce.agreements.line.actions",
-            href="/static/agreements-line-actions/index.js",
-        ),
-        Plug(
-            id="agreements-agreement-actions",
-            name="Extension example wizard",
-            description="Review the current agreement details in an extension example wizard.",
-            socket="portal.commerce.agreements.agreement.actions",
-            href="/static/agreements-agreement-actions/index.js",
-        ),
         add_plug("portal.commerce.agreements.actions"),
+        add_plug("portal.commerce.agreements.line.actions"),
+        add_plug("portal.commerce.agreements.agreement.actions"),
     ]

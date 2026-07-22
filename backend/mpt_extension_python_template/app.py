@@ -14,6 +14,7 @@ from mpt_extension_python_template.routers.plugs.agreements import (
     agreements_router as plug_agreements_router,
 )
 from mpt_extension_python_template.routers.plugs.assets import assets_router as plug_assets_router
+from mpt_extension_python_template.routers.plugs.modals import modals_router as plug_modals_router
 from mpt_extension_python_template.routers.plugs.orders import orders_router as plug_orders_router
 from mpt_extension_python_template.routers.plugs.portal import portal_router as plug_portal_router
 from mpt_extension_python_template.routers.plugs.subscriptions import (
@@ -25,6 +26,7 @@ ext_app.include_router(events_orders_router)
 ext_app.include_router(events_agreements_router)
 ext_app.include_router(api_agreements_router)
 ext_app.include_router(plug_portal_router)
+ext_app.include_router(plug_modals_router)
 ext_app.include_router(plug_agreements_router)
 ext_app.include_router(plug_orders_router)
 ext_app.include_router(plug_subscriptions_router)
