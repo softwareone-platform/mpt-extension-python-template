@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build:code": "node esbuild.config.js",
-    "build:types": "tsc -p tsconfig.build.json",
+    "build:types": "tsc -p tsconfig.build.json && cp src/globals.d.ts ../static/types/",
     "build": "npm run build:code && npm run build:types",
     "check": "tsc -p tsconfig.json --noEmit && eslint src --max-warnings=0",
     "format": "eslint src --fix",
