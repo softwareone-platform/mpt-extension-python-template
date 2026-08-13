@@ -34,7 +34,7 @@ The extension currently registers:
 
 Agreement API handlers read Marketplace agreement data through the SDK API service and return SDK `APIResponse` objects.
 
-Event handlers receive Marketplace event payloads, log the event context, and execute a small pipeline. The pipelines are deliberately simple examples and should remain focused on extension-layer behavior rather than SDK internals.
+Event handlers receive Marketplace event payloads, log the event context, and execute a small pipeline. The purchase pipeline also reuses the shared `StartOrderProcessing` and `CompleteOrder` steps from `mpt-extension-contrib-order-status` to move the order through its status templates. The pipelines are deliberately simple examples and should remain focused on extension-layer behavior rather than SDK internals.
 
 Portal plugs are declared by backend metadata. The frontend build writes JavaScript bundles into `static/`; those bundles are referenced by plug `href` values and mounted into the backend container.
 

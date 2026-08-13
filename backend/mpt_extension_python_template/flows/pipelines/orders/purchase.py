@@ -1,5 +1,6 @@
 from typing import override
 
+from mpt_extension_contrib.order_status import CompleteOrder, StartOrderProcessing
 from mpt_extension_sdk.pipeline import BasePipeline, BaseStep
 
 from mpt_extension_python_template.flows.steps.log_order import LogOrderStep
@@ -11,4 +12,8 @@ class PurchasePipeline(BasePipeline):
     @override
     @property
     def steps(self) -> list[BaseStep]:
-        return [LogOrderStep()]
+        return [
+            StartOrderProcessing(),
+            LogOrderStep(),
+            CompleteOrder(),
+        ]

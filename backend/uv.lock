@@ -1298,10 +1298,23 @@ wheels = [
 ]
 
 [[package]]
+name = "mpt-extension-contrib-order-status"
+version = "1.0.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mpt-extension-sdk" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bb/8e/2bcb212691bf491cc49dbcf11716947d1c26eb21d03015ba3ee34d3dd118/mpt_extension_contrib_order_status-1.0.0.tar.gz", hash = "sha256:becbf3f8b8d35996fd5b9428e60db034dfb1d2e8c434c9b5e599cc9fb4051009", size = 7685, upload-time = "2026-07-07T10:51:59.128Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/05/30/6cbd2eb91e09414e92e6caf36028be85d7e0b7b1ddf3c782617b753a3675/mpt_extension_contrib_order_status-1.0.0-py3-none-any.whl", hash = "sha256:9b12de6c9eb8d1dd1e3a2e979978d9d99555da097ea1decb16da52bc5af3cc84", size = 9575, upload-time = "2026-07-07T10:51:58.142Z" },
+]
+
+[[package]]
 name = "mpt-extension-python-template"
 version = "6.0.0"
 source = { editable = "." }
 dependencies = [
+    { name = "mpt-extension-contrib-order-status" },
     { name = "mpt-extension-sdk" },
     { name = "mpt-tool" },
 ]
@@ -1325,6 +1338,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "mpt-extension-contrib-order-status", specifier = "==1.0.*" },
     { name = "mpt-extension-sdk", specifier = "==6.6.*" },
     { name = "mpt-tool", specifier = "==6.0.*" },
 ]
