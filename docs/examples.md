@@ -73,15 +73,20 @@ Event handlers delegate to small pipelines, demonstrating the
 pipeline/step composition pattern:
 
 - [`flows/pipelines/orders/purchase.py`](../backend/mpt_extension_python_template/flows/pipelines/orders/purchase.py)
-  (`PurchasePipeline`) → [`flows/steps/log_order.py`](../backend/mpt_extension_python_template/flows/steps/log_order.py)
-  (`LogOrderStep`, logs the order id).
+  (`PurchasePipeline`) → `StartOrderProcessing` and `CompleteOrder` from
+  [`mpt-extension-contrib-order-status`](https://github.com/softwareone-platform/mpt-extension-python-contrib/tree/main/order-status)
+  around [`flows/steps/log_order.py`](../backend/mpt_extension_python_template/flows/steps/log_order.py)
+  (`LogOrderStep`, logs the order id). The contrib steps switch the order to
+  `Processing` and `Completed` using the product's default status templates
+  (pass `template_name=...` to select a named template instead).
 - [`flows/pipelines/agreements/complete.py`](../backend/mpt_extension_python_template/flows/pipelines/agreements/complete.py)
   (`CompleteAgreementPipeline`) → [`flows/steps/log_agreement.py`](../backend/mpt_extension_python_template/flows/steps/log_agreement.py)
   (`LogAgreementStep`, logs the agreement id and the custom context field).
 
 A pipeline is a `BasePipeline` whose `steps` property returns an ordered list of
-`BaseStep`s. The steps here only log, on purpose — they are the place real
-fulfillment logic would go.
+`BaseStep`s. `PurchasePipeline` shows both kinds of steps: shared steps reused
+from a contrib library and a local step (`LogOrderStep`) standing in for the
+extension's own fulfillment logic.
 
 ## Custom Context
 
