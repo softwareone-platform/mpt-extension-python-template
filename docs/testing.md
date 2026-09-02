@@ -14,6 +14,7 @@ This file documents only repository-specific testing behavior.
 The current test scope covers:
 
 - backend app route registration for API, event, and plug routes
+- generated plug metadata
 - agreement API handlers
 - order and agreement event handlers
 - order and agreement pipeline execution
@@ -51,6 +52,17 @@ Repository-specific test settings come from [`backend/pyproject.toml`](../backen
 - coverage is collected for `mpt_extension_python_template`
 - tests run with `--import-mode=importlib`
 
+## Environment Variables In Tests
+
+[`backend/tests/conftest.py`](../backend/tests/conftest.py) sets
+`MPT_PRODUCTS_IDS` and `SDK_EXTENSION_ID` at module level, before any test module
+is imported. Both are read through `get_extension_settings()`, which is cached
+and first called while the routers are imported — the event routers interpolate
+the product ids into their `condition`, and the plug routers qualify plug names
+and ids with the extension id. A per-test fixture runs too late to change either.
+
+Any new setting read at import time must be given a default there the same way.
+
 ## Writing Tests
 
 Repository-specific guidance:
@@ -82,7 +94,7 @@ Add or update tests when a change modifies:
 - API request handling
 - event processing
 - pipeline step behavior
-- plug registration or static asset references
+- plug registration, plug metadata, or static asset references
 - frontend plug behavior
 - command output
 - dependency wiring in the extension app

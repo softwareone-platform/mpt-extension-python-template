@@ -13,7 +13,7 @@ This repository is a small Marketplace extension template. It is intentionally m
 - `backend/mpt_extension_python_template/flows/pipelines/` contains simple order and agreement pipelines.
 - `backend/mpt_extension_python_template/flows/steps/` contains reusable pipeline steps.
 - `backend/mpt_extension_python_template/context/` contains context adapters (for example `EventAgreementContext`) used by pipelines.
-- `backend/mpt_extension_python_template/routers/plugs/` declares Marketplace Portal plug metadata.
+- `backend/mpt_extension_python_template/routers/plugs/` declares Marketplace Portal plug metadata; `plug_name(...)` and `plug_id(...)` in `plugs/common.py` qualify plug names and socket-mounted plug ids with `SDK_EXTENSION_ID`, so concurrent deployments stay distinguishable and their ids do not collide in the Portal.
 - `frontend/src/modules/` contains the React plug entry points.
 - `static/` contains generated frontend bundles served by the backend.
 
