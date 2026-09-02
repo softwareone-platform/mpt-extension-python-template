@@ -7,7 +7,7 @@ requires-python = ">=3.12,<4"
 license = { text = "Apache-2.0 license" }
 dependencies = [
     "mpt-extension-contrib-order-status==1.0.*",
-    "mpt-extension-sdk==6.6.*",
+    "mpt-extension-sdk==6.7.*",
     "mpt-tool==6.0.*",
 ]
 

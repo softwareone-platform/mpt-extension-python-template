@@ -14,9 +14,9 @@ is a ready-made Postman collection for a locally running backend (default
 `base_url` `http://localhost:8080`, the port exposed by `make run-local`). Auth
 is wired automatically through a collection-level pre-request script. It contains
 sample requests for the example routes below — the `/bypass` operational routes
-(`health`, `live`, `ready`), the order and agreement events, and the agreement
-API (including list pagination, get, not-found, and sync) — so you can exercise
-the template without writing requests by hand.
+(`health`, `live`, `ready`), the order and agreement events, the agreement API
+(including list pagination, get, not-found, and sync), and a schedule delivery —
+so you can exercise the template without writing requests by hand.
 
 ## Application Wiring
 
@@ -26,6 +26,7 @@ the template without writing requests by hand.
 - `events_orders_router` — order event handling
 - `events_agreements_router` — agreement event handling
 - `api_agreements_router` — agreement API endpoints
+- `schedules_agreements_router` — the scheduled agreement synchronization
 - `plug_portal_router` — top-level portal plugs (the `learn-extensions` navigation group with the examples app and guide nested under it, plus the `add` showcase)
 - `plug_modals_router` — socketless modal plugs (`dialog` and `wizard`) opened by id from the examples "Modals" view
 - `plug_agreements_router` — agreement plugs (the agreement tab example plus the agreements `add` showcase)
@@ -42,11 +43,59 @@ exposes an `APIRouter` under `/api/v2/agreements`:
 | --- | --- | --- |
 | `GET /` | `agreements-list` | Paginated reads with `ctx.request.pagination` and `PaginatedResult` / `APIResponse.paginated` |
 | `GET /{agreement_id}` | `agreements-get` | Reading a single agreement via `ctx.mpt_api_service`, returning `APIResponse.ok`, and turning a Marketplace 404 into an SDK `NotFoundError` so the route answers 404 |
-| `POST /{agreement_id}/sync` | `agreements-sync` | A write-style action that re-reads current Marketplace data |
+| `POST /{agreement_id}/sync` | `agreements-sync` | A read as the calling account followed by a write back as the extension vendor (see [Two Account Identities](#two-account-identities)) |
 
 These handlers read Marketplace data through `ctx.mpt_api_service.agreements`.
 The `sync` route is the backend half of the frontend "Sync now" example (see
 [Plugs](#plugs)).
+
+## Two Account Identities
+
+Every SDK context carries two Marketplace services: `ctx.mpt_api_service`,
+authenticated as the account in the incoming request token, and
+`ctx.vendor_mpt_api_service`, authenticated as the vendor account that owns the
+extension. Use the first by default; reach for the second only when a flow has
+to act as the extension owner regardless of who triggered it.
+
+The `agreements-sync` route shows both in one handler — it reads as the caller,
+then writes back as the vendor:
+
+```python
+agreement = await ctx.mpt_api_service.agreements.get_by_id(agreement_id)
+await ctx.vendor_mpt_api_service.agreements.update(
+    agreement_id, {"externalIds": {"vendor": agreement.external_ids.vendor}}
+)
+```
+
+`externalIds.vendor` is deliberate: each actor owns one key of that object, so
+the calling account could not perform this write at all. The value written is
+the one already there, so the example changes no data. See
+[docs/architecture.md](architecture.md#data-flow) for when to reach for each
+service.
+
+The schedule below is the other case: it has no calling account to inherit, so
+it reads as the vendor.
+
+## Schedules
+
+[`backend/mpt_extension_python_template/routers/schedules/agreement.py`](../backend/mpt_extension_python_template/routers/schedules/agreement.py)
+registers a `ScheduleRouter` task. The SDK runs no in-process scheduler: it
+publishes the cron configuration in the extension metadata (`schedules:` in
+`meta.yaml`) and the Extension Framework delivers each occurrence as a task
+event.
+
+| Route | Id / name | Demonstrates |
+| --- | --- | --- |
+| `POST /schedules/v1/agreements/sync` | `agreements.sync` / `agreements-sync-schedule` | A `@task(...)` registration with a five-field `cron`, the delivery metadata in `ctx.meta`, vendor-scoped reads, and `ctx.task.progress(...)` |
+
+The handler reads the first page of vendor agreements, logs each one and
+reports progress; it changes no agreement state, since this is an example.
+
+[docs/architecture.md](architecture.md#data-flow) covers the delivery model the
+handler has to live with, and the SDK
+[schedules guide](https://github.com/softwareone-platform/mpt-extension-sdk/blob/main/docs/sdk_usage/schedules.md)
+documents the delivery protocol, the watchdog cadence and the task lifetime
+limits.
 
 ## Events
 

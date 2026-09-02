@@ -251,6 +251,48 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "schedule / agreements-sync — schedule delivery (expected OK)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "MPT-Task-Id",
+            "value": "TSK-0014-2070-1237-2512"
+          },
+          {
+            "key": "x-request-id",
+            "value": "3f0a4f8e-9d1d-4a54-9a1e-6f4b2c8b6d21"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"e5b68484-42a3-4e8a-a699-ad4b4e029745\",\n  \"object\": {\n    \"id\": \"agreements.sync\",\n    \"name\": \"agreements-sync\",\n    \"objectType\": \"Schedule\"\n  },\n  \"task\": {\n    \"id\": \"TSK-0014-2070-1237-2512\"\n  },\n  \"details\": {\n    \"enqueueTime\": \"2026-03-06T12:00:00Z\",\n    \"deliveryTime\": \"2026-03-06T12:00:00Z\",\n    \"eventType\": \"Schedule\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/schedules/v1/agreements/sync",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "schedules",
+            "v1",
+            "agreements",
+            "sync"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }
