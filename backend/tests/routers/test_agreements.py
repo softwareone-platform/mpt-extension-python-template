@@ -1,6 +1,11 @@
+from http import HTTPStatus
+
+import pytest
+from mpt_api_client.exceptions import MPTAPIError
 from mpt_api_client.models.meta import Pagination
 from mpt_api_client.resources.commerce.agreements import Agreement
 from mpt_extension_sdk.api.context import APIContext
+from mpt_extension_sdk.api.errors import NotFoundError
 from mpt_extension_sdk.services.mpt_api_service.base import PaginatedCollection
 
 from mpt_extension_python_template.routers.api.agreement import (
@@ -21,6 +26,19 @@ async def test_get_reads_marketplace(mocker, agreement_payload):
 
     get_by_id.assert_awaited_once_with("AGR-1234-5678")
     assert result.payload == agreement_payload
+
+
+async def test_get_maps_marketplace_not_found(mocker):
+    not_found = MPTAPIError(
+        HTTPStatus.NOT_FOUND, "Not Found", {"detail": "Entity for given id not-found not found"}
+    )
+    ctx = mocker.Mock(spec=APIContext)
+    ctx.mpt_api_service = mocker.Mock(
+        agreements=mocker.Mock(get_by_id=mocker.AsyncMock(side_effect=not_found))
+    )
+
+    with pytest.raises(NotFoundError):
+        await get_agreement("not-found", ctx)
 
 
 async def test_sync_reads_marketplace(mocker, agreement_payload):

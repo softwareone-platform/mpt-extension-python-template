@@ -1,5 +1,9 @@
+from http import HTTPStatus
+
+from mpt_api_client.exceptions import MPTHttpError
 from mpt_extension_sdk.api import APIResponse, PaginatedResult
 from mpt_extension_sdk.api.context import APIContext
+from mpt_extension_sdk.api.errors import NotFoundError
 from mpt_extension_sdk.routing import APIRouter
 
 agreements_router = APIRouter(prefix="/api/v2/agreements")
@@ -19,7 +23,12 @@ async def get_agreements(ctx: APIContext) -> APIResponse:
 @agreements_router.get(path="/{agreement_id}", name="agreements-get")
 async def get_agreement(agreement_id: str, ctx: APIContext) -> APIResponse:
     """Return the current Marketplace data for a single agreement."""
-    agreement = await ctx.mpt_api_service.agreements.get_by_id(agreement_id)
+    try:
+        agreement = await ctx.mpt_api_service.agreements.get_by_id(agreement_id)
+    except MPTHttpError as error:
+        if error.status_code != HTTPStatus.NOT_FOUND:
+            raise
+        raise NotFoundError(f"Agreement {agreement_id} not found") from error
     return APIResponse.ok(payload=agreement.to_dict())
 
 

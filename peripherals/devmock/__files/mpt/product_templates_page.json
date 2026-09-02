@@ -1,0 +1,18 @@
+{
+  "$meta": {
+    "pagination": {
+      "offset": {{request.query.offset}},
+      "limit": {{request.query.limit}},
+      "total": 1
+    }
+  },
+  "data": [
+    {
+      "id": "TPL-1111-1111-1111",
+      "name": "Default order template",
+      "type": "OrderProcessing",
+      "default": true,
+      "content": "Your order is being processed."
+    }
+  ]
+}

@@ -13,9 +13,10 @@ For the library APIs, see the SDK usage guides linked from [README.md](../README
 is a ready-made Postman collection for a locally running backend (default
 `base_url` `http://localhost:8080`, the port exposed by `make run-local`). Auth
 is wired automatically through a collection-level pre-request script. It contains
-sample requests for the example routes below — `/health`, the order and agreement
-events, and the agreement API (including list pagination, get, not-found, and
-sync) — so you can exercise the template without writing requests by hand.
+sample requests for the example routes below — the `/bypass` operational routes
+(`health`, `live`, `ready`), the order and agreement events, and the agreement
+API (including list pagination, get, not-found, and sync) — so you can exercise
+the template without writing requests by hand.
 
 ## Application Wiring
 
@@ -40,7 +41,7 @@ exposes an `APIRouter` under `/api/v2/agreements`:
 | Route | Name | Demonstrates |
 | --- | --- | --- |
 | `GET /` | `agreements-list` | Paginated reads with `ctx.request.pagination` and `PaginatedResult` / `APIResponse.paginated` |
-| `GET /{agreement_id}` | `agreements-get` | Reading a single agreement via `ctx.mpt_api_service` and returning `APIResponse.ok` |
+| `GET /{agreement_id}` | `agreements-get` | Reading a single agreement via `ctx.mpt_api_service`, returning `APIResponse.ok`, and turning a Marketplace 404 into an SDK `NotFoundError` so the route answers 404 |
 | `POST /{agreement_id}/sync` | `agreements-sync` | A write-style action that re-reads current Marketplace data |
 
 These handlers read Marketplace data through `ctx.mpt_api_service.agreements`.
