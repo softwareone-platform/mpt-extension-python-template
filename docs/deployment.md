@@ -25,8 +25,12 @@ extension to register and authenticate.
 | Environment Variable | Default | Example | Description |
 | --- | --- | --- | --- |
 | `SDK_EXTENSION_API_KEY` | - | `<extension-api-key>` | API key used for extension registration and runtime task operations |
-| `SDK_EXTENSION_ID` | - | `EXT-1111-1111` | Extension identifier used during instance registration |
+| `SDK_EXTENSION_ID` | - | `EXT-1111-1111` | Extension identifier used during instance registration, and the qualifier appended to plug names and socket-mounted plug ids |
 | `SDK_EXTENSION_URL` | - | `https://extensions.example.com` | Extension registration endpoint used during platform startup (points at `devmock` in local mock mode) |
+
+The plug qualifiers read `SDK_EXTENSION_ID` while the metadata is built, so its
+value is frozen into the generated `meta.yaml` and the backend cannot change it
+later at runtime. See [docs/examples.md](examples.md#plugs).
 
 ## Core Application Settings
 

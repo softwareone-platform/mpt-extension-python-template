@@ -99,6 +99,37 @@ pipeline.
 
 ## Plugs
 
+Plugs are qualified with the extension id (`SDK_EXTENSION_ID`) through two
+helpers in
+[`routers/plugs/common.py`](../backend/mpt_extension_python_template/routers/plugs/common.py):
+
+| Helper | Applies to | Result |
+| --- | --- | --- |
+| `plug_name(...)` | every plug | `Plug here (EXT-1111-1111)` |
+| `plug_id(...)` | socket-mounted plugs only | `agreements-agreement-ext-1111-1111` |
+
+Several deployments of this template can be registered against the same account,
+one per developer or per environment. The Portal renders the plug name on its
+own and aggregates the plugs of every installed extension into the same socket,
+so without the qualifiers two deployments produce indistinguishable buttons and
+colliding ids.
+
+Worth knowing:
+
+- Modal plug ids stay bare: this extension's own frontend resolves them with
+  `useMPTModal().open('dialog')` and has no access to `SDK_EXTENSION_ID`.
+- Bundle paths stay bare: `add_plug` qualifies the id but leaves `href` on
+  `/static/add-<socket>/index.js`, which maps to a built directory.
+- `NavigationPlug` derives `<socket>.<id>`, so its children target
+  `portal.learn-extensions-ext-1111-1111` and each deployment gets its own
+  navigation group.
+- The helpers read the id from the extension settings, not from
+  `get_runtime_settings()`: loading the runtime settings is what builds the
+  metadata that asks for the plugs.
+
+The tables below show ids in their qualified form, with `<extension-id>`
+standing in for the lower-cased `SDK_EXTENSION_ID`.
+
 [`backend/mpt_extension_python_template/routers/plugs/agreements.py`](../backend/mpt_extension_python_template/routers/plugs/agreements.py)
 declares a Marketplace Portal plug through a `PlugRouter`. The plug points
 at a frontend bundle via `href` and binds to a Portal `socket`. The frontend
@@ -106,7 +137,7 @@ module name matches the bundle path one-to-one:
 
 | Plug id / socket | Frontend module | Demonstrates |
 | --- | --- | --- |
-| `agreements-agreement` — `portal.commerce.agreements.agreement` | [`modules/agreements-agreement/`](../frontend/src/modules/agreements-agreement/) | A full agreement tab: sync status, `useAgreementSync`, status chips, and a "Sync now" action calling the `sync` API |
+| `agreements-agreement-<extension-id>` — `portal.commerce.agreements.agreement` | [`modules/agreements-agreement/`](../frontend/src/modules/agreements-agreement/) | A full agreement tab: sync status, `useAgreementSync`, status chips, and a "Sync now" action calling the `sync` API |
 
 ## Modal Plugs (Opened By Id)
 
@@ -151,10 +182,10 @@ agreements `add` plug in [`agreements.py`](../backend/mpt_extension_python_templ
 
 | Plug id / socket | Frontend module | Demonstrates |
 | --- | --- | --- |
-| `learn-extensions` — `portal` | — (no bundle) | A `NavigationPlug` container: a href-less navigation grouping node whose id derives the nested socket `portal.learn-extensions` for the two plugs below |
-| `examples` — `portal.learn-extensions` | [`modules/examples/`](../frontend/src/modules/examples/) | A multi-tab React app (`react-router`) touring the UI SDK: Introduction, Basics, Context (`useMPTContext`), API calls (the `http` client feeding a server-driven `Grid` via `useGridWithRql` + RQL), UI elements (buttons, inputs, selects, toggles, date pickers, grids, entity references), and Modals (the socketless `dialog` / `wizard` round-trip via `useMPTModal().open()`) |
-| `guide` — `portal.learn-extensions` | [`modules/guide/`](../frontend/src/modules/guide/) | Rendering bundled Markdown with `InlineMarkdown` (esbuild `.md` text loader) |
-| `add-<socket>` (one per socket) | [`modules/add-*/`](../frontend/src/modules/) | A "plug here" scaffold shown on every remaining Portal socket, so the full set of sockets is covered |
+| `learn-extensions-<extension-id>` — `portal` | — (no bundle) | A `NavigationPlug` container: a href-less navigation grouping node whose id derives the nested socket `portal.learn-extensions-<extension-id>` for the two plugs below |
+| `examples-<extension-id>` — `portal.learn-extensions-<extension-id>` | [`modules/examples/`](../frontend/src/modules/examples/) | A multi-tab React app (`react-router`) touring the UI SDK: Introduction, Basics, Context (`useMPTContext`), API calls (the `http` client feeding a server-driven `Grid` via `useGridWithRql` + RQL), UI elements (buttons, inputs, selects, toggles, date pickers, grids, entity references), and Modals (the socketless `dialog` / `wizard` round-trip via `useMPTModal().open()`) |
+| `guide-<extension-id>` — `portal.learn-extensions-<extension-id>` | [`modules/guide/`](../frontend/src/modules/guide/) | Rendering bundled Markdown with `InlineMarkdown` (esbuild `.md` text loader) |
+| `add-<socket>-<extension-id>` (one per socket) | [`modules/add-*/`](../frontend/src/modules/) | A "plug here" scaffold shown on every remaining Portal socket, so the full set of sockets is covered |
 
 The `add-*` plugs cover many near-identical sockets without duplicating logic:
 each is a thin module directory whose `index.tsx` mounts the shared

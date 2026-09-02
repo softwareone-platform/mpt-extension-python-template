@@ -43,9 +43,9 @@ def test_app_generates_agreement_plug_metadata():
 
     assert result.plugs is not None
     plugs_by_id = {plug.id: plug.model_dump() for plug in result.plugs}
-    assert plugs_by_id["agreements-agreement"] == {
-        "id": "agreements-agreement",
-        "name": "Extension example",
+    assert plugs_by_id["agreements-agreement-ext-1111-1111"] == {
+        "id": "agreements-agreement-ext-1111-1111",
+        "name": "Extension example (EXT-1111-1111)",
         "description": "Show an extension example tab with some actions.",
         "icon": None,
         "socket": "portal.commerce.agreements.agreement",
@@ -61,7 +61,7 @@ def test_app_generates_modal_plug_metadata():
     plugs_by_id = {plug.id: plug.model_dump() for plug in result.plugs}
     assert plugs_by_id["dialog"] == {
         "id": "dialog",
-        "name": "Extension example dialog",
+        "name": "Extension example dialog (EXT-1111-1111)",
         "description": "A dialog opened by id that returns a result to the opener.",
         "icon": None,
         "socket": None,
@@ -70,7 +70,7 @@ def test_app_generates_modal_plug_metadata():
     }
     assert plugs_by_id["wizard"] == {
         "id": "wizard",
-        "name": "Extension example wizard",
+        "name": "Extension example wizard (EXT-1111-1111)",
         "description": "A multi-step wizard opened by id that returns a result to the opener.",
         "icon": None,
         "socket": None,
