@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "mpt-extension-python-template",
-    "description": "Sample requests for the mpt-extension-python-template backend running locally on `{{base_url}}` (default `http://localhost:8080`).\n\nAuth is wired automatically:\n\n- A collection-level pre-request script builds a non-prod HS256 JWT from the `extension_id`, `account_id` and `account_type` variables and stores it in `auth_token`.\n- Every authenticated request sends `Authorization: Bearer {{auth_token}}` via collection-level Bearer auth (`/health` opts out).\n\nThe backend (mpt-extension-sdk) decodes claims without verifying the signature, so the HS256 dummy secret is only there to produce a structurally valid token. Override `extension_id`, `account_id` or `account_type` in the collection variables to test other identities.",
+    "description": "Sample requests for the mpt-extension-python-template backend running locally on `{{base_url}}` (default `http://localhost:8080`).\n\nAuth is wired automatically:\n\n- A collection-level pre-request script builds a non-prod HS256 JWT from the `extension_id`, `account_id` and `account_type` variables and stores it in `auth_token`.\n- Every authenticated request sends `Authorization: Bearer {{auth_token}}` via collection-level Bearer auth (the operational routes under `/bypass` opt out).\n\nThe backend (mpt-extension-sdk) decodes claims without verifying the signature, so the HS256 dummy secret is only there to produce a structurally valid token. Override `extension_id`, `account_id` or `account_type` in the collection variables to test other identities.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -72,7 +72,7 @@
   ],
   "item": [
     {
-      "name": "health",
+      "name": "ops / bypass-health (expected 200 OK with the extension version)",
       "request": {
         "method": "GET",
         "auth": {
@@ -80,9 +80,41 @@
         },
         "header": [],
         "url": {
-          "raw": "{{base_url}}/health",
+          "raw": "{{base_url}}/bypass/health",
           "host": ["{{base_url}}"],
-          "path": ["health"]
+          "path": ["bypass", "health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ops / bypass-live (expected 200 OK)",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/bypass/live",
+          "host": ["{{base_url}}"],
+          "path": ["bypass", "live"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ops / bypass-ready (expected 200 OK, or 503 while the extension is not ready)",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/bypass/ready",
+          "host": ["{{base_url}}"],
+          "path": ["bypass", "ready"]
         }
       },
       "response": []
