@@ -1286,15 +1286,15 @@ wheels = [
 
 [[package]]
 name = "mpt-api-client"
-version = "6.3.1"
+version = "6.4.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx" },
     { name = "httpx-retries" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a6/f0/6d77d6235801223cfa6a82d13e208469cf12960f4777b841616f64238462/mpt_api_client-6.3.1.tar.gz", hash = "sha256:642f5088c4b2f9608fb70fa9078856423a9096fa118eeede60c6ae9bbb7200f1", size = 65853, upload-time = "2026-06-25T16:05:35.595Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/75/91/51679b504d7e95c84c8207cdcd7556c6d3daa2174758fefc0ced78a787a6/mpt_api_client-6.4.0.tar.gz", hash = "sha256:d51142471862c0b9faa4339c68b193f2bcf94ae63ce523ed00115d371770be83", size = 67099, upload-time = "2026-07-30T16:38:16.622Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9c/8d/a3ae1ad7836584e4caacae27816666c55858415f2a80390cefa4264be679/mpt_api_client-6.3.1-py3-none-any.whl", hash = "sha256:87cef1feb7d272dcda619818124605381861a633e442334316181ebb36ba18f7", size = 148484, upload-time = "2026-06-25T16:05:34.462Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/0c/b91b41941c7d9035b6a3cb5dba2279f274a339b3eb470a0cb77a5113bad9/mpt_api_client-6.4.0-py3-none-any.whl", hash = "sha256:6ac8bd1ce5a48cfa3b98ba9e70b40579cca4467a6fa36c502449b16512f1257c", size = 149517, upload-time = "2026-07-30T16:38:15.542Z" },
 ]
 
 [[package]]
@@ -1339,7 +1339,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "mpt-extension-contrib-order-status", specifier = "==1.0.*" },
-    { name = "mpt-extension-sdk", specifier = "==6.6.*" },
+    { name = "mpt-extension-sdk", specifier = "==6.7.*" },
     { name = "mpt-tool", specifier = "==6.0.*" },
 ]
 
@@ -1362,7 +1362,7 @@ dev = [
 
 [[package]]
 name = "mpt-extension-sdk"
-version = "6.6.0"
+version = "6.7.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fastapi", extra = ["standard"] },
@@ -1377,28 +1377,28 @@ dependencies = [
     { name = "pydantic" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/66/90/ace366a60f7a0b5bbd94d66c8b7dc530fdb08fa81cedf9160657e36516a6/mpt_extension_sdk-6.6.0.tar.gz", hash = "sha256:e9719988bc064179bce7344d06a57826e5331e73bd6286c865a8b20112b8e41e", size = 55131, upload-time = "2026-07-20T15:29:47.758Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/10/0c/a7ffc4d94ba1b117ecb9968e84a68109787eef806a6d5dd3c03a465a57d5/mpt_extension_sdk-6.7.3.tar.gz", hash = "sha256:a81d939a30c77bc9444482de1cd15ed6a860c381a033e7599cf487bf30f92238", size = 66458, upload-time = "2026-09-04T11:23:18.849Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/56/51/7a5200d7347a5cba6ccdf7f86004126a131c9c888b4452c61c5dfee3eacf/mpt_extension_sdk-6.6.0-py3-none-any.whl", hash = "sha256:44cf902e69a29470bd6857ac5547462848443fa07ce27aa998c142759e34eef5", size = 94741, upload-time = "2026-07-20T15:29:46.66Z" },
+    { url = "https://files.pythonhosted.org/packages/9e/92/17bd62ac10b3597780ecd1ca037b4f66746c8427562a75a712ef81b8a08d/mpt_extension_sdk-6.7.3-py3-none-any.whl", hash = "sha256:2fa764091dc3dd05dc4168ccb6b806495396660de696cc47a792e9c67ab53580", size = 113185, upload-time = "2026-09-04T11:23:17.814Z" },
 ]
 
 [[package]]
 name = "mpt-tool"
-version = "6.0.2"
+version = "6.0.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "mpt-api-client" },
     { name = "pyairtable" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bc/3d/ffad82b8d2b8fe41a4f12167bc801341d41262c40b16229794888b93f23a/mpt_tool-6.0.2.tar.gz", hash = "sha256:66f929d46391d30c1d9d852eddbe388efe255809b966dc4b1657053150817d9e", size = 20814, upload-time = "2026-07-13T12:41:20.411Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2b/8c/2d506e9f97e647fd758cdaf295fedaeedbdcb984e38d4fee744a793cc251/mpt_tool-6.0.4.tar.gz", hash = "sha256:e3ff1b0dbfb58744f21478de300774370a22e5011bb230d54c264d8607a7e47f", size = 21120, upload-time = "2026-08-04T12:44:48.048Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/94/a6/3f445c81363eb73483ca0d4d184e0607e85e3aae85729953d4ec00a5c1f9/mpt_tool-6.0.2-py3-none-any.whl", hash = "sha256:0f3734f2e207173b758aa3aae8f773785c97679fd4269e59932e639e0d44dda4", size = 34152, upload-time = "2026-07-13T12:41:19.417Z" },
+    { url = "https://files.pythonhosted.org/packages/fe/10/e13a4c420f94f22c1da6ca84a4888de686fa95d4815362a05bcfb3dd5dd3/mpt_tool-6.0.4-py3-none-any.whl", hash = "sha256:823d9333a59bc204054e092ed13176c6ecb96e6f5bd63c132310c27e6e59022b", size = 34215, upload-time = "2026-08-04T12:44:47.118Z" },
 ]
 
 [[package]]
 name = "mrok"
-version = "0.10.5"
+version = "0.10.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asn1crypto" },
@@ -1423,9 +1423,9 @@ dependencies = [
     { name = "typer" },
     { name = "uvicorn-worker" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fa/90/1473bcce57e7bab6f3d3c814c50eb2f8552707bf6fbc488fda7457b3350c/mrok-0.10.5.tar.gz", hash = "sha256:2c2bd553b6d23a45a00836b733f27ffe208101e21b837c345db538b1e2841b2e", size = 812816, upload-time = "2026-07-13T08:35:54.779Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/b0/5c1b67a65072805802a323f5c7034ecd67e8e666c46753c1f6265f573fc3/mrok-0.10.6.tar.gz", hash = "sha256:9ba013c4b799a2026a607c2ad53cc2d52a39595115b1cb528992e456822044b9", size = 829686, upload-time = "2026-08-12T13:30:23.797Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1d/1a/7f4f5c0556b76ce41f9135a232cb8667815b7a2b40e0a8025b908da41f36/mrok-0.10.5-py3-none-any.whl", hash = "sha256:afaaec1b0291d8d545c20a89c7bff2dea7f2cad3f198e674b76f43dac26e3525", size = 86988, upload-time = "2026-07-13T08:35:53.469Z" },
+    { url = "https://files.pythonhosted.org/packages/6a/58/61e1fbfd80b25468d6b4ffbe628645b9d1fe57720d865a3f6b426b4911c3/mrok-0.10.6-py3-none-any.whl", hash = "sha256:ec71065f6d0787c2de0f758664c05a870b40c8025d59c747475dfb350b1b27e3", size = 86973, upload-time = "2026-08-12T13:30:22.157Z" },
 ]
 
 [[package]]

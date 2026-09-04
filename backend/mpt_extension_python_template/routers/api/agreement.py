@@ -34,6 +34,14 @@ async def get_agreement(agreement_id: str, ctx: APIContext) -> APIResponse:
 
 @agreements_router.post(path="/{agreement_id}/sync", name="agreements-sync")
 async def sync_agreement(agreement_id: str, ctx: APIContext) -> APIResponse:
-    """Synchronize an agreement view with the current Marketplace data."""
+    """Synchronize an agreement view with the current Marketplace data.
+
+    Writes `externalIds.vendor` as the vendor, the only agreement key a client
+    or operations account cannot touch. The value is the one already there, so
+    the example changes no data.
+    """
     agreement = await ctx.mpt_api_service.agreements.get_by_id(agreement_id)
+    await ctx.vendor_mpt_api_service.agreements.update(
+        agreement_id, {"externalIds": {"vendor": agreement.external_ids.vendor}}
+    )
     return APIResponse.ok(payload=agreement.to_dict())
