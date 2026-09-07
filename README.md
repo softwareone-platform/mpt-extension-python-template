@@ -2,7 +2,7 @@
 
 `mpt-extension-python-template` is a minimal SoftwareOne Marketplace extension built on top of `mpt-extension-sdk` and `mpt-tool`.
 
-It is primarily a template repository: it shows the baseline extension shape, agreement API endpoints, order and agreement event listeners, small fulfillment pipelines, Marketplace Portal plugs (including a UI SDK showcase — an examples app, a guide, and per-socket plug demos), and the development workflow used by extension repositories in this ecosystem.
+It is primarily a template repository: it shows the baseline extension shape, agreement API endpoints, order and agreement event listeners, a cron-driven schedule, small fulfillment pipelines, Marketplace Portal plugs (including a UI SDK showcase — an examples app, a guide, and per-socket plug demos), and the development workflow used by extension repositories in this ecosystem.
 
 ## Repository Layout
 

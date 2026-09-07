@@ -13,10 +13,11 @@ This file documents only repository-specific testing behavior.
 
 The current test scope covers:
 
-- backend app route registration for API, event, and plug routes
-- generated plug metadata
+- backend app route registration for API, event, schedule, and plug routes
+- generated plug and schedule metadata
 - agreement API handlers
 - order and agreement event handlers
+- the agreement schedule handler
 - order and agreement pipeline execution
 - pipeline step logging behavior
 - frontend plug components, hooks, and shared model helpers
@@ -54,20 +55,28 @@ Repository-specific test settings come from [`backend/pyproject.toml`](../backen
 
 ## Environment Variables In Tests
 
-[`backend/tests/conftest.py`](../backend/tests/conftest.py) sets
+[`backend/tests/conftest.py`](../backend/tests/conftest.py) assigns
 `MPT_PRODUCTS_IDS` and `SDK_EXTENSION_ID` at module level, before any test module
-is imported. Both are read through `get_extension_settings()`, which is cached
-and first called while the routers are imported — the event routers interpolate
-the product ids into their `condition`, and the plug routers qualify plug names
-and ids with the extension id. A per-test fixture runs too late to change either.
+is imported. The event routers interpolate the product ids into their `condition`
+at import time, so a per-test fixture runs too late for those. The plug routers
+resolve the extension id lazily through the cached `get_extension_settings()`,
+and it is pinned in the same place so both values come from one source.
 
-Any new setting read at import time must be given a default there the same way.
+Both must be assigned, not set with `setdefault`. Compose passes `backend/.env`
+into the container, so a developer's own `SDK_EXTENSION_ID` would otherwise reach
+the suite and break the tests that assert qualified plug names and ids.
+
+Any new setting read at import time must be pinned there the same way.
 
 ## Writing Tests
 
 Repository-specific guidance:
 
-- Use fixtures from [`backend/tests/conftest.py`](../backend/tests/conftest.py) where possible.
+- Use fixtures from [`backend/tests/conftest.py`](../backend/tests/conftest.py) where possible, and from the per-package conftest closest to the tests that need them (for example [`backend/tests/routers/conftest.py`](../backend/tests/routers/conftest.py), which builds autospecced `MPTAPIService` doubles).
+- Take those doubles from `mpt_api_service` and `vendor_mpt_api_service`. They are
+  separate instances built by the same factory fixture, because the tests that
+  cover a vendor-identity flow assert which service performed each call; do not
+  collapse them into one.
 - Mock external Marketplace SDK calls rather than calling real services.
 - Keep tests focused on the behavior of the extension layer, not on internals of `mpt-extension-sdk` itself.
 - Keep frontend tests close to the component, hook, or model module they cover.
@@ -93,6 +102,7 @@ Add or update tests when a change modifies:
 
 - API request handling
 - event processing
+- schedule handling
 - pipeline step behavior
 - plug registration, plug metadata, or static asset references
 - frontend plug behavior

@@ -30,6 +30,7 @@ Then inspect the code paths relevant to the task:
 - [`frontend/src/modules/`](frontend/src/modules/): React plug entry points (one bundle per module). Frontend authoring rules live in the shared [frontend standard](https://github.com/softwareone-platform/mpt-extension-skills/blob/main/standards/extensions-ui-best-practices.md)
 - [`frontend/src/shared/`](frontend/src/shared/): shared frontend components, hooks, and model helpers
 - [`frontend/esbuild.config.js`](frontend/esbuild.config.js): frontend build that emits plug bundles into `static/`
+- [`peripherals/devmock/`](peripherals/devmock): WireMock image and mappings backing `make run-local`
 - [`make/`](make): canonical commands used by the repository
 - [`Dockerfile`](Dockerfile) and [`compose.yaml`](compose.yaml): backend container and local stack
 - [`.github/workflows/pr-build-merge.yml`](.github/workflows/pr-build-merge.yml): CI checks

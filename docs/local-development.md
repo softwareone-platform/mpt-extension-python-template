@@ -65,6 +65,20 @@ service from `compose.local.yaml`. The extension is exposed on
 the mappings under `peripherals/devmock/`. This mode **requires**
 `backend/.env.local` (see [Required Configuration](#required-configuration)).
 
+#### The `devmock` image
+
+`devmock` builds from [`peripherals/devmock`](../peripherals/devmock), which adds
+the pinned WireMock state extension to the base WireMock image. The task
+lifecycle mappings under `peripherals/devmock/mappings/system/` require it: they
+key state by task id, so a claimed task returns a real 409 on a second claim and
+reports its recorded status once it settles. That final status is what ends the
+SDK's re-delivery loop — a stateless mock would answer `rescheduled` forever and
+the schedule delivery would never finish.
+
+`compose.local.yaml` also raises the extension's context expiration to 24 hours
+(`WIREMOCK_STATE_EXTENSION_CONTEXT_EXPIRATION_SEC`), because the 60-minute
+default drops a settled task's outcome mid-session.
+
 ### `make run` (platform integration)
 
 ```bash

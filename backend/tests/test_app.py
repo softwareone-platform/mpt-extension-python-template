@@ -2,6 +2,7 @@ from mpt_extension_sdk.routing import (
     APIRouteDefinition,
     EventRouteDefinition,
     PlugRouteDefinition,
+    ScheduleRouteDefinition,
 )
 
 from mpt_extension_python_template.app import ext_app
@@ -36,6 +37,26 @@ def test_app_registers_list_route():
     result = {route.path: route for route in ext_app.routes}
 
     assert isinstance(result["/api/v2/agreements"], APIRouteDefinition)
+
+
+def test_app_registers_agreement_schedule_route():
+    result = {route.path: route for route in ext_app.routes}
+
+    assert isinstance(result["/schedules/v1/agreements/sync"], ScheduleRouteDefinition)
+
+
+def test_app_generates_schedule_metadata():
+    result = ext_app.to_meta_config()
+
+    assert result.schedules is not None
+    schedules_by_id = {schedule.id: schedule.model_dump() for schedule in result.schedules}
+    assert schedules_by_id["agreements.sync"] == {
+        "id": "agreements.sync",
+        "name": "agreements-sync-schedule",
+        "description": "Read the agreements owned by the extension vendor and report progress.",
+        "cron": "*/15 * * * *",
+        "path": "/schedules/v1/agreements/sync",
+    }
 
 
 def test_app_generates_agreement_plug_metadata():

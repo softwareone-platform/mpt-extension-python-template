@@ -15,7 +15,14 @@ services:
         condition: service_started
 
   devmock:
-    image: wiremock/wiremock:3.13.2
+    build: ./peripherals/devmock
+    environment:
+      # The state extension keeps contexts in memory and expires them after 60
+      # minutes by default, which would drop a settled task's outcome mid-demo.
+      WIREMOCK_STATE_EXTENSION_CONTEXT_EXPIRATION_SEC: "86400"
+    # The image's own healthcheck probes port 8080; this stack serves on 8000.
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/__admin/health || exit 1"]
     ports:
       - "8000:8000"
     volumes:

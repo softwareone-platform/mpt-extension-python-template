@@ -2,9 +2,10 @@ import os
 
 import pytest
 
-# The routers read these at import time, so a per-test fixture runs too late.
-os.environ.setdefault("MPT_PRODUCTS_IDS", "PRD-1111-1111,PRD-1111-1112")
-os.environ.setdefault("SDK_EXTENSION_ID", "EXT-1111-1111")
+# The event routers read the product ids at import time, so a fixture runs
+# too late. Assigned, not setdefault, so a local .env cannot change these.
+os.environ["MPT_PRODUCTS_IDS"] = "PRD-1111-1111,PRD-1111-1112"
+os.environ["SDK_EXTENSION_ID"] = "EXT-1111-1111"
 
 
 @pytest.fixture
