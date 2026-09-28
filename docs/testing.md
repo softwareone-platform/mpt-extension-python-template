@@ -13,11 +13,12 @@ This file documents only repository-specific testing behavior.
 
 The current test scope covers:
 
-- backend app route registration for API, event, schedule, and plug routes
-- generated plug and schedule metadata
+- backend app route registration for API, event, schedule, webhook, and plug routes
+- generated plug, schedule, and webhook metadata
 - agreement API handlers
 - order and agreement event handlers
 - the agreement schedule handler
+- the draft purchase order validation webhook handler
 - order and agreement pipeline execution
 - pipeline step logging behavior
 - frontend plug components, hooks, and shared model helpers

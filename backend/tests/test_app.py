@@ -3,6 +3,7 @@ from mpt_extension_sdk.routing import (
     EventRouteDefinition,
     PlugRouteDefinition,
     ScheduleRouteDefinition,
+    WebhookRouteDefinition,
 )
 
 from mpt_extension_python_template.app import ext_app
@@ -59,6 +60,27 @@ def test_app_generates_schedule_metadata():
         "cron": "*/15 * * * *",
         "path": "/schedules/v1/agreements/sync",
     }
+
+
+def test_app_registers_order_webhook_route():
+    result = {route.path: route for route in ext_app.routes}
+
+    assert isinstance(result["/webhooks/v1/orders/validate-purchase-draft"], WebhookRouteDefinition)
+
+
+def test_app_generates_webhook_metadata():
+    result = ext_app.to_meta_config()
+
+    assert result.webhooks is not None
+    assert [webhook.model_dump() for webhook in result.webhooks] == [
+        {
+            "type": "validatePurchaseOrderDraft",
+            "description": "Validate purchase orders in Draft status.",
+            "path": "/webhooks/v1/orders/validate-purchase-draft",
+            "criteria": {"product.id": product_id},
+        }
+        for product_id in ("PRD-1111-1111", "PRD-1111-1112")
+    ]
 
 
 def test_app_generates_agreement_plug_metadata():

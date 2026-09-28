@@ -1688,7 +1688,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "mpt-extension-contrib-order-status", specifier = "==1.0.*" },
-    { name = "mpt-extension-sdk", specifier = "==6.8.*" },
+    { name = "mpt-extension-sdk", specifier = "==6.9.*" },
     { name = "mpt-tool", specifier = "==6.0.*" },
 ]
 
@@ -1711,7 +1711,7 @@ dev = [
 
 [[package]]
 name = "mpt-extension-sdk"
-version = "6.8.0"
+version = "6.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fastapi", extra = ["standard"] },
@@ -1726,9 +1726,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/10/ec/cc5e2c5357a4a931031d25d3e56adc7659848e5956c58cdc78ecc60e994b/mpt_extension_sdk-6.8.0.tar.gz", hash = "sha256:af6f0c5b25d50a08855927b45265ab5d3e4506e552c7087756a7919b4219de59", size = 73168, upload-time = "2026-10-22T15:14:13.207Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ed/d4/7e5e48ec6e6f55dbfebee1d406e85708d9361f1861f364da1f4e47c71115/mpt_extension_sdk-6.9.0.tar.gz", hash = "sha256:32eeba55aa33497c742822536c977b95a4f0d8f67a4c4f5914f2f6f66f0f67ce", size = 80166, upload-time = "2026-11-03T09:48:07.391Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/18/67/2e834abb62185f11526387fbf7a96969885b0c8efff8038490da5dbf8b8f/mpt_extension_sdk-6.8.0-py3-none-any.whl", hash = "sha256:6fc574d01e56450af047b836610fdbc3419c974b651ce45d84a0f2de9c9306c3", size = 124262, upload-time = "2026-10-22T15:14:12.121Z" },
+    { url = "https://files.pythonhosted.org/packages/11/11/4b19691b934caeb2ef6bddb8dd0549505561f67ecb5ac3de98dad073124d/mpt_extension_sdk-6.9.0-py3-none-any.whl", hash = "sha256:811484d987469a20db2bccecb0ce27cba72157029117f43b4272c93fd25ad614", size = 139556, upload-time = "2026-11-03T09:48:06.308Z" },
 ]
 
 [[package]]

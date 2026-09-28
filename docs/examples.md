@@ -15,8 +15,10 @@ is a ready-made Postman collection for a locally running backend (default
 is wired automatically through a collection-level pre-request script. It contains
 sample requests for the example routes below — the `/bypass` operational routes
 (`health`, `live`, `ready`), the order and agreement events, the agreement API
-(including list pagination, get, not-found, and sync), and a schedule delivery —
-so you can exercise the template without writing requests by hand.
+(including list pagination, get, not-found, and sync), a schedule delivery, and
+the two draft order validation webhook calls (a valid and an invalid
+`agreementType`) — so you can exercise the template without writing requests by
+hand.
 
 ## Application Wiring
 
@@ -27,6 +29,7 @@ so you can exercise the template without writing requests by hand.
 - `events_agreements_router` — agreement event handling
 - `api_agreements_router` — agreement API endpoints
 - `schedules_agreements_router` — the scheduled agreement synchronization
+- `webhooks_orders_router` — the draft purchase order validation webhook
 - `plug_portal_router` — top-level portal plugs (the `learn-extensions` navigation group with the examples app and guide nested under it, plus the `add` showcase)
 - `plug_modals_router` — socketless modal plugs (`dialog` and `wizard`) opened by id from the examples "Modals" view
 - `plug_agreements_router` — agreement plugs (the agreement tab example plus the agreements `add` showcase)
@@ -135,6 +138,52 @@ handler has to live with, and the SDK
 [schedules guide](https://github.com/softwareone-platform/mpt-extension-sdk/blob/main/docs/sdk_usage/schedules.md)
 documents the delivery protocol, the watchdog cadence and the task lifetime
 limits.
+
+## Webhooks
+
+[`backend/mpt_extension_python_template/routers/webhooks/order.py`](../backend/mpt_extension_python_template/routers/webhooks/order.py)
+registers a `WebhookRouter` webhook with one criteria per product in
+`MPT_PRODUCTS_IDS`. The SDK publishes one `webhooks:` entry per product in
+`meta.yaml`, all with the same path, and the Extensions Service creates the
+platform webhooks.
+
+| Route | Type | Demonstrates |
+| --- | --- | --- |
+| `POST /webhooks/v1/orders/validate-purchase-draft` | `validatePurchaseOrderDraft` | A `@webhook(...)` registration with a list of `criteria`, the typed `ctx.order`, `without_errors()`, `with_ordering_error(...)`, `with_error(...)`, and `WebhookResponse.ok(...)` |
+
+The handler first clears the errors of the previous answer with
+`without_errors()`, otherwise the wizard keeps showing them after the user fixes
+the value. It then checks the `agreementType` ordering parameter against
+`VALID_AGREEMENT_TYPES` and returns the order either unchanged or carrying the
+rejection. An order whose payload has no `agreementType` parameter is accepted,
+because there is nothing to validate.
+
+A rejection is reported at both levels the SDK offers, so the template shows
+each one: `with_ordering_error(...)` puts the error on the parameter the user
+has to fix, and `with_error(...)` adds a summary on the order itself. Use the
+parameter level for a bad value and the order level for a problem with the
+order as a whole.
+
+A rejection is still a `200`: the platform reads the validation result from the
+returned order, not from the status code, and the wizard shows the error on the
+offending parameter. `WebhookResponse.error(...)` is for the handler failing,
+not for an order being invalid.
+
+The platform waits for the answer while the user is in the order wizard, so a
+real validation must stay fast. The SDK
+[webhooks guide](https://github.com/softwareone-platform/mpt-extension-sdk/blob/main/docs/sdk_usage/webhooks.md)
+documents the contexts, the responses and the error mapping.
+
+### Trying the webhook locally
+
+The webhook body is the order object itself, not an event envelope. The two
+`webhook / validate-purchase-draft` requests in the
+[Postman collection](#trying-it-with-postman) post one: the first sends a valid
+`agreementType` carrying the errors of a previous answer and gets them back
+cleared, the second sends an invalid one and gets the order back with the error
+on the parameter and a summary on the order. `with_ordering_error(...)` also
+unhides the parameter and marks it required, so the wizard shows the field the
+user has to fix.
 
 ## Events
 
