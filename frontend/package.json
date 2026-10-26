@@ -23,9 +23,9 @@
     "@softwareone-platform/rql-client": "^0.1.1",
     "@softwareone-platform/sdk-react-ui-v0": "^0.0.2",
     "esbuild-sass-plugin": "^3.6.0",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "react-router": "^8.4.0"
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router": "^8.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
