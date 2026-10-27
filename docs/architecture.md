@@ -26,7 +26,7 @@ repository; for the SDK APIs themselves, see the SDK references in
 
 The extension currently registers:
 
-- agreement API routes under `/api/v2/agreements`
+- agreement API routes under `/api/v2/agreements`, with `POST /api/v2/agreements/sync` published in the `deferrables` metadata block
 - order event route `/events/v2/orders/purchase`
 - agreement event route `/events/v2/agreements/complete`
 - agreement schedule route `/schedules/v1/agreements/sync`
@@ -61,7 +61,9 @@ This section only covers what is specific to *this* repository:
   `components/` (presentational UI, including `AddPlugShowcase` reused by the
   `add-*` modules), `hooks/` (for example `useAgreement`, which fetches
   `/api/v2/agreements/{id}` through the SDK `http` client and exposes
-  load/error/ready states), and `model.ts` (response types and formatters).
+  load/error/ready states), `model.ts` (response types and formatters), and
+  `constants.ts` (paths, intervals and other configuration literals, kept out of
+  the modules that use them).
 - **Build output**: the build emits bundles plus sourcemaps, and TypeScript
   declarations under `static/types/`.
 

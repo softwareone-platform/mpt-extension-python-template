@@ -13,6 +13,7 @@ import { ExtensionNavigation } from '../../shared/components/ExtensionNavigation
 const STATUS_LABEL: Record<Status, string> = {
   idle: 'Idle',
   loading: 'Synchronising',
+  requested: 'Requested',
   success: 'Success',
   error: 'Error',
 };
@@ -20,13 +21,28 @@ const STATUS_LABEL: Record<Status, string> = {
 const STATUS_COLOR: Record<Status, 'gray' | 'primary' | 'success' | 'danger'> = {
   idle: 'gray',
   loading: 'primary',
+  requested: 'primary',
   success: 'success',
   error: 'danger',
 };
 
 export default function App() {
   const agreementId = useAgreementId();
-  const { error, lastCompleted, lastStatus, status, syncAgreement } = useAgreementSync(agreementId);
+  const {
+    error,
+    isTaskRunning,
+    lastCompleted,
+    lastStatus,
+    mode,
+    requestAgreementSync,
+    status,
+    syncAgreement,
+    taskId,
+    taskProgress,
+    taskStatus,
+  } = useAgreementSync(agreementId);
+  const isLoading = status === 'loading';
+  const isSyncDisabled = !agreementId || isLoading || isTaskRunning;
 
   return (
     <DesignSystemOptionsProvider
@@ -85,6 +101,16 @@ export default function App() {
               <InPageHighlight.Item title="Next sync available">
                 Now
               </InPageHighlight.Item>
+              {taskId && (
+                <InPageHighlight.Item title="Background task">
+                  {taskStatus ? `${taskId} (${taskStatus})` : taskId}
+                </InPageHighlight.Item>
+              )}
+              {taskProgress !== null && (
+                <InPageHighlight.Item title="Task progress">
+                  {`${Math.round(taskProgress)}%`}
+                </InPageHighlight.Item>
+              )}
             </InPageHighlight>
           </section>
 
@@ -95,22 +121,40 @@ export default function App() {
               Synchronise now
             </BoldText>
             <RegularText as="p" size={2} color="grey-5">
-              To request a sync, click the &ldquo;Sync now&rdquo; button below.
+              &ldquo;Sync now&rdquo; waits for the sync to finish. &ldquo;Sync in background&rdquo;
+              sends the same call with <code>MPT-Async: true</code>, so Marketplace runs it as a
+              task and answers right away; it stays disabled until that task is complete.
             </RegularText>
-            <Button
-              isBusy={status === 'loading'}
-              isDisabled={!agreementId}
-              onClick={syncAgreement}
-              color="primary"
-              type="outline"
-            >
-              Sync now
-            </Button>
+            <div className="template__actions">
+              <Button
+                isBusy={isLoading && mode === 'direct'}
+                isDisabled={isSyncDisabled}
+                onClick={syncAgreement}
+                color="primary"
+                type="outline"
+              >
+                Sync now
+              </Button>
+              <Button
+                isBusy={isLoading && mode === 'deferred'}
+                isDisabled={isSyncDisabled}
+                onClick={requestAgreementSync}
+                color="primary"
+                type="outline"
+              >
+                Sync in background
+              </Button>
+            </div>
           </section>
 
           {status === 'error' && (
             <InlineNotification status="error" isStandalone>
               {error}
+            </InlineNotification>
+          )}
+          {status === 'requested' && (
+            <InlineNotification status="info" isStandalone>
+              Sync requested. Marketplace runs it in the background.
             </InlineNotification>
           )}
           {status === 'success' && (
