@@ -43,11 +43,50 @@ exposes an `APIRouter` under `/api/v2/agreements`:
 | --- | --- | --- |
 | `GET /` | `agreements-list` | Paginated reads with `ctx.request.pagination` and `PaginatedResult` / `APIResponse.paginated` |
 | `GET /{agreement_id}` | `agreements-get` | Reading a single agreement via `ctx.mpt_api_service`, returning `APIResponse.ok`, and turning a Marketplace 404 into an SDK `NotFoundError` so the route answers 404 |
-| `POST /{agreement_id}/sync` | `agreements-sync` | A read as the calling account followed by a write back as the extension vendor (see [Two Account Identities](#two-account-identities)) |
+| `POST /sync` | `agreements-sync` | A deferrable route with a `body_validator` (`{"agreementId": ...}`): a read as the calling account followed by a write back as the extension vendor (see [Two Account Identities](#two-account-identities)), served as a direct call or as a platform Task (see [Deferrable Sync](#deferrable-sync)) |
 
 These handlers read Marketplace data through `ctx.mpt_api_service.agreements`.
-The `sync` route is the backend half of the frontend "Sync now" example (see
-[Plugs](#plugs)).
+The `sync` route is the backend half of the frontend "Sync now" and "Sync in
+background" example (see [Plugs](#plugs)).
+
+## Deferrable Sync
+
+`agreements-sync` is declared with `deferrable=True`, so the SDK publishes it in
+the `deferrables` block of `meta.yaml` and one handler serves two call modes:
+
+- **Direct call** — a plain `POST`. `ctx.task` is `None`, and the handler answers
+  with the agreement through `APIResponse.ok`.
+- **Deferred call** — the same `POST` with the `MPT-Async: true` header. The
+  Extension Service answers `202 Accepted` with `MPT-Task-Id` itself, then delivers
+  the request to the extension as a Task. `ctx.task` is set, and the handler
+  returns `TaskResult.reference(...)` pointing at the agreement, which the SDK
+  stores as the Task result before completing it.
+
+The deferred branch sleeps before it syncs, reporting progress 1 % … 99 % every
+`PROGRESS_INTERVAL_SECONDS` (4 s) and 100 % once the sync is done. The sleep is
+deliberate: it outlasts the `Delay` of at least 300 s the SDK answers the first
+delivery with, so the Extension Service delivers the task again while the handler is
+still running — the redelivery an extension has to tolerate. The SDK answers that
+second delivery with another `Delay` instead of running the handler twice. The route
+declares a `max_task_processing` budget covering the sleep plus two minutes, one of
+which the SDK keeps as its own safety margin.
+
+The plug follows the Task on the Marketplace API: after "Sync in background" it polls
+`GET /public/v1/system/tasks/{id}` every 5 seconds with the caller's token — the account
+that triggered the call is in the Task's `access` — and keeps both buttons disabled until
+the Task is final. After `MAX_POLL_FAILURES` failed reads in a row it stops following and
+says so, while the Task keeps running.
+
+The plug follows a Task only while it is on screen. It does not survive a page reload, and
+another browser or device does not see the running sync either: the Tasks API cannot be
+asked for "the open task of this agreement", so there is nothing to resume from. An
+extension that needs that has to keep the task id itself.
+
+A deferrable route cannot declare path parameters, because the platform does not
+resolve them for a deferred call, so the agreement id travels in the request
+body. See the SDK
+[deferrable endpoints guide](https://github.com/softwareone-platform/mpt-extension-sdk/blob/main/docs/sdk_usage/api.md#deferrable-endpoints)
+for the full contract.
 
 ## Two Account Identities
 
@@ -57,8 +96,8 @@ authenticated as the account in the incoming request token, and
 extension. Use the first by default; reach for the second only when a flow has
 to act as the extension owner regardless of who triggered it.
 
-The `agreements-sync` route shows both in one handler — it reads as the caller,
-then writes back as the vendor:
+The `agreements-sync` route shows both in one step, shared by its two call modes —
+it reads as the caller, then writes back as the vendor:
 
 ```python
 agreement = await ctx.mpt_api_service.agreements.get_by_id(agreement_id)
@@ -187,7 +226,7 @@ module name matches the bundle path one-to-one:
 
 | Plug id / socket | Frontend module | Demonstrates |
 | --- | --- | --- |
-| `agreements-agreement-<extension-id>` — `portal.commerce.agreements.agreement` | [`modules/agreements-agreement/`](../frontend/src/modules/agreements-agreement/) | A full agreement tab: sync status, `useAgreementSync`, status chips, and a "Sync now" action calling the `sync` API |
+| `agreements-agreement-<extension-id>` — `portal.commerce.agreements.agreement` | [`modules/agreements-agreement/`](../frontend/src/modules/agreements-agreement/) | A full agreement tab: sync status, `useAgreementSync`, status chips, a "Sync now" action calling the `sync` API directly, and a "Sync in background" action sending the same call with `MPT-Async: true` and following the returned task, with its progress, until it is final |
 
 ## Modal Plugs (Opened By Id)
 
