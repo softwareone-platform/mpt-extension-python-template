@@ -24,7 +24,9 @@ def test_app_registers_agreement_event_route():
 def test_app_registers_sync_route():
     result = {route.path: route for route in ext_app.routes}
 
-    assert isinstance(result["/api/v2/agreements/{agreement_id}/sync"], APIRouteDefinition)
+    sync_route = result["/api/v2/agreements/sync"]
+    assert isinstance(sync_route, APIRouteDefinition)
+    assert sync_route.deferrable is True
 
 
 def test_app_registers_get_route():

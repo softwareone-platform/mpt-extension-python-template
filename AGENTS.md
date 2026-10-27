@@ -28,7 +28,7 @@ Then inspect the code paths relevant to the task:
 - [`backend/migrations/`](backend/migrations/): migration files managed by `mpt-tool`
 - [`backend/tests/`](backend/tests/): backend test suite
 - [`frontend/src/modules/`](frontend/src/modules/): React plug entry points (one bundle per module). Frontend authoring rules live in the shared [frontend standard](https://github.com/softwareone-platform/mpt-extension-skills/blob/main/standards/extensions-ui-best-practices.md)
-- [`frontend/src/shared/`](frontend/src/shared/): shared frontend components, hooks, and model helpers
+- [`frontend/src/shared/`](frontend/src/shared/): shared frontend components, hooks, constants, model helpers, and test fixtures
 - [`frontend/esbuild.config.js`](frontend/esbuild.config.js): frontend build that emits plug bundles into `static/`
 - [`peripherals/devmock/`](peripherals/devmock): WireMock image and mappings backing `make run-local`
 - [`make/`](make): canonical commands used by the repository

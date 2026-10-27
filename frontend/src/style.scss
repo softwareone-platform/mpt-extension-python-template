@@ -87,6 +87,12 @@ pre, .__pre {
   margin: 0;
 }
 
+.template__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
 .template__section {
   align-items: flex-start;
   display: flex;

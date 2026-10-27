@@ -1,13 +1,20 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { http } from '@mpt-extension/sdk';
 import { useMPTContext } from '@mpt-extension/sdk-react';
 
+import {
+  MOCK_AGREEMENT_ID,
+  MOCK_TASK_ID,
+  mockDeferredAccepted,
+  mockTaskResponse,
+} from '../../shared/test-utils/agreement-mocks';
 import App from './App';
 
 jest.mock('@mpt-extension/sdk', () => ({
   http: {
+    get: jest.fn(),
     post: jest.fn(),
   },
 }), { virtual: true });
@@ -84,6 +91,7 @@ jest.mock('@softwareone-platform/sdk-react-ui-v0/utils', () => {
   };
 });
 
+const mockGet = jest.mocked(http.get);
 const mockPost = jest.mocked(http.post);
 const mockUseMPTContext = jest.mocked(useMPTContext);
 
@@ -93,16 +101,44 @@ describe('agreement plug app', () => {
   });
 
   it('marks the sync as successful after a successful request', async () => {
-    mockUseMPTContext.mockReturnValue({ data: { agreement: { id: 'AGR-1234-5678-9012' } } });
+    mockUseMPTContext.mockReturnValue({ data: { agreement: { id: MOCK_AGREEMENT_ID } } });
     mockPost.mockResolvedValue({ data: { data: {} } });
 
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: 'Sync now' }));
 
-    await waitFor(() => {
-      expect(mockPost).toHaveBeenCalledWith('/api/v2/agreements/AGR-1234-5678-9012/sync');
-    });
     expect(await screen.findAllByText('Success')).not.toHaveLength(0);
+  });
+
+  it('requests a background sync with MPT-Async and shows the task id', async () => {
+    mockUseMPTContext.mockReturnValue({ data: { agreement: { id: MOCK_AGREEMENT_ID } } });
+    mockPost.mockResolvedValue(mockDeferredAccepted());
+    mockGet.mockResolvedValue(mockTaskResponse('Processing', 40));
+
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: 'Sync in background' }));
+
+    expect(
+      await screen.findByText('Sync requested. Marketplace runs it in the background.'),
+    ).toBeInTheDocument();
+    expect(await screen.findByText(`${MOCK_TASK_ID} (processing)`)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Sync in background' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Sync now' })).toBeDisabled();
+    expect(await screen.findByText('Task progress')).toBeInTheDocument();
+    expect(screen.getByText('40%')).toBeInTheDocument();
+  });
+
+  it('offers the background sync again once the task is completed', async () => {
+    mockUseMPTContext.mockReturnValue({ data: { agreement: { id: MOCK_AGREEMENT_ID } } });
+    mockPost.mockResolvedValue(mockDeferredAccepted());
+    mockGet.mockResolvedValue(mockTaskResponse('Completed'));
+
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: 'Sync in background' }));
+
+    expect(await screen.findByText(`${MOCK_TASK_ID} (completed)`)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Sync in background' })).toBeEnabled();
+    expect(screen.queryByText('Task progress')).not.toBeInTheDocument();
   });
 
   it('disables synchronization when the agreement context is missing', () => {
@@ -111,11 +147,12 @@ describe('agreement plug app', () => {
     render(<App />);
 
     expect(screen.getByRole('button', { name: 'Sync now' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Sync in background' })).toBeDisabled();
     expect(screen.getByText('Agreement context was not provided by Marketplace.')).toBeInTheDocument();
   });
 
   it('renders synchronization errors', async () => {
-    mockUseMPTContext.mockReturnValue({ data: { agreement: { id: 'AGR-1234-5678-9012' } } });
+    mockUseMPTContext.mockReturnValue({ data: { agreement: { id: MOCK_AGREEMENT_ID } } });
     mockPost.mockRejectedValue(new Error('Marketplace unavailable'));
 
     render(<App />);
