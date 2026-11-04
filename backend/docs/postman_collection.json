@@ -293,6 +293,82 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "webhook / validate-purchase-draft \u2014 valid agreement type (expected 200 OK, errors of the previous answer cleared)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-request-id",
+            "value": "8c1f7b02-5a3d-4c19-9f02-1d7ac6b4e833"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"ORD-1111-1111-0001\",\n  \"type\": \"Purchase\",\n  \"status\": \"Draft\",\n  \"revision\": 1,\n  \"product\": {\n    \"id\": \"PRD-1111-1111\",\n    \"name\": \"Sample Product\"\n  },\n  \"agreement\": {\n    \"id\": \"AGR-1111-1111-0001\",\n    \"name\": \"Sample Agreement #1\",\n    \"status\": \"Active\"\n  },\n  \"authorization\": {\n    \"id\": \"AUT-1111-1111\",\n    \"name\": \"Sample Authorization\",\n    \"currency\": \"USD\"\n  },\n  \"lines\": [],\n  \"subscriptions\": [],\n  \"assets\": [],\n  \"parameters\": {\n    \"ordering\": [\n      {\n        \"externalId\": \"agreementType\",\n        \"name\": \"Agreement type\",\n        \"type\": \"SingleLineText\",\n        \"value\": \"New\",\n        \"error\": {\n          \"id\": \"TPL001\",\n          \"message\": \"Invalid agreement type: Renewal\"\n        }\n      }\n    ]\n  },\n  \"externalIds\": {},\n  \"error\": {\n    \"id\": \"TPL001\",\n    \"message\": \"Invalid agreement type: Renewal\"\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/webhooks/v1/orders/validate-purchase-draft",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "webhooks",
+            "v1",
+            "orders",
+            "validate-purchase-draft"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "webhook / validate-purchase-draft \u2014 invalid agreement type (expected 200 OK, order returned with a parameter error)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-request-id",
+            "value": "8c1f7b02-5a3d-4c19-9f02-1d7ac6b4e833"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": \"ORD-1111-1111-0001\",\n  \"type\": \"Purchase\",\n  \"status\": \"Draft\",\n  \"revision\": 1,\n  \"product\": {\n    \"id\": \"PRD-1111-1111\",\n    \"name\": \"Sample Product\"\n  },\n  \"agreement\": {\n    \"id\": \"AGR-1111-1111-0001\",\n    \"name\": \"Sample Agreement #1\",\n    \"status\": \"Active\"\n  },\n  \"authorization\": {\n    \"id\": \"AUT-1111-1111\",\n    \"name\": \"Sample Authorization\",\n    \"currency\": \"USD\"\n  },\n  \"lines\": [],\n  \"subscriptions\": [],\n  \"assets\": [],\n  \"parameters\": {\n    \"ordering\": [\n      {\n        \"externalId\": \"agreementType\",\n        \"name\": \"Agreement type\",\n        \"type\": \"SingleLineText\",\n        \"value\": \"Renewal\"\n      }\n    ]\n  },\n  \"externalIds\": {}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/webhooks/v1/orders/validate-purchase-draft",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "webhooks",
+            "v1",
+            "orders",
+            "validate-purchase-draft"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }

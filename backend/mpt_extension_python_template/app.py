@@ -23,12 +23,16 @@ from mpt_extension_python_template.routers.plugs.subscriptions import (
 from mpt_extension_python_template.routers.schedules.agreement import (
     agreements_router as schedules_agreements_router,
 )
+from mpt_extension_python_template.routers.webhooks.order import (
+    orders_router as webhooks_orders_router,
+)
 
 ext_app = ExtensionApp(prefix="", version="6.0.0")
 ext_app.include_router(events_orders_router)
 ext_app.include_router(events_agreements_router)
 ext_app.include_router(api_agreements_router)
 ext_app.include_router(schedules_agreements_router)
+ext_app.include_router(webhooks_orders_router)
 ext_app.include_router(plug_portal_router)
 ext_app.include_router(plug_modals_router)
 ext_app.include_router(plug_agreements_router)

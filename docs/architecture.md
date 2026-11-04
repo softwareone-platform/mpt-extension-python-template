@@ -11,6 +11,7 @@ This repository is a small Marketplace extension template. It is intentionally m
 - `backend/mpt_extension_python_template/routers/api/` exposes extension API endpoints.
 - `backend/mpt_extension_python_template/routers/events/` declares Marketplace event handlers.
 - `backend/mpt_extension_python_template/routers/schedules/` declares cron-driven schedule handlers.
+- `backend/mpt_extension_python_template/routers/webhooks/` declares synchronous platform webhook handlers.
 - `backend/mpt_extension_python_template/flows/pipelines/` contains simple order and agreement pipelines.
 - `backend/mpt_extension_python_template/flows/steps/` contains reusable pipeline steps.
 - `backend/mpt_extension_python_template/context/` contains context adapters (for example `EventAgreementContext`) used by pipelines.
@@ -30,6 +31,7 @@ The extension currently registers:
 - order event route `/events/v2/orders/purchase`
 - agreement event route `/events/v2/agreements/complete`
 - agreement schedule route `/schedules/v1/agreements/sync`
+- order webhook route `/webhooks/v1/orders/validate-purchase-draft`
 - Marketplace Portal plugs that load bundles from `/static/`: the agreement plug, socketless modal plugs opened by id, and a UI SDK showcase (an examples app, a guide, and per-socket "add a plug" demos)
 
 ## Data Flow
