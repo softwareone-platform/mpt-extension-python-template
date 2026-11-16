@@ -18,11 +18,11 @@ dev = [
   "flake8-pyproject==1.2.*",
   "mypy==2.4.*",
   "pre-commit==4.7.*",
-  "pytest-asyncio==1.4.*",
+  "pytest-asyncio==1.5.*",
   "pytest-cov==7.1.*",
   "pytest-deadfixtures==4.0.*",
   "pytest-mock==3.17.*",
-  "pytest-randomly==5.0.*",
+  "pytest-randomly==5.1.*",
   "pytest-xdist==3.8.*",
   "ruff==0.17.*", # force ruff version to have same formatting everywhere, also update in pre-commit config
   "wemake-python-styleguide==1.8.*",   # also update pre-commit config
