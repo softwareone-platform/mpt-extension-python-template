@@ -30,6 +30,7 @@ def test_learn_extensions_container_registered():
 
     assert result["learn-extensions-ext-1111-1111"]["socket"] == "portal"
     assert result["learn-extensions-ext-1111-1111"]["href"] is None
+    assert result["learn-extensions-ext-1111-1111"]["icon"] == "help"
 
 
 def test_portal_showcase_plugs_registered():
@@ -39,6 +40,12 @@ def test_portal_showcase_plugs_registered():
     assert result["examples-ext-1111-1111"]["href"] == "/static/examples/index.js"
     assert result["guide-ext-1111-1111"]["socket"] == "portal.learn-extensions-ext-1111-1111"
     assert result["guide-ext-1111-1111"]["href"] == "/static/guide/index.js"
+
+
+def test_portal_add_plug_keeps_unknown_icon():
+    result = {plug.id: plug.model_dump() for plug in ext_app.to_meta_config().plugs}
+
+    assert result["add-portal-ext-1111-1111"]["icon"] == "no_existing_icon"
 
 
 def test_add_showcase_plugs_registered():

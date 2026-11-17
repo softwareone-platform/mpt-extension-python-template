@@ -35,7 +35,10 @@ jest.mock('@softwareone-platform/sdk-react-ui-v0/divider', () => {
 
 jest.mock('@softwareone-platform/sdk-react-ui-v0/input', () => {
   const React = jest.requireActual<typeof import('react')>('react');
-  return { Input: ({ label }: { label?: string }) => React.createElement('label', null, label) };
+  return {
+    Input: ({ label }: { label?: string }) =>
+      React.createElement('input', { type: 'text', 'aria-label': label, readOnly: true }),
+  };
 });
 
 jest.mock('@softwareone-platform/sdk-react-ui-v0/switcher', () => {
@@ -51,6 +54,12 @@ describe('AddPlugShowcase', () => {
       screen.getByText('Add a Plug to portal.commerce.orders.order.actions'),
     ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+  });
+
+  it('renders an optional icon field', () => {
+    render(<AddPlugShowcase socket="portal" />);
+
+    expect(screen.getByRole('textbox', { name: 'Icon' })).toBeInTheDocument();
   });
 
   it('renders inside a card on the top-level portal socket', () => {

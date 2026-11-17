@@ -1,7 +1,7 @@
 from mpt_extension_sdk.routing import PlugRouter
 from mpt_extension_sdk.routing.plugs import NavigationPlug, Plug
 
-from mpt_extension_python_template.routers.plugs.common import add_plug, plug_id, plug_name
+from mpt_extension_python_template.routers.plugs.common import plug_id, plug_name
 
 portal_router = PlugRouter()
 
@@ -13,6 +13,7 @@ def portal_plugs() -> list[Plug | NavigationPlug]:
         id=plug_id("learn-extensions"),
         name=plug_name("Learn extensions"),
         description="Guides and examples for extensions development.",
+        icon="help",
         socket="portal",
     )
     return [
@@ -31,5 +32,12 @@ def portal_plugs() -> list[Plug | NavigationPlug]:
             socket=learn_extensions.nested_socket,
             href="/static/guide/index.js",
         ),
-        add_plug("portal"),
+        Plug(
+            id=plug_id("add-portal"),
+            name=plug_name("Plug here"),
+            description="Showcase: add your extension plug on this socket.",
+            socket="portal",
+            href="/static/add-portal/index.js",
+            icon="no_existing_icon",  # no error; the Portal shows no icon
+        ),
     ]
