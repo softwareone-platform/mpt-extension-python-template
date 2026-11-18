@@ -325,6 +325,14 @@ agreements `add` plug in [`agreements.py`](../backend/mpt_extension_python_templ
 | `guide-<extension-id>` — `portal.learn-extensions-<extension-id>` | [`modules/guide/`](../frontend/src/modules/guide/) | Rendering bundled Markdown with `InlineMarkdown` (esbuild `.md` text loader) |
 | `add-<socket>-<extension-id>` (one per socket) | [`modules/add-*/`](../frontend/src/modules/) | A "plug here" scaffold shown on every remaining Portal socket, so the full set of sockets is covered |
 
+The `learn-extensions` group sets `icon="help"`, which the Portal shows next to
+its menu entry. An icon is the code name of an icon in the
+[SoftwareOne design system icon library](https://design.platform.softwareone.com/1233aa9e6/p/27bce1-icons),
+not a file under `static/`: the Portal renders no custom icons or image files.
+The top-level `add` plug sets `icon="no_existing_icon"` on purpose, to show that
+a name missing from the library raises no error and the Portal shows no icon for
+it. The other `add` plugs set no icon.
+
 The `add-*` plugs cover many near-identical sockets without duplicating logic:
 each is a thin module directory whose `index.tsx` mounts the shared
 [`AddPlugShowcase`](../frontend/src/shared/components/AddPlugShowcase.tsx)

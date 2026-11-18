@@ -21,6 +21,7 @@ interface PlugConfig {
   name: string;
   description: string;
   href: string;
+  icon: string;
   condition: string;
 }
 
@@ -29,6 +30,7 @@ function toYaml(plug: PlugConfig, socket: string): string {
   if (plug.name) lines.push(`  name: ${plug.name}`);
   if (plug.description) lines.push(`  description: ${plug.description}`);
   if (plug.href) lines.push(`  href: ${plug.href}`);
+  if (plug.icon) lines.push(`  icon: ${plug.icon}`);
   if (plug.condition) lines.push(`  condition: "${plug.condition}"`);
   return lines.join('\n');
 }
@@ -38,6 +40,7 @@ function toJson(plug: PlugConfig, socket: string): string {
   if (plug.name) obj.name = plug.name;
   if (plug.description) obj.description = plug.description;
   if (plug.href) obj.href = plug.href;
+  if (plug.icon) obj.icon = plug.icon;
   if (plug.condition) obj.condition = plug.condition;
   return JSON.stringify(obj, null, 2);
 }
@@ -57,6 +60,7 @@ export function AddPlugShowcase({ socket }: { socket: string }) {
     name: '',
     description: '',
     href: '/static/',
+    icon: '',
     condition: '',
   });
 
@@ -72,8 +76,8 @@ export function AddPlugShowcase({ socket }: { socket: string }) {
         Fill in the fields below to generate plug configuration. In this template plugs are declared
         in Python via a <code>PlugRouter</code> — but the same fields (<code>id</code>,{' '}
         <code>name</code>, <code>description</code>, <code>socket</code>, <code>href</code>,{' '}
-        <code>condition</code>) map one-to-one, so you can use this as a scratchpad. Then build a JS
-        bundle at the <code>href</code> path you specified.
+        <code>icon</code>, <code>condition</code>) map one-to-one, so you can use this as a
+        scratchpad. Then build a JS bundle at the <code>href</code> path you specified.
       </p>
 
       <div className="add-plug__form">
@@ -106,6 +110,14 @@ export function AddPlugShowcase({ socket }: { socket: string }) {
           value={plug.href}
           onChange={update('href')}
           description="Relative path to the JS bundle"
+        />
+        <Input
+          name="icon"
+          label="Icon"
+          placeholder="extension"
+          value={plug.icon}
+          onChange={update('icon')}
+          description="Optional design system icon name, not a file"
         />
         <Input
           name="condition"
