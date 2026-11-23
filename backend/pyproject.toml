@@ -25,7 +25,7 @@ dev = [
   "pytest-randomly==5.1.*",
   "pytest-xdist==3.8.*",
   "ruff==0.17.*", # force ruff version to have same formatting everywhere, also update in pre-commit config
-  "wemake-python-styleguide==1.8.*",   # also update pre-commit config
+  "wemake-python-styleguide==1.9.*",   # also update pre-commit config
 ]
 
 [build-system]
